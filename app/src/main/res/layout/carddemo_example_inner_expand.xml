@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        style="@style/Now.card_expand_inner_layout.light_gray.bold"
+        android:id="@+id/carddemo_expand_text1"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|center_vertical"
+        android:gravity="center_vertical"
+        />
+
+    <TextView
+        style="@style/Now.card_expand_inner_layout.dark.bold"
+        android:id="@+id/carddemo_expand_text2"
+        />
+
+    <TextView
+        android:id="@+id/carddemo_expand_text3"
+        style="@style/Now.card_expand_inner_layout.dark"
+        android:text="@string/hello_world"/>
+
+    <TextView
+        android:id="@+id/carddemo_expand_text4"
+        style="@style/Now.card_expand_inner_layout.dark"
+        android:text="@string/hello_world"/>
+
+    <TextView
+        android:id="@+id/carddemo_expand_text5"
+        style="@style/Now.card_expand_inner_layout.dark"
+        android:text="@string/hello_world"/>
+</LinearLayout>

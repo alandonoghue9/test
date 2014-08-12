@@ -22,7 +22,7 @@ public class DatabaseReader {
     private static final String TAG = "Drawer ";
 
     private String[] allColumns = {
-            TaskConstants.KEY_ID,
+            TaskConstants.TASK_KEY_ID,
             TaskConstants.PROJECT,
             TaskConstants.PROJECTID,
             TaskConstants.TASK,
@@ -51,6 +51,7 @@ public class DatabaseReader {
     public void addTask(String data, Context context) {
         int i;
         JSONparser jsoNparser = new JSONparser(data, context);
+        jsoNparser.parsedData();
         if (jsoNparser.taskIdArraylist.size() > 0 ){
         for(i = 0; i < jsoNparser.taskIdArraylist.size(); i++);
         {
@@ -73,7 +74,7 @@ public class DatabaseReader {
                 long taskId = database.insert(TaskConstants.DATABASE_TABLE, null, values);
 
                 Cursor cursor = database.query(TaskConstants.DATABASE_TABLE,
-                        allColumns, TaskConstants.KEY_ID + " = "
+                        allColumns, TaskConstants.TASK_KEY_ID + " = "
                                 + taskId, null, null, null, null
                 );
 
@@ -133,7 +134,7 @@ public class DatabaseReader {
     public Task getTask(int id)
     {
         Cursor cursor = database.query(TaskConstants.DATABASE_TABLE,
-                allColumns, TaskConstants.KEY_ID+" = ?", new String[] {String.valueOf(id)}, null, null, null);
+                allColumns, TaskConstants.TASK_KEY_ID+" = ?", new String[] {String.valueOf(id)}, null, null, null);
         cursor.moveToFirst();
 
         if (cursor !=  null)

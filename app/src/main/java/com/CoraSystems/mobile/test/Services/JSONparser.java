@@ -37,7 +37,7 @@ public class JSONparser {
     public double plannedHours;
     public int noOfTasks;
     public double totalHours;
-    public double hoursDay7;
+    //public double hoursDay7;
     public String pdfUrl;
     public boolean submitted;
 
@@ -109,8 +109,8 @@ public class JSONparser {
                         plannedHours = jsonObject.getDouble("planned hours");
                         noOfTasks = jsonObject.getInt("number of tasks");
                         totalHours = jsonObject.getDouble("total hours");
-                        daysArray = jsonObject.getJSONArray("hours day 1");
-                        hoursDay7 = jsonObject.getDouble("hours day 7");
+                        daysArray = jsonObject.getJSONArray("hours day");
+                        //hoursDay7 = jsonObject.getDouble("hours day 7");
                         pdfUrl = jsonObject.getString("PDF URL");
                         submitted = jsonObject.getBoolean("submitted");
 
@@ -118,9 +118,9 @@ public class JSONparser {
                         tuesdayHours = daysArray.getDouble(1);
                         wednesdayHours = daysArray.getDouble(2);
                         thursdayHours = daysArray.getDouble(3);
-                        fridayHours = daysArray.getDouble(4);;
-                        saturdayHours = daysArray.getDouble(5);;
-                        sundayHours = daysArray.getDouble(6);;
+                        fridayHours = daysArray.getDouble(4);
+                        saturdayHours = daysArray.getDouble(5);
+                        sundayHours = daysArray.getDouble(6);
 
                         break;
                     case ConfigItems:

@@ -13,6 +13,7 @@ import android.widget.Button;
 import com.CoraSystems.mobile.test.R;
 import com.CoraSystems.mobile.test.Services.JSONparser;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
+import com.CoraSystems.mobile.test.database.DatabaseReader;
 
 import java.io.IOException;
 
@@ -69,8 +70,13 @@ public String ok;
                 //SoapWebService soapWebService = new SoapWebService("alan", "password", uploadAndDownload.this);
                 //dataService = soapWebService.SendThisData("hello", 200000);
 
-                JSONparser jsoNparser = new JSONparser(dataService, uploadAndDownload.this);
-                check = jsoNparser.parsedData();
+                //JSONparser jsoNparser = new JSONparser(dataService, uploadAndDownload.this);
+               // check = jsoNparser.parsedData();
+                DatabaseReader databaseReader = new DatabaseReader();
+                databaseReader.DataSource(uploadAndDownload.this);
+                databaseReader.open();
+                databaseReader.addTask(dataService, uploadAndDownload.this);
+
                 return null;
             }
             catch(Exception e){}

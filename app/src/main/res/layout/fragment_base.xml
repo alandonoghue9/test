@@ -5,6 +5,7 @@
     tools:context="com.CoraSystems.mobile.test.BaseFragment">
 
     <!-- TODO: Update blank fragment layout -->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -22,8 +22,8 @@ public class MyActivity extends Activity {
         setContentView(R.layout.activity_my);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
-        Toast toast = Toast.makeText(this, "test", 400);
-        toast.show();
+        //Toast toast = Toast.makeText(this, "test", 400);
+        //toast.show();
 
         FragmentManager fragmentManager = getFragmentManager();
 

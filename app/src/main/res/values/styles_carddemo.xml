@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Carddemo" parent="@android:style/Theme.Holo.Light">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Carddemo</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Carddemo</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Carddemo</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Carddemo</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Carddemo</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Carddemo</item>
+
+
+    </style>
+
+    <style name="ActionBar.Solid.Carddemo" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:progressBarStyle">@style/ProgressBar.Carddemo</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Carddemo" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:progressBarStyle">@style/ProgressBar.Carddemo</item>
+    </style>
+
+    <style name="PopupMenu.Carddemo" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
+    </style>
+
+    <style name="DropDownListView.Carddemo" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
+    </style>
+
+    <style name="ActionBarTabStyle.Carddemo" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
+    </style>
+
+    <style name="DropDownNav.Carddemo" parent="@android:style/Widget.Holo.Light.Spinner">
+    </style>
+
+    <style name="ProgressBar.Carddemo" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
+    </style>
+
+    <style name="ActionButton.CloseMode.Carddemo" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Carddemo.Widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Carddemo</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Carddemo</item>
+    </style>
+
+</resources>

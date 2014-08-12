@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.CoraSystems.mobile.test.Services.SoapWebService;
 
@@ -21,6 +22,8 @@ public class MyActivity extends Activity {
         setContentView(R.layout.activity_my);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
+        Toast toast = Toast.makeText(this, "test", 400);
+        toast.show();
 
         FragmentManager fragmentManager = getFragmentManager();
 

@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,13 +30,11 @@ public class FilterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.filter, container, false);
         view.setOnClickListener(clickListener);
-        Log.d(null,"test");
         return view;
     }
 
     public void setClickListener(View.OnClickListener clickListener) {
         this.clickListener = clickListener;
-        Log.d(null,"clicked");
     }
 
 

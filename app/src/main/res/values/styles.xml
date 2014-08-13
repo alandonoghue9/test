@@ -5,6 +5,7 @@
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="Theme.Carddemo">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -21,12 +22,12 @@
 
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">#1da9e1</item>
-        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyTheme.ActionBar.OverFlow</item>
         <item name="android:titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
     </style>
 
-    <style name="OverFlow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_overflow</item>
+    <style name="MyTheme.ActionBar.OverFlow" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/overflow</item>
     </style>
 
     <style name="MyTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">

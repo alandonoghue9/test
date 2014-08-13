@@ -107,7 +107,6 @@ public class ListGplayCardFragment extends Fragment {
 
         protected TextView mTitle;
         protected TextView mSecondaryTitle;
-        //protected RatingBar mRatingBar;
         protected int count;
 
         protected String title;
@@ -127,7 +126,7 @@ public class ListGplayCardFragment extends Fragment {
         private void init() {
 
             //Only for test, some cards have different clickListeners
-            if (count==12){
+            /*if (count==12){
 
                 setTitle(title + " No Click");
                 setClickable(false);
@@ -142,23 +141,23 @@ public class ListGplayCardFragment extends Fragment {
                     }
                 });
 
-            }else{
+            }else{*/
 
                 //Add ClickListener
                 setOnClickListener(new OnCardClickListener() {
                     @Override
                     public void onClick(Card card, View view) {
-                        Intent i = new Intent(getActivity(), uploadAndDownload.class);
+                        Intent i = new Intent(getActivity(), Timesheet.class);
                         startActivity(i);
-                        Toast.makeText(getContext(), "Click Listener card=" + title, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), "Click Listener card=" + title, Toast.LENGTH_SHORT).show();
                     }
                 });
 
-            }
+            //}
 
 
             //Swipe
-            if (count==10){
+            /*if (count==10){
 
                 setTitle(title + " Swipe enabled");
                 setSwipeable(true);
@@ -168,7 +167,7 @@ public class ListGplayCardFragment extends Fragment {
                         Toast.makeText(getContext(), "Removed card=" + title, Toast.LENGTH_SHORT).show();
                     }
                 });
-            }
+            }*/
 
         }
 
@@ -178,20 +177,12 @@ public class ListGplayCardFragment extends Fragment {
             //Retrieve elements
             mTitle = (TextView) parent.findViewById(R.id.carddemo_myapps_main_inner_title);
             mSecondaryTitle = (TextView) parent.findViewById(R.id.carddemo_myapps_main_inner_secondaryTitle);
-            //mRatingBar = (RatingBar) parent.findViewById(R.id.carddemo_myapps_main_inner_ratingBar);
 
             if (mTitle != null)
                 mTitle.setText(title);
 
             if (mSecondaryTitle != null)
                 mSecondaryTitle.setText(secondaryTitle);
-
-            /*if (mRatingBar != null) {
-                mRatingBar.setNumStars(5);
-                mRatingBar.setMax(5);
-                mRatingBar.setStepSize(0.5f);
-                mRatingBar.setRating(rating);
-            }*/
 
         }
 

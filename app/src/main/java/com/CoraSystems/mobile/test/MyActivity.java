@@ -42,7 +42,7 @@ public class MyActivity extends Activity implements
         setContentView(R.layout.activity_my);
 
         //getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+        //getActionBar().setHomeButtonEnabled(true);
         setTitle("Tasks");
 
         mDarkHoverView = findViewById(R.id.dark_hover_view);

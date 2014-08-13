@@ -19,8 +19,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".uploadAndDownload"
-            android:label="@string/title_activity_upload_and_download" >
+            android:name=".Timesheet"
+            android:label="@string/title_activity_upload_and_download"
+            android:parentActivityName=".MyActivity">
         </activity>
     </application>
 

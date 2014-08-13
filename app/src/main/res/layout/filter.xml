@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="51dp"
     android:gravity="center_vertical"
     android:paddingLeft="15dp"
+    android:layout_weight="4"
     android:background="@drawable/container_dropshadow">
 
     <TextView
         android:text="@string/filter"
         android:layout_width="wrap_content"
         android:textSize="17sp"
+        android:layout_weight="3"
         android:layout_marginRight="5dp"
         android:layout_alignParentRight="true"
         android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="8dp"
+        android:layout_height="10dp"
+        android:layout_weight="1"
+        android:src="@drawable/arrow"/>
 
 </LinearLayout>

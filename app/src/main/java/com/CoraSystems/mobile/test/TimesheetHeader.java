@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.CoraSystems.mobile.test.database.DatabaseReader;
+import com.CoraSystems.mobile.test.Database.DatabaseReader;
 
 /**
  * Created by eoghanmartin on 12/08/2014.

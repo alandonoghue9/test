@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.CoraSystems.mobile.test.database.DatabaseReader;
+import com.CoraSystems.mobile.test.Database.DatabaseReader;
 
 public class Timesheet extends Activity {
 

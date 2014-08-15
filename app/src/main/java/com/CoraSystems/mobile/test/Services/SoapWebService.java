@@ -1,26 +1,18 @@
 package com.CoraSystems.mobile.test.Services;
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
+
 import android.app.Activity;
 import android.content.Context;
-import android.database.Cursor;
 import android.util.Log;
-import com.CoraSystems.mobile.test.R;
 //import com.CoraSystems.mobile.test.Util;
 //import com.CoraSystems.mobile.test.Utility;
-import com.CoraSystems.mobile.test.database.DatabaseReader;
+
 
 /**
  * Created by Alan on 8/5/2014.

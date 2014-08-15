@@ -26,6 +26,15 @@
         android:layout_height="wrap_content"
         android:text="Test Task"/>
 
+    <Button
+        android:onClick="click"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
     <TextView
         android:gravity="top"
         android:paddingLeft="15dp"

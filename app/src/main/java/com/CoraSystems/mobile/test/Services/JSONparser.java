@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.util.Log;
 
-import com.CoraSystems.mobile.test.Database.DatabaseReader;
+import com.CoraSystems.mobile.test.database.DatabaseReader;
 
 /**
  * Created by Alan on 8/5/2014.

@@ -40,9 +40,6 @@ public class MyActivity extends Activity implements
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_my);
-
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
-        //getActionBar().setHomeButtonEnabled(true);
         setTitle("Tasks");
 
         mDarkHoverView = findViewById(R.id.dark_hover_view);
@@ -73,16 +70,12 @@ public class MyActivity extends Activity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.task_list, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
@@ -127,64 +120,30 @@ public class MyActivity extends Activity implements
         if (!mDidSlideOut) {
             slideForward(null);
         }
-
     }
 
-    /**
-     * This method animates the image fragment into the background by both
-     * scaling and rotating the fragment's view, as well as adding a
-     * translucent dark hover view to inform the user that it is inactive.
-     */
     public void slideBack(Animator.AnimatorListener listener)
     {
         View movingFragmentView = filterFragment.getView();
 
-        /*PropertyValuesHolder rotateX =  PropertyValuesHolder.ofFloat("rotationX", 40f);
-        PropertyValuesHolder scaleX =  PropertyValuesHolder.ofFloat("scaleX", 0.8f);
-        PropertyValuesHolder scaleY =  PropertyValuesHolder.ofFloat("scaleY", 0.8f);
-        ObjectAnimator movingFragmentAnimator = ObjectAnimator.
-                ofPropertyValuesHolder(movingFragmentView, rotateX, scaleX, scaleY);*/
-
         ObjectAnimator darkHoverViewAnimator = ObjectAnimator.
                 ofFloat(mDarkHoverView, "alpha", 0.0f, 0.0f);
 
-        /*ObjectAnimator movingFragmentRotator = ObjectAnimator.
-                ofFloat(movingFragmentView, "rotationX", 0);
-        //movingFragmentRotator.setStartDelay(getResources().getInteger(R.integer.half_slide_up_down_duration));
-*/
         AnimatorSet s = new AnimatorSet();
         s.playTogether(darkHoverViewAnimator);
         s.addListener(listener);
         s.start();
     }
 
-    /**
-     * This method animates the image fragment into the foreground by both
-     * scaling and rotating the fragment's view, while also removing the
-     * previously added translucent dark hover view. Upon the completion of
-     * this animation, the image fragment regains focus since this method is
-     * called from the onBackStackChanged method.
-     */
     public void slideForward(Animator.AnimatorListener listener)
     {
         View movingFragmentView = filterFragment.getView();
 
-        /*PropertyValuesHolder rotateX =  PropertyValuesHolder.ofFloat("rotationX", 40f);
-        PropertyValuesHolder scaleX =  PropertyValuesHolder.ofFloat("scaleX", 1.0f);
-        PropertyValuesHolder scaleY =  PropertyValuesHolder.ofFloat("scaleY", 1.0f);
-        ObjectAnimator movingFragmentAnimator = ObjectAnimator.
-                ofPropertyValuesHolder(movingFragmentView, rotateX, scaleX, scaleY);*/
-
         ObjectAnimator darkHoverViewAnimator = ObjectAnimator.
                 ofFloat(mDarkHoverView, "alpha", 0.0f, 0.0f);
 
-        /*ObjectAnimator movingFragmentRotator = ObjectAnimator.
-                ofFloat(movingFragmentView, "rotationX", 0);
-        //movingFragmentRotator.setStartDelay(getResources().getInteger(R.integer.half_slide_up_down_duration));
-*/
         AnimatorSet t = new AnimatorSet();
         t.playTogether(darkHoverViewAnimator);
-        //t.setStartDelay(getResources().getInteger(R.integer.slide_up_down_duration));
         t.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {

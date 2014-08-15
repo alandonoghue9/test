@@ -8,17 +8,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-/**
- * In order to animate the fragment containing text on/off the screen,
- * it is required that we know the height of the device being used. However,
- * this can only be determined at runtime, so we cannot specify the required
- * translation in an xml file. Since FragmentTransaction's setCustomAnimations
- * method requires an ID of an animation defined via an xml file, this linear
- * layout was built as a workaround. This custom linear layout is created to specify
- * the location of the fragment's layout as a fraction of the device's height. By
- * animating yFraction from 0 to 1, we can animate the fragment from the top of
- * the screen to the bottom of the screen, regardless of the device's specific size.
- */
 public class FractionalLinearLayout extends LinearLayout {
 
     private float mYFraction;

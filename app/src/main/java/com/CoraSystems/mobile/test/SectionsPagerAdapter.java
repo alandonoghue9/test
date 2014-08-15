@@ -17,8 +17,6 @@ public class SectionsPagerAdapter extends android.support.v13.app.FragmentPagerA
 
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
         return timesheetDays.newInstance(position + 1);
     }
 
@@ -27,18 +25,4 @@ public class SectionsPagerAdapter extends android.support.v13.app.FragmentPagerA
         // Show 3 total pages.
         return 3;
     }
-
-       /* @Override
-        public CharSequence getPageTitle(int position) {
-            Locale l = Locale.getDefault();
-            switch (position) {
-                case 0:
-                    return getString(R.string.title_section1).toUpperCase(l);
-                case 1:
-                    return getString(R.string.title_section2).toUpperCase(l);
-                case 2:
-                    return getString(R.string.title_section3).toUpperCase(l);
-            }
-            return null;
-        }*/
 }

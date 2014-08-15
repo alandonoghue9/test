@@ -4,25 +4,21 @@ package com.CoraSystems.mobile.test;
  * Created by eoghanmartin on 08/08/2014.
  */
 
-        import android.app.Fragment;
-        import android.content.Context;
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.Button;
-        import android.widget.LinearLayout;
-        import android.widget.RatingBar;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-        import java.util.ArrayList;
+import java.util.ArrayList;
 
-        import it.gmariotti.cardslib.library.internal.Card;
-        import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
-        import it.gmariotti.cardslib.library.internal.CardThumbnail;
-        import it.gmariotti.cardslib.library.view.CardListView;
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
+import it.gmariotti.cardslib.library.view.CardListView;
 
 /**
  * List of Google Play cards Example
@@ -40,11 +36,7 @@ public class ListGplayCardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //      strtext = getArguments().getString("edttext");
         View view = inflater.inflate(R.layout.demo_fragment_list_gplaycard, container, false);
-/*
-        LinearLayout ll = (LinearLayout)view.findViewById(R.id.progress);
-        TextView newText = new TextView(this.getActivity());
-        newText.setText("Important text");
-        ll.addView(newText);*/
+
         return view;
     }
 
@@ -58,29 +50,12 @@ public class ListGplayCardFragment extends Fragment {
 
     private void initCards() {
 
-        int complete;
-        int planned;
-        comp = (LinearLayout)getView().findViewById(R.id.progress);
-       // plan = (LinearLayout)getView().findViewById(R.id.planned);
-
-        LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 2.0f);
-        LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-
         //Init an array of Cards
         ArrayList<Card> cards = new ArrayList<Card>();
         for (int i=0;i<6;i++){
             GooglePlaySmallCard card = new GooglePlaySmallCard(this.getActivity());
             card.setTitle("Project "+i);
             card.setSecondaryTitle("Task" + i);
-
-            //complete = ((int)(Math.random()*(5)));
-            //planned = 5-complete;
-
-            //c.weight = complete;
-            //p.weight = planned;
-            //comp.setLayoutParams(c);
-            //plan.setLayoutParams(p);
-            //comp.addView(plan);
 
             card.count=i;
 
@@ -97,7 +72,6 @@ public class ListGplayCardFragment extends Fragment {
         }
     }
 
-
     /**
      * This class provides a simple card as Google Play
      *
@@ -111,8 +85,6 @@ public class ListGplayCardFragment extends Fragment {
 
         protected String title;
         protected String secondaryTitle;
-        protected float rating;
-
 
         public GooglePlaySmallCard(Context context) {
             this(context, R.layout.carddemo_mycard_inner_content);
@@ -120,41 +92,18 @@ public class ListGplayCardFragment extends Fragment {
 
         public GooglePlaySmallCard(Context context, int innerLayout) {
             super(context, innerLayout);
-            //init();
         }
 
         private void init() {
 
-            //Only for test, some cards have different clickListeners
-            /*if (count==12){
-
-                setTitle(title + " No Click");
-                setClickable(false);
-
-            }else if (count==20){
-
-                setTitle(title + " Partial Click");
-                addPartialOnClickListener(Card.CLICK_LISTENER_CONTENT_VIEW,new OnCardClickListener() {
-                    @Override
-                    public void onClick(Card card, View view) {
-                        Toast.makeText(getContext(), "Partial click Listener card=" + title, Toast.LENGTH_SHORT).show();
+            //Add ClickListener
+            setOnClickListener(new OnCardClickListener() {
+                @Override
+                public void onClick(Card card, View view) {
+                    Intent i = new Intent(getActivity(), Timesheet.class);
+                    startActivity(i);
                     }
-                });
-
-            }else{*/
-
-                //Add ClickListener
-                setOnClickListener(new OnCardClickListener() {
-                    @Override
-                    public void onClick(Card card, View view) {
-                        Intent i = new Intent(getActivity(), Timesheet.class);
-                        startActivity(i);
-                        //Toast.makeText(getContext(), "Click Listener card=" + title, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-            //}
-
+            });
 
             //Swipe
             /*if (count==10){
@@ -174,6 +123,9 @@ public class ListGplayCardFragment extends Fragment {
         @Override
         public void setupInnerViewElements(ViewGroup parent, View view) {
 
+            int complete;
+            int planned;
+
             //Retrieve elements
             mTitle = (TextView) parent.findViewById(R.id.carddemo_myapps_main_inner_title);
             mSecondaryTitle = (TextView) parent.findViewById(R.id.carddemo_myapps_main_inner_secondaryTitle);
@@ -183,6 +135,20 @@ public class ListGplayCardFragment extends Fragment {
 
             if (mSecondaryTitle != null)
                 mSecondaryTitle.setText(secondaryTitle);
+
+            comp = (LinearLayout)parent.findViewById(R.id.progress);
+            plan = (LinearLayout)parent.findViewById(R.id.planned);
+
+            LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+            complete = ((int)(Math.random()*(5)));
+            planned = 5-complete;
+
+            c.weight = complete;
+            p.weight = planned;
+            comp.setLayoutParams(c);
+            plan.setLayoutParams(p);
 
         }
 
@@ -201,14 +167,6 @@ public class ListGplayCardFragment extends Fragment {
 
         public void setSecondaryTitle(String secondaryTitle) {
             this.secondaryTitle = secondaryTitle;
-        }
-
-        public float getRating() {
-            return rating;
-        }
-
-        public void setRating(float rating) {
-            this.rating = rating;
         }
     }
 

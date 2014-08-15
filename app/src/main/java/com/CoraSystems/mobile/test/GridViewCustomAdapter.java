@@ -1,6 +1,5 @@
 package com.CoraSystems.mobile.test;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,22 +32,21 @@ public class GridViewCustomAdapter extends ArrayAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        View row = convertView;
 
-        if (row == null)
-        {
-            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            row = inflater.inflate(R.layout.day, parent, false);
-
-
-            TextView textViewTitle = (TextView) row.findViewById(R.id.test);
+        View grid;
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (convertView == null) {
+            grid = inflater.inflate(R.layout.day, parent, false);
+            TextView textView = (TextView) grid.findViewById(R.id.test);
+            ImageView imageView = (ImageView)grid.findViewById(R.id.dots);
             String text = Integer.toString(position+1);
-            textViewTitle.setText(text);
+            textView.setText(text);
+            imageView.setImageResource(R.drawable.overflow);
+        } else {
+            grid = convertView;
         }
-
-
-
-        return row;
+        return grid;
 
     }
 

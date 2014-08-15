@@ -35,11 +35,9 @@ public class timesheetDays extends Fragment {
         GridView gridView;
         GridViewCustomAdapter grisViewCustomeAdapter;
         View rootView = inflater.inflate(R.layout.gridview_layout, container, false);
-        //GridView gridview = (GridView) getView().findViewById(R.id.gridview);
         gridView=(GridView)rootView.findViewById(R.id.gridview);
         grisViewCustomeAdapter = new GridViewCustomAdapter(this.getActivity());
         gridView.setAdapter(grisViewCustomeAdapter);
-        //gridview.setAdapter(new ImageAdapter(this.getActivity()));
         return rootView;
     }
 }

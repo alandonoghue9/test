@@ -1,9 +1,14 @@
 package com.CoraSystems.mobile.test;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import com.CoraSystems.mobile.test.Services.JSONparser;
 
 public class uploadAndDownload extends Activity {
 public String ok;
@@ -20,7 +25,15 @@ public String ok;
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.timesheet, menu);
+        Button button = (Button) findViewById(R.id.button);
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fetchService fetchservice = new fetchService();
+                fetchservice.execute();
+            }
+        });
         return true;
     }
 
@@ -34,5 +47,35 @@ public String ok;
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public class fetchService extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            String dataService="";
+            int check;
+
+            try {
+                //SoapWebService soapWebService = new SoapWebService("alan", "password", uploadAndDownload.this);
+                //dataService = soapWebService.SendThisData("hello", 200000);
+
+                JSONparser jsoNparser = new JSONparser(dataService, uploadAndDownload.this);
+                check = jsoNparser.parsedData();
+                //DatabaseReader databaseReader = new DatabaseReader();
+                //databaseReader.DataSource(uploadAndDownload.this);
+                //databaseReader.open();
+                //databaseReader.addTask(dataService, uploadAndDownload.this);
+
+                return null;
+            }
+            catch(Exception e){}
+             /*catch (IOException ) {
+                //e.printStackTrace();
+            }*/
+
+            return null;
+        }
+
+
     }
 }

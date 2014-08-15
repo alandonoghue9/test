@@ -1,22 +1,21 @@
 package com.CoraSystems.mobile.test.database;
-        import java.util.ArrayList;
-        import java.util.List;
 
-        import android.content.ContentValues;
+import android.content.ContentValues;
         import android.content.Context;
         import android.database.Cursor;
         import android.database.SQLException;
         import android.database.sqlite.SQLiteDatabase;
-        import android.database.sqlite.SQLiteOpenHelper;
-        import com.CoraSystems.mobile.test.database.DatabaseConstants.TaskConstants;
-        import com.CoraSystems.mobile.test.Task;
+
+import com.CoraSystems.mobile.test.database.DatabaseConstants.TaskConstants;
+        import com.CoraSystems.mobile.test.Objects.Task;
         import com.CoraSystems.mobile.test.Services.JSONparser;
-        import android.util.Log;
 
 /**
  * Created by Alan on 8/5/2014.
  */
 public class DatabaseReader {
+
+   // public DatabaseReader() {}
     private SQLiteDatabase database;
     private OpenDbHelper  dbHelper;
     private static final String TAG = "Drawer ";
@@ -51,7 +50,7 @@ public class DatabaseReader {
     public void addTask(String data, Context context) {
         int i;
         JSONparser jsoNparser = new JSONparser(data, context);
-        jsoNparser.parsedData();
+        //jsoNparser.parsedData();
         if (jsoNparser.taskIdArraylist.size() > 0 ){
         for(i = 0; i < jsoNparser.taskIdArraylist.size(); i++);
         {
@@ -66,18 +65,17 @@ public class DatabaseReader {
             values.put(TaskConstants.START_DATE, jsoNparser.startDateArrayList.get(i));
             values.put(TaskConstants.FINISH_DATE, jsoNparser.finishDateArrayList.get(i));
             values.put(TaskConstants.COMPLETE, jsoNparser.completeArrayList.get(i));
-            //int numberRowsUpdated;
+            int numberRowsUpdated;
 /*            numberRowsUpdated = database.update(
                     TaskConstants.DATABASE_TABLE,
                     values, where, whereArgs);*/
-            //if (numberRowsUpdated == 0) {
-                long taskId = database.insert(TaskConstants.DATABASE_TABLE, null, values);
+  //          if (numberRowsUpdated == 0) {
+                long taskId = database.insert(TaskConstants.TASK_DATABASE_TABLE, null, values);
 
-                Cursor cursor = database.query(TaskConstants.DATABASE_TABLE,
+                Cursor cursor = database.query(TaskConstants.TASK_DATABASE_TABLE,
                         allColumns, TaskConstants.TASK_KEY_ID + " = "
                                 + taskId, null, null, null, null
                 );
-
                 cursor.moveToFirst();
 
                 //Task newTask = cursorToTask(cursor);
@@ -86,6 +84,51 @@ public class DatabaseReader {
            // }
         }}
     }
+   /* public void addConfig(String data, Context context) {
+        int i;
+        JSONparser jsoNparser = new JSONparser(data, context);
+        //jsoNparser.parsedData();
+        if (jsoNparser.taskIdArraylist.size() > 0 ){
+   ContentValues values = new ContentValues();
+                //String[] whereArgs = {task.getTask()};
+                //String where = TaskConstants.TASK + " = ?";
+                values.put(TaskConstants.MAXHOURS, jsoNparser.MAXHOURS);
+                values.put(TaskConstants.MINHOURS, jsoNparser.MINHOURS);
+                values.put(TaskConstants.MAXMON, jsoNparser.MAXMON);
+                values.put(TaskConstants.MINMON, jsoNparser.MINMON);
+                values.put(TaskConstants.MAXTUE, jsoNparser.MAXTUE);
+                values.put(TaskConstants.MINTUE, jsoNparser.MINTUE);
+                values.put(TaskConstants.MAXWED, jsoNparser.MAXWED);
+                values.put(TaskConstants.MINWED, jsoNparser.MINWED);
+                values.put(TaskConstants.MAXTHUR, jsoNparser.MAXTHUR);
+                values.put(TaskConstants.MINTHUR, jsoNparser.MINTHUR);
+                values.put(TaskConstants.MAXFRI, jsoNparser.MAXFRI);
+                values.put(TaskConstants.MINFRI, jsoNparser.MINFRI);
+                values.put(TaskConstants.MAXSAT, jsoNparser.MAXSAT);
+                values.put(TaskConstants.MINSAT, jsoNparser.MINSAT);
+                values.put(TaskConstants.MAXSUN, jsoNparser.MAXSUN);
+                values.put(TaskConstants.MINSUN, jsoNparser.MINSUN);
+                values.put(TaskConstants.submission, jsoNparser.submission);
+                int numberRowsUpdated;
+*//*            numberRowsUpdated = database.update(
+                    TaskConstants.DATABASE_TABLE,
+                    values, where, whereArgs);*//*
+                //          if (numberRowsUpdated == 0) {
+                long taskId = database.insert(TaskConstants.TASK_DATABASE_TABLE, null, values);
+
+                Cursor cursor = database.query(TaskConstants.TASK_DATABASE_TABLE,
+                        allColumns, TaskConstants.TASK_KEY_ID + " = "
+                                + taskId, null, null, null, null
+                );
+                cursor.moveToFirst();
+
+                //Task newTask = cursorToTask(cursor);
+                cursor.close();
+
+                // }
+            }
+    }*/
+
 
 
 
@@ -133,7 +176,7 @@ public class DatabaseReader {
 
     public Task getTask(int id)
     {
-        Cursor cursor = database.query(TaskConstants.DATABASE_TABLE,
+        Cursor cursor = database.query(TaskConstants.TASK_DATABASE_TABLE,
                 allColumns, TaskConstants.TASK_KEY_ID+" = ?", new String[] {String.valueOf(id)}, null, null, null);
         cursor.moveToFirst();
 

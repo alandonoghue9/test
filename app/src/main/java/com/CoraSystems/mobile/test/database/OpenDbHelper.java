@@ -14,7 +14,7 @@ public class OpenDbHelper extends SQLiteOpenHelper {
     public static final int DB_VERSION = 1;
 
     private static final String TASK_DATABASE_CREATE = "create table "+
-            TaskConstants.DATABASE_TABLE + "("+
+            TaskConstants.TASK_DATABASE_TABLE + "("+
             TaskConstants.TASK_KEY_ID +
             " integer primary key autoincrement, " +
             TaskConstants.TASK + " text not null, " +
@@ -27,7 +27,7 @@ public class OpenDbHelper extends SQLiteOpenHelper {
             TaskConstants.TASKID + " integer not null);";
 
     private static final String BYDAY_DATABASE_CREATE = "create table "+
-            TaskConstants.DATABASE_TABLE + "("+
+            TaskConstants.BYDAY_DATABASE_TABLE + "("+
             TaskConstants.BYDAY_KEY_ID +
             " integer primary key autoincrement, " +
             TaskConstants.COMMENT + " text not null, " +
@@ -38,7 +38,7 @@ public class OpenDbHelper extends SQLiteOpenHelper {
             TaskConstants.BYDAY_TASKID + " integer not null);";
 
     private static final String CONFIG_DATABASE_CREATE = "create table "+
-            TaskConstants.DATABASE_TABLE + "("+
+            TaskConstants.CONFIG_DATABASE_TABLE + "("+
             TaskConstants.CONFIG_KEY_ID +
             " integer primary key autoincrement, " +
             TaskConstants.MAXHOURS + " real not null, " +
@@ -60,7 +60,7 @@ public class OpenDbHelper extends SQLiteOpenHelper {
             TaskConstants.submission + " text not null);";
 
     private static final String TIMESHEET_DATABASE_CREATE = "create table "+
-            TaskConstants.DATABASE_TABLE + "("+
+            TaskConstants.TIMESHEET_DATABASE_TABLE + "("+
             TaskConstants.TIMESHEET_KEY_ID +
             " integer primary key autoincrement, " +
             TaskConstants.PDFURL + " text not null, " +
@@ -77,7 +77,7 @@ public class OpenDbHelper extends SQLiteOpenHelper {
             TaskConstants.SUBMITTED + " integer not null);";
 
     public OpenDbHelper(Context context) {
-        super(context, TaskConstants.DATABASE_TABLE, null, TaskConstants.DATABASE_VERSION);
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
@@ -91,8 +91,12 @@ public class OpenDbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase,
                           int oldVersion, int newVersion) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "
-                + TaskConstants.DATABASE_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskConstants.TASK_DATABASE_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskConstants.CONFIG_DATABASE_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskConstants.TIMESHEET_DATABASE_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskConstants.BYDAY_DATABASE_TABLE);
+
+
         onCreate(sqLiteDatabase);
     }
 }

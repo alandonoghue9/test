@@ -7,12 +7,15 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.util.Log;
 
+import com.CoraSystems.mobile.test.database.DatabaseReader;
+
 /**
  * Created by Alan on 8/5/2014.
  */
 
 public class JSONparser {
     private String data;
+    private Context Parent;
     public static final String TaskList = "TaskList";
     public static final String ByDay = "ByDay";
     public static final String Timesheet = "Timesheet";
@@ -50,10 +53,29 @@ public class JSONparser {
     public double sundayHours;
 
 
+    public double MAXHOURS;
+    public double MINHOURS;
+    public double MAXMON;
+    public double MINMON;
+    public double MAXTUE;
+    public double MINTUE;
+    public double MAXWED;
+    public double MINWED;
+    public double MAXTHUR;
+    public double MINTHUR;
+    public double MAXFRI;
+    public String MINFRI;
+    public String MAXSAT;
+    public String MINSAT;
+    public String MAXSUN;
+    public String MINSUN;
+    public String submission;
+
 
 
     public JSONparser(String data, Context Parent) {
         this.data = data;
+        this.Parent = Parent;
     }
     public int parsedData() {
          String testData = "<string xmlns=\"http://tempuri.org/ProjectVision/Project\">"+ "{\"TaskList\" : [{\"project id\" : \"1318\",\"project description\" : \"this is to test how long it takes\",\"task id\" : \"14396\"," +
@@ -66,6 +88,11 @@ public class JSONparser {
         String key;
         JSONArray jsonArray;
         JSONArray daysArray;
+
+        DatabaseReader databaseReader = new DatabaseReader();
+        databaseReader.DataSource(Parent);
+        databaseReader.open();
+
         if (testData != null) {
             try {
                 parts = testData.split(">");
@@ -90,6 +117,8 @@ public class JSONparser {
                             startDateArrayList.add(jsonobject.getString("start date"));
                             finishDateArrayList.add(jsonobject.getString("finish date"));
                             completeArrayList.add("" + jsonobject.getDouble("complete")); }
+
+                        databaseReader.addTask(data, Parent);
                         break;
                     case ByDay:
                         jsonArray = jsonObject.optJSONArray(ByDay);
@@ -124,6 +153,10 @@ public class JSONparser {
 
                         break;
                     case ConfigItems:
+                        jsonArray = jsonObject.optJSONArray(ConfigItems);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonobject = jsonArray.getJSONObject(i);
+                        }
                         break;
 
                 }

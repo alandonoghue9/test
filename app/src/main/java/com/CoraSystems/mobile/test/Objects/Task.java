@@ -1,4 +1,4 @@
-package com.CoraSystems.mobile.test;
+package com.CoraSystems.mobile.test.Objects;
 
 /**
  * Created by Alan on 7/29/2014.

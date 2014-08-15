@@ -11,12 +11,12 @@ public class DatabaseConstants {
 
     public static abstract class TaskConstants {
         public static final String DATABASE_NAME = "Tasks.db";
-        public static final String DATABASE_TABLE = "tasks_table";
+        public static final String TASK_DATABASE_TABLE = "tasks_table";
         public static final int DATABASE_VERSION = 1;
         public static final String TASK_KEY_ID = "_id";
-        public static final String BYDAY_KEY_ID = "_id";
-        public static final String CONFIG_KEY_ID = "_id";
-        public static final String TIMESHEET_KEY_ID = "_id";
+        public static final String BYDAY_KEY_ID = "byday_id";
+        public static final String CONFIG_KEY_ID = "config_id";
+        public static final String TIMESHEET_KEY_ID = "timesheet_id";
 
         public static final String TASK = "task";
         public static final String PROJECT = "project";
@@ -27,12 +27,14 @@ public class DatabaseConstants {
         public static final String PROJECTID = "projectid";
         public static final String TASKID = "taskid";
 
+        public static final String BYDAY_DATABASE_TABLE = "byday_table";
         public static final String COMMENT = "comment";
         public static final String BYDAY_TASKID = "bydaytaskid";
         public static final String PLANNEDAY = "plannedday";
         public static final String TIMESTAMP = "timestamp";
         public static final String DATE = "date";
 
+        public static final String CONFIG_DATABASE_TABLE = "config_table";
         public static final String MAXHOURS = "maxhours";
         public static final String MINHOURS = "minhours";
         public static final String MAXMON = "maxmon";
@@ -51,6 +53,7 @@ public class DatabaseConstants {
         public static final String MINSUN = "minsun";
         public static final String submission = "submission";
 
+        public static final String TIMESHEET_DATABASE_TABLE = "timesheet_table";
         public static final String PLANNEDHOURS = "plannedhours";
         public static final String NOOFTASKS = "nooftasks";
         public static final String TOTALHOURS = "totalhours";

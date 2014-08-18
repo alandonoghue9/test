@@ -3,11 +3,13 @@ package com.CoraSystems.mobile.test;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 
@@ -18,6 +20,8 @@ public class TimesheetHeader extends Fragment {
 
     LinearLayout comp;
     LinearLayout plan;
+    Button button;
+    View.OnClickListener clickListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,15 +32,27 @@ public class TimesheetHeader extends Fragment {
         comp = (LinearLayout)view.findViewById(R.id.complete);
         plan = (LinearLayout)view.findViewById(R.id.planned);
 
-        Button button = (Button) view.findViewById(R.id.button);
+        button = (Button) view.findViewById(R.id.button);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        //button.setOnClickListener(this);
+
+        button.setOnClickListener(clickListener);
+
+       /* button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fetchService fetchservice = new fetchService();
+                String TAG = "string";
+                Log.v(TAG, "works");
                 fetchservice.execute();
+                Log.v(TAG, "works");
             }
-        });
+        });*/
+
+        fetchService fetchservice = new fetchService();
+        String TAG = "string";
+        Log.i(TAG, "works");
+        fetchservice.execute();
 
         LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -53,6 +69,20 @@ public class TimesheetHeader extends Fragment {
 
         return view;
     }
+
+    public void setClickListener(View.OnClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+/*
+    @Override
+    public void onClick(View v) {
+        fetchService fetchservice = new fetchService();
+        String TAG = "string";
+        Toast.makeText(this.getActivity(),
+                "Button is clicked!", Toast.LENGTH_LONG).show();
+        Log.i(TAG, "works");
+        fetchservice.execute();
+    }*/
 
     public class fetchService extends AsyncTask<Void, Void, Void> {
 

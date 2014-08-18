@@ -7,10 +7,12 @@ import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 
@@ -26,7 +28,6 @@ public class Timesheet extends Activity {
         setContentView(R.layout.timesheet_main);
 
         setTitle("Timesheet");
-        getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
@@ -56,6 +57,17 @@ public class Timesheet extends Activity {
         });
         return true;
     }
+
+    View.OnClickListener mClickListener = new View.OnClickListener () {
+        @Override
+        public void onClick(View view) {
+            //fetchService fetchservice = new fetchService();
+            String TAG = "string";
+            //Toast.makeText(this.getActivity(), "Button is clicked!", Toast.LENGTH_LONG).show();
+            Log.i(TAG, "works");
+            //fetchservice.execute();
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

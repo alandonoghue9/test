@@ -18,7 +18,6 @@
                 android:paddingTop="4dp"
                 android:layout_width="12dp"
                 android:layout_height="28dp"
-                android:src="@drawable/overflow"
                 android:id="@+id/dots"
                 android:gravity="left"/>
         <LinearLayout
@@ -45,14 +44,52 @@
         </LinearLayout>
         </LinearLayout>
 
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:id="@+id/hr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ViewSwitcher
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/my_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="48sp"
             android:textColor="@color/white"
             android:gravity="center"
-            android:text="M"
             android:id="@+id/test"/>
+
+        <EditText
+            android:id="@+id/hidden_edit_view"
+            android:layout_width="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            android:textSize="30sp"
+            android:inputType="number"
+            android:layout_height="match_parent"
+            android:hint="8"
+            android:textColor="@color/text_dark"
+            android:maxLength="2">
+        </EditText>
+    </ViewSwitcher>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="50dp"
+            android:text="hrs"
+            android:id="@+id/testhrs"/>
+        </RelativeLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

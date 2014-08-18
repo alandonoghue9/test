@@ -33,8 +33,7 @@ public class TimesheetHeader extends Fragment {
         plan = (LinearLayout)view.findViewById(R.id.planned);
 
         fetchService fetchservice = new fetchService();
-        String TAG = "string";
-        Log.i(TAG, "works");
+
         fetchservice.execute();
 
         LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);

@@ -5,8 +5,7 @@
     android:id="@+id/item"
     android:layout_width="100dp"
     android:layout_height="100dp"
-    android:background="@color/cora_blue"
-    android:onClick="clicked">
+    android:background="@color/cora_blue">
 
     <LinearLayout
         android:orientation="horizontal"

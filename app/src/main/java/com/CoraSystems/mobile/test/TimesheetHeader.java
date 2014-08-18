@@ -53,10 +53,6 @@ public class TimesheetHeader extends Fragment {
         return view;
     }
 
-    public void setClickListener(View.OnClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
-
     public class fetchService extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -74,7 +70,6 @@ public class TimesheetHeader extends Fragment {
                 databaseReader.DataSource(getActivity());
                 databaseReader.open();
                 databaseReader.addTask(dataService, getActivity());
-                //uploadAndDownload.this
 
                 return null;
             }

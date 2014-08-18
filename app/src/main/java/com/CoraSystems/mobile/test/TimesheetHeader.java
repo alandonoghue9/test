@@ -32,23 +32,6 @@ public class TimesheetHeader extends Fragment {
         comp = (LinearLayout)view.findViewById(R.id.complete);
         plan = (LinearLayout)view.findViewById(R.id.planned);
 
-        button = (Button) view.findViewById(R.id.button);
-
-        //button.setOnClickListener(this);
-
-        button.setOnClickListener(clickListener);
-
-       /* button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fetchService fetchservice = new fetchService();
-                String TAG = "string";
-                Log.v(TAG, "works");
-                fetchservice.execute();
-                Log.v(TAG, "works");
-            }
-        });*/
-
         fetchService fetchservice = new fetchService();
         String TAG = "string";
         Log.i(TAG, "works");
@@ -73,16 +56,6 @@ public class TimesheetHeader extends Fragment {
     public void setClickListener(View.OnClickListener clickListener) {
         this.clickListener = clickListener;
     }
-/*
-    @Override
-    public void onClick(View v) {
-        fetchService fetchservice = new fetchService();
-        String TAG = "string";
-        Toast.makeText(this.getActivity(),
-                "Button is clicked!", Toast.LENGTH_LONG).show();
-        Log.i(TAG, "works");
-        fetchservice.execute();
-    }*/
 
     public class fetchService extends AsyncTask<Void, Void, Void> {
 

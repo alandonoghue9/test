@@ -46,28 +46,17 @@ public class Timesheet extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.timesheet, menu);
-        Button button = (Button) findViewById(R.id.button);
+        //Button button = (Button) findViewById(R.id.button);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        /*button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 fetchService fetchservice = new fetchService();
                 fetchservice.execute();
             }
-        });
+        });*/
         return true;
     }
-
-    View.OnClickListener mClickListener = new View.OnClickListener () {
-        @Override
-        public void onClick(View view) {
-            //fetchService fetchservice = new fetchService();
-            String TAG = "string";
-            //Toast.makeText(this.getActivity(), "Button is clicked!", Toast.LENGTH_LONG).show();
-            Log.i(TAG, "works");
-            //fetchservice.execute();
-        }
-    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

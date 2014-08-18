@@ -25,7 +25,7 @@ public String ok;
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.timesheet, menu);
-        Button button = (Button) findViewById(R.id.button);
+        /*Button button = (Button) findViewById(R.id.button);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,7 +33,7 @@ public String ok;
                 fetchService fetchservice = new fetchService();
                 fetchservice.execute();
             }
-        });
+        });*/
         return true;
     }
 

@@ -6,6 +6,10 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
+        classpath 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'
+        classpath 'com.nhaarman.listviewanimations:lib-core-slh:3.1.0@aar'
+
     }
 }
 android {
@@ -34,5 +38,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.github.gabrielemariotti.cards:library:1.8.0'
-    compile 'com.android.support:support-v13:20.+'
+    compile 'com.android.support:support-v13:20.0.0'
+    compile 'com.google.android.gms:play-services:4.2.42'
+    compile 'com.android.support:appcompat-v7:20.0.0'
 }

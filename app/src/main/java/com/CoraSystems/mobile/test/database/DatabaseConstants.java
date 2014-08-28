@@ -66,5 +66,17 @@ public class DatabaseConstants {
         public static final String FRIHOURS = "frihours";
         public static final String SATHOURS = "sathours";
         public static final String SUNHOURS = "sunhours";
+
+        public static final String COMPLETELOCAL = "completeLocal";
+        public static final String TIMESTAMPLOCAL = "timestampLocal";
+        public static final String TASKIDLOCAL = "taskIdLocal";
+        public static final String DATELOCAL = "dateLocal";
+        public static final String COMMENTLOCAL = "commentLocal";
+        //public static final String FRIHOURS = "frihours";
+        //public static final String SATHOURS = "sathours";
+        //public static final String SUNHOURS = "sunhours";
+
+
+
     }
 }

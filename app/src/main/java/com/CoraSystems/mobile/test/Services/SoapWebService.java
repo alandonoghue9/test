@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -131,4 +132,43 @@ public class SoapWebService implements Serializable{
         return "hello";
     }
 
+    public String ConvertDataToHexString(String strData) {
+        String strRetVal ="";
+        strRetVal = Integer.toHexString(Integer.parseInt(strData));
+
+        return strRetVal;
+    }
+
+   /* public String ConvertDataToHexString(String strData)
+    {
+        String strRetVal = "";
+        String strChar = "";
+        int iCount=0;
+        if (strData != null) {
+            if(strData.length()>0){
+                try
+                {
+                    byte[] bytes = strData.getBytes("ISO-8859-1");
+                    for (iCount=0; iCount < bytes.length; iCount++)
+                    {
+                        int [] intArray = UnsignArray(bytes);
+                        strChar = Integer.toHexString(intArray[iCount]);
+                        if (strChar.length() == 1)
+                        {
+                            strChar = "0" + strChar;
+                        }
+                        strRetVal = strRetVal + strChar;
+                    }
+                }
+                catch (UnsupportedEncodingException e)
+                {
+                    strData="";
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return strRetVal;
+    }
+*/
 }

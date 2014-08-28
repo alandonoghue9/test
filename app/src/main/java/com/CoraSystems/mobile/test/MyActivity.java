@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,9 +18,11 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.CoraSystems.mobile.test.Services.JSONparser;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class MyActivity extends Activity implements
@@ -27,6 +30,7 @@ public class MyActivity extends Activity implements
 
     private int mCurrentTitle=R.string.app_name;
     public String ok;
+
 
     View mDarkHoverView;
     FilterListFrag listFragment; //text
@@ -41,7 +45,6 @@ public class MyActivity extends Activity implements
 
         setContentView(R.layout.activity_my);
         setTitle("Tasks");
-
         mDarkHoverView = findViewById(R.id.dark_hover_view);
         mDarkHoverView.setAlpha(0);
 
@@ -151,6 +154,23 @@ public class MyActivity extends Activity implements
             }
         });
         t.start();
+    }
+
+    public class fetchService extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            try {
+
+                return null;
+            }
+            catch(Exception e){}
+             /*catch (IOException ) {
+                //e.printStackTrace();
+}*/
+            return null;
+        }
     }
 
     public void onAnimationEnd() {

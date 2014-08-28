@@ -17,6 +17,21 @@
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">-->
+    <LinearLayout
+        android:id="@+id/linlaHeaderProgress"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <ProgressBar
+            android:id="@+id/pbHeaderProgress"
+            android:background ="@xml/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </ProgressBar>
+    </LinearLayout>
 
     <!-- You can customize this layout.
      You need to have in your layout a `CardView` with the ID `list_cardId` -->

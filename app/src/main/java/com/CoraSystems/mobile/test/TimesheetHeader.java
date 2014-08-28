@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.CoraSystems.mobile.test.Services.JSONparser;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 
 /**
@@ -32,9 +33,10 @@ public class TimesheetHeader extends Fragment {
         comp = (LinearLayout)view.findViewById(R.id.complete);
         plan = (LinearLayout)view.findViewById(R.id.planned);
 
-        fetchService fetchservice = new fetchService();
+        //fetchService fetchservice = new fetchService();
 
-        fetchservice.execute();
+        //
+        // fetchservice.execute();
 
         LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -57,18 +59,14 @@ public class TimesheetHeader extends Fragment {
         @Override
         protected Void doInBackground(Void... params) {
             String dataService="";
-            int check;
-
             try {
                 //SoapWebService soapWebService = new SoapWebService("alan", "password", uploadAndDownload.this);
                 //dataService = soapWebService.SendThisData("hello", 200000);
 
-                //JSONparser jsoNparser = new JSONparser(dataService, uploadAndDownload.this);
-                // check = jsoNparser.parsedData();
-                DatabaseReader databaseReader = new DatabaseReader();
-                databaseReader.DataSource(getActivity());
-                databaseReader.open();
-                databaseReader.addTask(dataService, getActivity());
+                JSONparser jsoNparser = new JSONparser(dataService, getActivity(), 0);
+                jsoNparser.parsedData();
+                JSONparser jsoN1parser = new JSONparser(dataService, getActivity(), 1);
+                jsoN1parser.parsedData();
 
                 return null;
             }

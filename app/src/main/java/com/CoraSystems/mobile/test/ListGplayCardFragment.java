@@ -7,6 +7,7 @@ package com.CoraSystems.mobile.test;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.CoraSystems.mobile.test.Objects.Task;
+import com.CoraSystems.mobile.test.database.DatabaseReader;
+import com.CoraSystems.mobile.test.Timesheet;
+
+import java.sql.Time;
 import java.util.ArrayList;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -31,7 +37,7 @@ public class ListGplayCardFragment extends Fragment {
     public String ok;
     LinearLayout comp;
     LinearLayout plan;
-
+    ArrayList<Task> task;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //      strtext = getArguments().getString("edttext");
@@ -44,9 +50,73 @@ public class ListGplayCardFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        initCards();
-    }
+        //initCards();
+        FetchTask fetchask = new FetchTask();
+        fetchask.execute();
 
+    }
+    public class FetchTask extends AsyncTask<Void, Void, Void> {
+        LinearLayout linlaHeaderProgress = (LinearLayout) getActivity().findViewById(R.id.linlaHeaderProgress);
+
+        ArrayList<Card> cards;
+        ArrayList<Task> task = new ArrayList<Task>();
+        Bundle hello;
+        @Override
+        protected void onPreExecute() {
+            linlaHeaderProgress.setVisibility(View.VISIBLE);
+        }
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            try {
+                DatabaseReader databaseReader = new DatabaseReader();
+                databaseReader.DataSource(getActivity());
+                databaseReader.reOpen();
+                task = databaseReader.getProjectsTasks();
+                cards = new ArrayList<Card>();
+                for (int i = 0; i < task.size(); i++) {
+                    GooglePlaySmallCard card = new GooglePlaySmallCard(getActivity());
+                    card.setTitle(task.get(i).getProject());
+                    card.setSecondaryTitle(task.get(i).getTask());
+                    card.setComplete(task.get(i).getCompletion());
+                    card.setPlanned(task.get(i).getPlanned());
+
+                    card.count = i;
+
+                    card.init();
+
+                    cards.add(card);
+                }
+                return null;
+            }
+            catch(Exception e){}
+             /*catch (IOException ) {
+                //e.printStackTrace();
+}*/
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
+
+            CardListView listView = (CardListView) getActivity().findViewById(R.id.carddemo_list_gplaycard);
+            linlaHeaderProgress.setVisibility(View.GONE);
+            if (listView != null) {
+
+                listView.setAdapter(mCardArrayAdapter);
+
+                // SET THE ADAPTER TO THE LISTVIEW
+                //lv.setAdapter(adapter);
+
+                // CHANGE THE LOADINGMORE STATUS TO PERMIT FETCHING MORE DATA
+                //tloadingMore = false;
+
+                // HIDE THE SPINNER AFTER LOADING FEEDS
+
+            }
+
+        }
+    }
 
     private void initCards() {
 
@@ -85,6 +155,8 @@ public class ListGplayCardFragment extends Fragment {
 
         protected String title;
         protected String secondaryTitle;
+        protected String completePer;
+        protected String plannedPer;
 
         public GooglePlaySmallCard(Context context) {
             this(context, R.layout.carddemo_mycard_inner_content);
@@ -142,11 +214,11 @@ public class ListGplayCardFragment extends Fragment {
             LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-            complete = ((int)(Math.random()*(5)));
-            planned = 5-complete;
+            //complete = ((int)(Math.random()*(5)));
+            //planned = 5-complete;
 
-            c.weight = complete;
-            p.weight = planned;
+            c.weight = Integer.valueOf(completePer);
+            p.weight = Integer.valueOf(plannedPer);
             comp.setLayoutParams(c);
             plan.setLayoutParams(p);
 
@@ -167,6 +239,12 @@ public class ListGplayCardFragment extends Fragment {
 
         public void setSecondaryTitle(String secondaryTitle) {
             this.secondaryTitle = secondaryTitle;
+        }
+        public void setComplete(String complete) {
+            this.completePer = complete;
+        }
+        public void setPlanned(String planned) {
+            this.plannedPer = planned;
         }
     }
 

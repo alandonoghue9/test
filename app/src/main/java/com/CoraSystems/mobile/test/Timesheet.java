@@ -14,14 +14,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.CoraSystems.mobile.test.Objects.Task;
+import com.CoraSystems.mobile.test.Services.JSONparser;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
+
+import java.util.ArrayList;
 
 public class Timesheet extends Activity {
 
     public String ok;
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
-
+    ArrayList<Task> task = new ArrayList<Task>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,25 +75,27 @@ public class Timesheet extends Activity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            String dataService = "";
-            int check;
-
+            String dataService="";
             try {
                 //SoapWebService soapWebService = new SoapWebService("alan", "password", uploadAndDownload.this);
                 //dataService = soapWebService.SendThisData("hello", 200000);
-
-                //JSONparser jsoNparser = new JSONparser(dataService, uploadAndDownload.this);
-                // check = jsoNparser.parsedData();
                 DatabaseReader databaseReader = new DatabaseReader();
                 databaseReader.DataSource(Timesheet.this);
-                databaseReader.open();
-                databaseReader.addTask(dataService, Timesheet.this);
+                databaseReader.reOpen();
+                task = databaseReader.getProjectsTasks();
+
+
 
                 return null;
-            } catch (Exception e) {
             }
+            catch(Exception e){}
+             /*catch (IOException ) {
+                //e.printStackTrace();
+            }*/
 
             return null;
         }
+
+
     }
 }

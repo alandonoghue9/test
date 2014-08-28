@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
-
 /**
  * Created by eoghanmartin on 13/08/2014.
  */
@@ -45,11 +44,11 @@ public class GridViewCustomAdapter extends ArrayAdapter
             grid = inflater.inflate(R.layout.day, parent, false);
             TextView viewtext = (TextView) grid.findViewById(R.id.testhrs);
             TextView textView = (TextView) grid.findViewById(R.id.test);
-            ImageView imageView = (ImageView)grid.findViewById(R.id.dots);
+            //ImageView imageView = (ImageView)grid.findViewById(R.id.dots);
             String text = Integer.toString(position+1);
             viewtext.setText("");
             textView.setText(text);
-            imageView.setImageResource(R.drawable.overflow);
+            //imageView.setImageResource(R.drawable.overflow);
         } else {
             grid = convertView;
         }
@@ -63,6 +62,7 @@ public class GridViewCustomAdapter extends ArrayAdapter
                     switcher.showNext(); //or switcher.showPrevious();
                     TextView myTV = (TextView) switcher.findViewById(R.id.test);
                     myTV.setText("8");
+
 
                     TextView viewtext = (TextView) arg1.findViewById(R.id.testhrs);
 

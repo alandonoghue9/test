@@ -10,7 +10,7 @@
     <string name="demo_expand_customtitle2">Quis aute iure reprehenderit in voluptate velit esse cillum ..</string>
     <string name="demo_expand_customtitle3">Lorem ipsum dolor sit amet, consectetur adipisici elit...Lorem ipsum dolor sit amet, consectetur adipisici elit...Lorem ipsum dolor sit amet, consectetur adipisici elit...Lorem ipsum dolor sit amet, consectetur adipisici elit...</string>
     <string name="demo_header_expand_area_inside">Card with expand area inside</string>
-    <string name="title_activity_upload_and_download">uploadAndDownload</string>
+    <string name="title_activity_upload_and_download">Timesheet</string>
 
     <!--Authority -->
     <string name="config_authority">it.gmariotti.cardslib.demo.provider</string>

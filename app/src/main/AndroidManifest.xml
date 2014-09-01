@@ -12,15 +12,18 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MyActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".Timesheet"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_upload_and_download"
             android:parentActivityName=".MyActivity" >
         </activity>
         <activity
             android:name=".LoginScreen"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_login_screen"
             android:windowSoftInputMode="adjustResize|stateVisible" >
             <intent-filter>

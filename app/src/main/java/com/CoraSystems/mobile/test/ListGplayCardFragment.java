@@ -75,17 +75,26 @@ public class ListGplayCardFragment extends Fragment {
                 task = databaseReader.getProjectsTasks();
                 cards = new ArrayList<Card>();
                 for (int i = 0; i < task.size(); i++) {
-                    GooglePlaySmallCard card = new GooglePlaySmallCard(getActivity());
-                    card.setTitle(task.get(i).getProject());
-                    card.setSecondaryTitle(task.get(i).getTask());
-                    card.setComplete(task.get(i).getCompletion());
-                    card.setPlanned(task.get(i).getPlanned());
+                    if (i==0) {
+                        Gap card = new Gap(getActivity());
+                        card.setShadow(false);
 
-                    card.count = i;
+                        cards.add(card);
+                    }
+                    else if (i!=0) {
+                        GooglePlaySmallCard card = new GooglePlaySmallCard(getActivity());
+                        String strI = Integer.toString(i-1);
+                        card.setTitle(task.get(i).getProject());
+                        card.setSecondaryTitle(task.get(i).getTask());
+                        card.setComplete(task.get(i).getCompletion());
+                        card.setPlanned(task.get(i).getPlanned());
 
-                    card.init();
+                        card.count = i - 1;
 
-                    cards.add(card);
+                        card.init();
+
+                        cards.add(card);
+                    }
                 }
                 return null;
             }
@@ -115,30 +124,6 @@ public class ListGplayCardFragment extends Fragment {
 
             }
 
-        }
-    }
-
-    private void initCards() {
-
-        //Init an array of Cards
-        ArrayList<Card> cards = new ArrayList<Card>();
-        for (int i=0;i<6;i++){
-            GooglePlaySmallCard card = new GooglePlaySmallCard(this.getActivity());
-            card.setTitle("Project "+i);
-            card.setSecondaryTitle("Task" + i);
-
-            card.count=i;
-
-            card.init();
-
-            cards.add(card);
-        }
-
-        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(),cards);
-
-        CardListView listView = (CardListView) getActivity().findViewById(R.id.carddemo_list_gplaycard);
-        if (listView!=null){
-            listView.setAdapter(mCardArrayAdapter);
         }
     }
 
@@ -248,5 +233,16 @@ public class ListGplayCardFragment extends Fragment {
         }
     }
 
+
+    public class Gap extends Card {
+
+        public Gap(Context context) {
+            this(context, R.layout.gap);
+        }
+
+        public Gap(Context context, int innerLayout) {
+            super(context, innerLayout);
+        }
+    }
 
 }

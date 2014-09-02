@@ -18,7 +18,7 @@
         <activity
             android:name=".Timesheet"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_upload_and_download"
+            android:label="@string/timesheet"
             android:parentActivityName=".MyActivity" >
         </activity>
         <activity

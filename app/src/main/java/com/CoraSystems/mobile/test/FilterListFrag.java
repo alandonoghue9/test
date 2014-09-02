@@ -10,9 +10,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.animation.Animator;
@@ -24,7 +27,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * List of Google Play cards Example
@@ -35,19 +40,31 @@ public class FilterListFrag extends Fragment {
 
     String strtext;
     public String ok;
+    Context context;
+    View view;
 
-    View.OnClickListener clickListener;
     OnTextFragmentAnimationEndListener mListener;
+
+/*    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("curChoice", mCurCheckPosition);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            // Restore last state for checked position.
+            mCurCheckPosition = savedInstanceState.getInt("curChoice", 0);
+        }
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.filter_list, container, false);
-        view.setOnClickListener(clickListener);
+        view = inflater.inflate(R.layout.filter_list, container, false);
+        ((MyActivity)getActivity()).check(view);
         return view;
-    }
-
-    public void setClickListener(View.OnClickListener clickListener) {
-        this.clickListener = clickListener;
     }
 
     @Override
@@ -71,6 +88,5 @@ public class FilterListFrag extends Fragment {
     {
         mListener = listener;
     }
-
 
 }

@@ -22,7 +22,7 @@ public class SectionsPagerAdapter extends android.support.v13.app.FragmentPagerA
 
     @Override
     public int getCount() {
-        // Show 3 total pages.
+        // Show 3 weeks days.
         return 3;
     }
 }

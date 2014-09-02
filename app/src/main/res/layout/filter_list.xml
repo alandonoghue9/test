@@ -14,33 +14,55 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_height="60dp"
-        android:weightSum="3"
-        android:paddingLeft="15dp">
+        android:layout_height="45dp"
+        android:weightSum="30"
+        android:paddingLeft="15dp"
+        android:onClick="today">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lean Back"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:text="@string/today"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/text_dark"
+            android:layout_weight="27"/>
+
+        <ImageView
+            android:id="@+id/todaytick"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="3"
+            android:src="@drawable/tick"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="vertical"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:weightSum="3"
-        android:paddingLeft="15dp">
+        android:weightSum="30"
+        android:paddingLeft="15dp"
+        android:onClick="projects">
 
         <TextView
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lean Forward" />
+            android:textColor="@color/text_dark"
+            android:text="@string/projects"
+            android:layout_weight="27"/>
+
+        <ImageView
+            android:id="@+id/projecttick"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_weight="3"
+            android:src="@drawable/arrows"/>
+
     </LinearLayout>
 
     <View
@@ -50,17 +72,54 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="vertical"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:weightSum="3"
-        android:paddingLeft="15dp">
+        android:weightSum="30"
+        android:paddingLeft="15dp"
+        android:onClick="tomorrow">
 
         <TextView
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lean Right" />
+            android:textColor="@color/text_dark"
+            android:text="@string/tomorrow"
+            android:layout_weight="27"/>
+
+        <ImageView
+            android:id="@+id/tomorrowtick"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="3"
+            android:src="@drawable/tick"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:weightSum="30"
+        android:paddingLeft="15dp"
+        android:onClick="thisweek">
+
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_dark"
+            android:text="@string/this_week"
+            android:layout_weight="27"/>
+
+        <ImageView
+            android:id="@+id/thisweektick"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="3"
+            android:src="@drawable/tick"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <View
@@ -70,47 +129,163 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="vertical"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:weightSum="3"
-        android:paddingLeft="15dp">
+        android:weightSum="30"
+        android:paddingLeft="15dp"
+        android:onClick="pickday">
 
         <TextView
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lean Left" />
+            android:textColor="@color/text_dark"
+            android:text="@string/pick_day"
+            android:layout_weight="27"/>
+
+        <ImageView
+            android:id="@+id/pickdaytick"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="3"
+            android:src="@drawable/tick"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="vertical"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:weightSum="3"
-        android:paddingLeft="15dp">
+        android:weightSum="30"
+        android:paddingLeft="15dp"
+        android:onClick="pickweek">
 
         <TextView
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lean Left" />
+            android:textColor="@color/text_dark"
+            android:text="@string/pick_week"
+            android:layout_weight="27"/>
+
+        <ImageView
+            android:id="@+id/pickweektick"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="3"
+            android:src="@drawable/tick"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="vertical"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:weightSum="3"
-        android:paddingLeft="15dp">
+        android:weightSum="30"
+        android:paddingLeft="15dp"
+        android:onClick="pickmonth">
 
         <TextView
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lean Left" />
+            android:textColor="@color/text_dark"
+            android:text="@string/pick_month"
+            android:layout_weight="27"/>
+
+        <ImageView
+            android:id="@+id/pickmonthtick"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="3"
+            android:src="@drawable/tick"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/text_grey" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:weightSum="30"
+        android:paddingLeft="15dp"
+        android:onClick="all">
+
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_dark"
+            android:text="@string/all"
+            android:layout_weight="27"/>
+
+        <ImageView
+            android:id="@+id/alltick"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="3"
+            android:src="@drawable/tick"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:weightSum="30"
+        android:paddingLeft="15dp"
+        android:onClick="incomplete">
+
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_dark"
+            android:text="@string/incomplete"
+            android:layout_weight="27"/>
+
+        <ImageView
+            android:id="@+id/incompletetick"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="3"
+            android:src="@drawable/tick"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:weightSum="30"
+        android:paddingLeft="15dp"
+        android:onClick="complete">
+
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_dark"
+            android:text="@string/complete"
+            android:layout_weight="27"/>
+
+        <ImageView
+            android:id="@+id/completetick"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_weight="3"
+            android:src="@drawable/tick"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <View

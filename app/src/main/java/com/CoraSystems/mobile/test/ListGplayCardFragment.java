@@ -161,20 +161,6 @@ public class ListGplayCardFragment extends Fragment {
                     startActivity(i);
                     }
             });
-
-            //Swipe
-            /*if (count==10){
-
-                setTitle(title + " Swipe enabled");
-                setSwipeable(true);
-                setOnSwipeListener(new OnSwipeListener() {
-                    @Override
-                    public void onSwipe(Card card) {
-                        Toast.makeText(getContext(), "Removed card=" + title, Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }*/
-
         }
 
         @Override
@@ -199,11 +185,12 @@ public class ListGplayCardFragment extends Fragment {
             LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-            //complete = ((int)(Math.random()*(5)));
-            //planned = 5-complete;
+            planned = Integer.valueOf(plannedPer);
+            complete = Integer.valueOf(completePer);
+            complete = (complete/planned)*100;
 
-            c.weight = Integer.valueOf(completePer);
-            p.weight = Integer.valueOf(plannedPer);
+            c.weight = complete;
+            p.weight = 100-complete;
             comp.setLayoutParams(c);
             plan.setLayoutParams(p);
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/item"
+    android:layout_width="45dp"
+    android:layout_height="90dp"
+    android:background="@color/cora_blue">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="JUL 24"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:paddingTop="8dp"
+        android:gravity="center|top"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="32sp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:text="M"
+        android:fontFamily="sans-serif-thin"
+        android:id="@+id/day"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="8 hrs"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:paddingBottom="8dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center|bottom"/>
+
+</RelativeLayout>

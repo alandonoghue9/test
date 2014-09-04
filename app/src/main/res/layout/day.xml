@@ -12,18 +12,19 @@
         android:id="@+id/hrs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="7dp"
         android:paddingRight="5dp">
         <ImageView
-            android:paddingTop="4dp"
-            android:layout_width="12dp"
-            android:layout_height="28dp"
+            android:paddingTop="0dp"
+            android:layout_width="20dp"
+            android:layout_height="35dp"
+            android:paddingLeft="2dp"
             android:id="@+id/dots"
             android:gravity="left"/>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:paddingLeft="7dp"
             android:gravity="right">
             <TextView
                 android:layout_width="wrap_content"
@@ -62,7 +63,8 @@
                 android:textSize="48sp"
                 android:textColor="@color/white"
                 android:gravity="center"
-                android:id="@+id/test"/>
+                android:fontFamily="sans-serif-light"
+                android:id="@+id/day_letter"/>
 
             <EditText
                 android:id="@+id/hidden_edit_view"
@@ -87,7 +89,7 @@
             android:layout_marginLeft="70dp"
             android:layout_marginTop="50dp"
             android:text="hrs"
-            android:id="@+id/testhrs"/>
+            android:id="@+id/new_hrs"/>
     </RelativeLayout>
 
     <TextView

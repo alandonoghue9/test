@@ -3,26 +3,17 @@ package com.CoraSystems.mobile.test;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-
 import com.CoraSystems.mobile.test.Services.JSONparser;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 
-/**
- * Created by eoghanmartin on 12/08/2014.
- */
 public class TimesheetHeader extends Fragment {
 
     LinearLayout comp;
     LinearLayout plan;
-    Button button;
-    View.OnClickListener clickListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,8 +32,8 @@ public class TimesheetHeader extends Fragment {
         LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-        complete = ((int)(Math.random()*(5)));
-        planned = 5-complete;
+        complete = ((int)(Math.random()*(100)));
+        planned = 100-complete;
 
         c.weight = complete;
         p.weight = planned;

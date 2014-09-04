@@ -7,12 +7,8 @@ import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.CoraSystems.mobile.test.Objects.Task;
 import com.CoraSystems.mobile.test.Services.JSONparser;
@@ -22,10 +18,10 @@ import java.util.ArrayList;
 
 public class Timesheet extends Activity {
 
-    public String ok;
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
-    ArrayList<Task> task = new ArrayList<Task>();
+    ArrayList<Task> task = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +40,11 @@ public class Timesheet extends Activity {
         transaction.add(R.id.timesheet_frag_header, headerFragment, "Frag_Main_tag");
         transaction.commit();
 
+        Fragment saveFragment = new save();
+        FragmentManager saveManager = getFragmentManager();
+        FragmentTransaction transactionSave = saveManager.beginTransaction();
+        transactionSave.add(R.id.save, saveFragment, "Frag_Main_tag");
+        transactionSave.commit();
     }
 
     @Override
@@ -95,7 +96,5 @@ public class Timesheet extends Activity {
 
             return null;
         }
-
-
     }
 }

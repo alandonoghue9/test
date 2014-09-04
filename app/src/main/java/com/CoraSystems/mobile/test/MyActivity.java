@@ -8,30 +8,22 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.Toast;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.CoraSystems.mobile.test.Services.JSONparser;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-
 public class MyActivity extends Activity implements
         OnTextFragmentAnimationEndListener, FragmentManager.OnBackStackChangedListener {
 
-    private int mCurrentTitle=R.string.app_name;
-    public String ok;
     Boolean today=Boolean.FALSE, tomorrow=Boolean.FALSE, thisweek=Boolean.FALSE, projects=Boolean.FALSE,
             pickday=Boolean.FALSE, pickweek=Boolean.FALSE, pickmonth=Boolean.FALSE, all=Boolean.FALSE,
             incomplete=Boolean.FALSE, complete = Boolean.FALSE;
@@ -53,11 +45,7 @@ public class MyActivity extends Activity implements
         mDarkHoverView = findViewById(R.id.dark_hover_view);
         mDarkHoverView.setAlpha(0);
 
- /*       Bundle bundle = new Bundle();
-        bundle.putString("edttext", ok);*/
-
         Fragment baseFragment = new ListGplayCardFragment();
-       // baseFragment.setArguments(bundle);
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.fragment_main, baseFragment, "Frag_Main_tag");
@@ -71,23 +59,27 @@ public class MyActivity extends Activity implements
         filterFragment.setClickListener(mClickListener);
         listFragment.setOnTextFragmentAnimationEnd(this);
         mDarkHoverView.setOnClickListener(mClickListener);
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.task_list, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.task_list, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            case R.id.dashboard:
+                dash();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     View.OnClickListener mClickListener = new View.OnClickListener () {
@@ -131,8 +123,6 @@ public class MyActivity extends Activity implements
 
     public void slideBack(Animator.AnimatorListener listener)
     {
-        View movingFragmentView = filterFragment.getView();
-
         ObjectAnimator darkHoverViewAnimator = ObjectAnimator.
                 ofFloat(mDarkHoverView, "alpha", 0.0f, 0.0f);
 
@@ -144,8 +134,6 @@ public class MyActivity extends Activity implements
 
     public void slideForward(Animator.AnimatorListener listener)
     {
-        View movingFragmentView = filterFragment.getView();
-
         ObjectAnimator darkHoverViewAnimator = ObjectAnimator.
                 ofFloat(mDarkHoverView, "alpha", 0.0f, 0.0f);
 
@@ -166,13 +154,10 @@ public class MyActivity extends Activity implements
         protected Void doInBackground(Void... params) {
 
             try {
-
                 return null;
             }
             catch(Exception e){}
-             /*catch (IOException ) {
-                //e.printStackTrace();
-}*/
+
             return null;
         }
     }
@@ -198,9 +183,15 @@ public class MyActivity extends Activity implements
                 return false;
             }
         }
-
         return super.onKeyDown(keyCode, event);
     }
+
+    public void dash(){
+        Intent dash = new Intent(this, Dashboard.class);
+        startActivity(dash);
+    }
+
+    /*FILTER LIST STUFF*/
 
     public void check(View v){
         if (today==Boolean.TRUE) {
@@ -239,8 +230,6 @@ public class MyActivity extends Activity implements
             ImageView tick = (ImageView) v.findViewById(R.id.completetick);
             tick.setVisibility(v.VISIBLE);
         }
-
-
     }
 
     public void today(View v){

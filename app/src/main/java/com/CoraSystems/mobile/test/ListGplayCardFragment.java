@@ -26,11 +26,6 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
 
-/**
- * List of Google Play cards Example
- *
- * @author Gabriele Mariotti (gabri.mariotti@gmail.com)
- */
 public class ListGplayCardFragment extends Fragment {
 
     String strtext;
@@ -40,7 +35,6 @@ public class ListGplayCardFragment extends Fragment {
     ArrayList<Task> task;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//      strtext = getArguments().getString("edttext");
         View view = inflater.inflate(R.layout.demo_fragment_list_gplaycard, container, false);
 
         return view;
@@ -50,7 +44,6 @@ public class ListGplayCardFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //initCards();
         FetchTask fetchask = new FetchTask();
         fetchask.execute();
 
@@ -59,21 +52,21 @@ public class ListGplayCardFragment extends Fragment {
         LinearLayout linlaHeaderProgress = (LinearLayout) getActivity().findViewById(R.id.linlaHeaderProgress);
 
         ArrayList<Card> cards;
-        ArrayList<Task> task = new ArrayList<Task>();
-        Bundle hello;
+        ArrayList<Task> task = new ArrayList<>();
+
         @Override
         protected void onPreExecute() {
             linlaHeaderProgress.setVisibility(View.VISIBLE);
         }
+
         @Override
         protected Void doInBackground(Void... params) {
-
             try {
                 DatabaseReader databaseReader = new DatabaseReader();
                 databaseReader.DataSource(getActivity());
                 databaseReader.reOpen();
                 task = databaseReader.getProjectsTasks();
-                cards = new ArrayList<Card>();
+                cards = new ArrayList<>();
                 for (int i = 0; i < task.size(); i++) {
                     if (i==0) {
                         Gap card = new Gap(getActivity());
@@ -83,7 +76,6 @@ public class ListGplayCardFragment extends Fragment {
                     }
                     else if (i!=0) {
                         GooglePlaySmallCard card = new GooglePlaySmallCard(getActivity());
-                        String strI = Integer.toString(i-1);
                         card.setTitle(task.get(i).getProject());
                         card.setSecondaryTitle(task.get(i).getTask());
                         card.setComplete(task.get(i).getCompletion());
@@ -99,9 +91,7 @@ public class ListGplayCardFragment extends Fragment {
                 return null;
             }
             catch(Exception e){}
-             /*catch (IOException ) {
-                //e.printStackTrace();
-}*/
+
             return null;
         }
         @Override
@@ -127,11 +117,6 @@ public class ListGplayCardFragment extends Fragment {
         }
     }
 
-    /**
-     * This class provides a simple card as Google Play
-     *
-     * @author Gabriele Mariotti (gabri.mariotti@gmail.com)
-     */
     public class GooglePlaySmallCard extends Card {
 
         protected TextView mTitle;
@@ -150,10 +135,8 @@ public class ListGplayCardFragment extends Fragment {
         public GooglePlaySmallCard(Context context, int innerLayout) {
             super(context, innerLayout);
         }
-
         private void init() {
 
-            //Add ClickListener
             setOnClickListener(new OnCardClickListener() {
                 @Override
                 public void onClick(Card card, View view) {
@@ -169,7 +152,6 @@ public class ListGplayCardFragment extends Fragment {
             int complete;
             int planned;
 
-            //Retrieve elements
             mTitle = (TextView) parent.findViewById(R.id.carddemo_myapps_main_inner_title);
             mSecondaryTitle = (TextView) parent.findViewById(R.id.carddemo_myapps_main_inner_secondaryTitle);
 

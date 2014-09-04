@@ -8,10 +8,4 @@
         android:orderInCategory="100"
         android:icon="@drawable/ic_action_overflow"
         android:showAsAction="never"/>
-    <item
-        android:id="@+id/dashboard"
-        android:orderInCategory="100"
-        android:showAsAction="always"
-        android:icon="@drawable/stats"
-        android:title="Statistics"/>
 </menu>

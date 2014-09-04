@@ -80,7 +80,7 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="1dp"
+                android:layout_width="2dp"
                 android:layout_height="10dp"
                 android:background="@color/white"/>
 

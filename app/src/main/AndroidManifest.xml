@@ -22,6 +22,12 @@
             android:parentActivityName=".MyActivity" >
         </activity>
         <activity
+            android:name=".Dashboard"
+            android:screenOrientation="portrait"
+            android:label="@string/dashboard"
+            android:parentActivityName=".MyActivity" >
+        </activity>
+        <activity
             android:name=".LoginScreen"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_login_screen"

@@ -8,7 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.CoraSystems.mobile.test.LoginScreen">
+    tools:context="com.CoraSystems.mobile.test.LoginScreen"
+    android:background="@color/background_grey">
 
     <!-- Login progress -->
     <ProgressBar
@@ -29,7 +30,14 @@
                 android:id="@+id/email_login_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#d1e7bd">
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
@@ -39,6 +47,14 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"/>
+                    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="15dp"
+            android:background="#d1e7bd">
 
                 <EditText
                     android:id="@+id/password"
@@ -51,6 +67,7 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"/>
+            </LinearLayout>
 
                 <Button
                     android:id="@+id/email_sign_in_button"
@@ -59,7 +76,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/action_sign_in"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:background="@color/cora_blue"/>
 
             </LinearLayout>
     </ScrollView>

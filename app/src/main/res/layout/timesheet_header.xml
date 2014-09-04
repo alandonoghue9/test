@@ -26,22 +26,36 @@
         android:layout_height="wrap_content"
         android:text="Test Task"/>
 
-   <!-- <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />-->
-
-    <TextView
-        android:gravity="top"
-        android:paddingLeft="15dp"
-        android:paddingTop="25dp"
-        style="@style/carddemo_myapps_main_inner_title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="40% complete"/>
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingTop="25dp">
+
+        <TextView
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="40%"
+            android:textColor="@color/text_light"/>
+
+        <TextView
+            android:textSize="15sp"
+            android:paddingLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="complete"
+            android:textColor="@color/text_light"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
+            android:src="@drawable/edit"/>
+
+    </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/progress"
@@ -49,7 +63,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:layout_weight="5">
+        android:weightSum="100">
 
         <LinearLayout
             android:id="@+id/complete"
@@ -61,7 +75,7 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="1dp"
+            android:layout_width="2dp"
             android:layout_height="10dp"
             android:background="@color/white"/>
 
@@ -70,7 +84,7 @@
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:layout_height="10dp"
-            android:background="@color/cora_blue"
+            android:background="@color/text_grey"
             android:layout_weight="@integer/hours_complete"/>
 
     </LinearLayout>

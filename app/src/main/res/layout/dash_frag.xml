@@ -118,18 +118,39 @@
                 </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="-30dp">
 
             <com.CoraSystems.mobile.test.Graph.PieGraph
-                android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="35dp"
                 android:id="@+id/graph"/>
-        </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="60%"
+                android:layout_centerInParent="true"
+                android:textSize="40sp"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/text_dark"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="80dp"
+                android:text="of weekly hours"
+                android:layout_centerInParent="true"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/text_dark"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -161,24 +182,42 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:orientation="vertical"
             android:layout_marginTop="18dp"
-            android:background="@color/cora_red"/>
+            android:background="@color/cora_red">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:orientation="vertical"
+                android:background="#db5c4e"/>
+            </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:orientation="vertical"
             android:layout_marginTop="18dp"
-            android:background="@color/cora_red"/>
+            android:background="@color/cora_red">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:orientation="vertical"
+                android:background="#db5c4e"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:orientation="vertical"
             android:layout_marginTop="18dp"
-            android:background="@color/cora_red"/>
+            android:background="@color/cora_red">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:orientation="vertical"
+                android:background="#db5c4e"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

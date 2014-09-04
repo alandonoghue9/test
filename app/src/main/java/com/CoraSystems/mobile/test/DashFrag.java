@@ -26,6 +26,7 @@ public class DashFrag extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.dash_frag, container, false);
 
         gridView=(GridView)view.findViewById(R.id.gridview);
@@ -50,18 +51,16 @@ public class DashFrag extends Fragment {
 
         addListenerOnSpinnerItemSelection();
 
+        int complete = 60;
+
         PieGraph pg = (PieGraph)view.findViewById(R.id.graph);
         PieSlice slice = new PieSlice();
-        slice.setColor(Color.parseColor("#99CC00"));
-        slice.setValue(2);
+        slice.setColor(Color.parseColor("#ffffff"));
+        slice.setValue(100-complete);
         pg.addSlice(slice);
         slice = new PieSlice();
-        slice.setColor(Color.parseColor("#FFBB33"));
-        slice.setValue(3);
-        pg.addSlice(slice);
-        slice = new PieSlice();
-        slice.setColor(Color.parseColor("#AA66CC"));
-        slice.setValue(8);
+        slice.setColor(Color.parseColor("#1da9e1"));
+        slice.setValue(complete);
         pg.addSlice(slice);
 
         return view;

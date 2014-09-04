@@ -23,8 +23,7 @@
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/email_login_form"
@@ -37,16 +36,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="#d1e7bd">
+                    android:background="#CC83c441">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="vertical"
+                    android:background="#83c441"/>
 
                 <AutoCompleteTextView
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
+                    android:textColor="@color/white"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:background="@null"
+                    android:padding="10dp"/>
                     </LinearLayout>
 
         <LinearLayout
@@ -54,7 +62,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="15dp"
-            android:background="#d1e7bd">
+            android:background="#CC83c441">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:orientation="vertical"
+                android:background="#83c441"/>
 
                 <EditText
                     android:id="@+id/password"
@@ -63,10 +77,13 @@
                     android:hint="@string/prompt_password"
                     android:imeActionId="@+id/login"
                     android:imeActionLabel="@string/action_sign_in_short"
+                    android:textColor="@color/white"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:background="@null"
+                    android:padding="10dp"/>
             </LinearLayout>
 
                 <Button

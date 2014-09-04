@@ -24,12 +24,6 @@ public class Dashboard extends Activity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.dash_frag_header, headerFragment, "Frag_Main_tag");
         transaction.commit();
-/*
-        Fragment alertsFragment = new alertsFrag();
-        FragmentManager fragManager = getFragmentManager();
-        FragmentTransaction trans = fragManager.beginTransaction();
-        trans.add(R.id.alerts, alertsFragment, "Frag_Main_tag");
-        trans.commit();*/
 
         Fragment submitFragment = new Submit();
         FragmentManager submitManager = getFragmentManager();

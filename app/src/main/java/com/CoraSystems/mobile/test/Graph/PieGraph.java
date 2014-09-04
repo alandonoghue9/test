@@ -38,9 +38,12 @@ public class PieGraph extends View {
         float currentSweep;
         int totalValue = 0;
 		float padding = 2;
-		
-		midX = /*getWidth()/*/270;
-		midY = /*getHeight()/*/270;
+
+        double x = getWidth()*(.48);
+        double y = getHeight()*(.48);
+
+		midX = (float)x;
+		midY = (float)y;
 		if (midX < midY) {
 			radius = midX;
 		} else {
@@ -83,13 +86,10 @@ public class PieGraph extends View {
 				canvas.drawPath(path, paint);
 				paint.setAlpha(255);
 			}
-			
 			currentAngle = currentAngle+currentSweep;
 			
 			count++;
 		}
-		
-		
 	}
 	
 	@Override
@@ -112,7 +112,6 @@ public class PieGraph extends View {
 	    			}
 	    			indexSelected = -1;
 	    		}
-	    		
 	    	}
 		    count++;
 	    }

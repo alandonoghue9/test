@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 //import com.CoraSystems.mobile.test.Util;
 //import com.CoraSystems.mobile.test.Utility;
@@ -140,7 +141,7 @@ public class SoapWebService implements Serializable{
     }
 
     public String getTaskFromServer(String start, String end){
-        StringBuilder taskToJson = new StringBuilder();
+        StringBuffer taskToJson = new StringBuffer();
         String responseStr="";
         taskToJson.append("{\"Users\" : [{\"userName\":\"" + uName + "\",\"password\":\"" +Pwd + "\"");
         taskToJson.append(",\"start_date\":" + start + ",\"finish_date\":\"" + end + "\"");
@@ -155,12 +156,16 @@ public class SoapWebService implements Serializable{
             Log.e("System out", "Error IO " + e.getMessage());
         }
         JSONparser jsoNparser = new JSONparser(responseStr, this.context, 0);
-        jsoNparser.parsedData();
+        try {
+            jsoNparser.parsedData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return responseStr;
     }
 
     public String getConfigFromServer(){
-        StringBuilder configToJson = new StringBuilder();
+        StringBuffer configToJson = new StringBuffer();
         String responseStr="";
         configToJson.append("{\"Users\" : [{\"userName\":\"" + uName + "\",\"password\":\"" +Pwd + "\"");
         configToJson.append("}");
@@ -174,7 +179,11 @@ public class SoapWebService implements Serializable{
             Log.e("System out", "Error IO " + e.getMessage());
         }
         JSONparser jsoNparser = new JSONparser(responseStr, this.context, 1);
-        jsoNparser.parsedData();
+        try {
+            jsoNparser.parsedData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return responseStr;
     }
 

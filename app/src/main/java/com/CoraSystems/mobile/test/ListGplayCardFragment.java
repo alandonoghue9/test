@@ -12,9 +12,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.Objects.Task;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 import com.CoraSystems.mobile.test.Timesheet;
@@ -33,6 +36,7 @@ public class ListGplayCardFragment extends Fragment {
     LinearLayout comp;
     LinearLayout plan;
     ArrayList<Task> task;
+    int lastPosition =-1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.demo_fragment_list_gplaycard, container, false);
@@ -44,11 +48,43 @@ public class ListGplayCardFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        FetchTask fetchask = new FetchTask();
-        fetchask.execute();
-
+        //FetchTask fetchask = new FetchTask();
+        //fetchask.execute();
+        fillCards();
     }
-    public class FetchTask extends AsyncTask<Void, Void, Void> {
+
+    public void fillCards(){
+        ArrayList<Card> cards = new ArrayList<>();
+        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
+
+        for (int i = 0; i  < TaskGlobal.task.size(); i++) {
+            if (i == 0) {
+                Gap card = new Gap(getActivity());
+                card.setShadow(false);
+
+                cards.add(card);
+            } else {
+                GooglePlaySmallCard card = new GooglePlaySmallCard(getActivity());
+                card.setTitle(TaskGlobal.task.get(i - 1).getProject());
+                card.setSecondaryTitle(TaskGlobal.task.get(i - 1).getTask());
+                card.setComplete(TaskGlobal.task.get(i - 1).getCompletion());
+                card.setPlanned(TaskGlobal.task.get(i - 1).getPlanned());
+
+                card.count = i - 1;
+
+                card.init();
+
+                cards.add(card);
+
+            }
+            CardListView listView = (CardListView) getActivity().findViewById(R.id.carddemo_list_gplaycard);
+            if (listView != null) {
+
+                listView.setAdapter(mCardArrayAdapter);
+            }
+        }
+    }
+ /*   public class FetchTask extends AsyncTask<Void, Void, Void> {
         LinearLayout linlaHeaderProgress = (LinearLayout) getActivity().findViewById(R.id.linlaHeaderProgress);
 
         ArrayList<Card> cards;
@@ -86,29 +122,33 @@ public class ListGplayCardFragment extends Fragment {
 
                         cards.add(card);
                     }
+
+
                 }
                 return null;
             }
             catch(Exception e){}
-             /*catch (IOException ) {
-                //e.printStackTrace();
-}*/
+
             return null;
         }
         @Override
         protected void onPostExecute(Void result) {
             CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
-
+            new Thread(new Runnable() {
+                public void run() {
+                }
+            }).start();
             CardListView listView = (CardListView) getActivity().findViewById(R.id.carddemo_list_gplaycard);
             linlaHeaderProgress.setVisibility(View.GONE);
             if (listView != null) {
 
                 listView.setAdapter(mCardArrayAdapter);
+
            }
 
         }
     }
-
+*/
     public class GooglePlaySmallCard extends Card {
 
         protected TextView mTitle;
@@ -174,6 +214,9 @@ public class ListGplayCardFragment extends Fragment {
             p.weight = 100-complete;
             comp.setLayoutParams(c);
             plan.setLayoutParams(p);
+            Animation animation = AnimationUtils.loadAnimation(getContext(), (count > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+            view.startAnimation(animation);
+            lastPosition = count;
 
         }
 

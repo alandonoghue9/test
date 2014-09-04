@@ -172,7 +172,7 @@ public class DatabaseReader {
         }}
     }
     public void addConfig(String data, Context context) {
-        //if (MAXHOURS > 0){
+        if (MAXHOURS > 0){
    ContentValues values = new ContentValues();
                 //String[] whereArgs = {task.getTask()};
                 //String where = TaskConstants.TASK + " = ?";
@@ -193,11 +193,9 @@ public class DatabaseReader {
                 values.put(TaskConstants.MAXSUN, MAXSUN);
                 values.put(TaskConstants.MINSUN, MINSUN);
                 values.put(TaskConstants.submission, submission);
-                int numberRowsUpdated;
-          // numberRowsUpdated = database.update(
-      /*              TaskConstants.DATABASE_TABLE,
-                    values, where, whereArgs);*/
-                //          if (numberRowsUpdated == 0) {
+
+
+
                 long configId = database.insert(TaskConstants.CONFIG_DATABASE_TABLE, null, values);
 
 
@@ -211,7 +209,8 @@ public class DatabaseReader {
                 cursor.close();
 
                 // }
-            //}
+
+        }
     }
     public void addTimesheet(String data, Context context) {
         ContentValues values = new ContentValues();

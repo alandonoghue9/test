@@ -1,11 +1,8 @@
 package com.CoraSystems.mobile.test;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -30,10 +27,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.CoraSystems.mobile.test.Objects.Config;
-import com.CoraSystems.mobile.test.Services.JSONparser;
-import com.CoraSystems.mobile.test.Services.SoapWebService;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,14 +59,54 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
+    Config config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-        fetchService fetchask = new fetchService();
-        fetchask.execute();
+        new Thread(new Runnable() {
+            public void run() {
+                try{
+                DatabaseReader databaseReader = new DatabaseReader();
+                databaseReader.DataSource(LoginScreen.this);
+                databaseReader.reOpen();
+                TaskGlobal.task = databaseReader.getProjectsTasks();
+                    databaseReader.reOpen();
+                    config = databaseReader.getConfig();
+                    ConfigConstants.maxHoursConstant =config.getMAXHOURS();
+                    ConfigConstants.minHoursConstant=config.getMINHOURS();
+                    ConfigConstants.maxMonConstant=config.getMAXMON();
+                    ConfigConstants.minMonConstant=config.getMINMON();
+                    ConfigConstants.maxTueConstant=config.getMAXTUE();
+                    ConfigConstants.minTueConstant=config.getMINTUE();
+                    ConfigConstants.maxWedConstant=config.getMAXWED();
+                    ConfigConstants.minWedConstant=config.getMINWED();
+                    ConfigConstants.maxThurConstant=config.getMAXTHUR();
+                    ConfigConstants.minThurConstant=config.getMINTHUR();
+                    ConfigConstants.maxFriConstant=config.getMAXFRI();
+                    ConfigConstants.minFriConstant=config.getMINFRI();
+                    ConfigConstants.maxSatConstant=config.getMAXSAT();
+                    ConfigConstants.minSatConstant=config.getMINSAT();
+                    ConfigConstants.maxSunConstant=config.getMAXSUN();
+                    ConfigConstants.minSunConstant=config.getMINSUN();
+                    ConfigConstants.submissionConstant=config.getSubmission();
+                //databaseReader.reOpen();
+                //ByDayGlobal.ByDayConstantsList = databaseReader.getByDay();
+                }
+
+                catch (SQLiteException e){
+                    if (e.getMessage().toString().contains("no such")){
+                        Log.e(TAG," table doesn't exist!");
+                        //SoapWebService soapWebService = new SoapWebService("alan", "password", LoginScreen.this);
+                        //dataService = soapWebService.getConfigFromServer();
+                        fetchService fetchask = new fetchService();
+                        fetchask.execute();
+                    }
+                }
+            }
+        }).start();
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -320,30 +357,10 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
         @Override
         protected Void doInBackground(Void... params) {
             String dataService="";
-            Config config;
-
                 try{
                 DatabaseReader databaseReader = new DatabaseReader();
                 databaseReader.DataSource(LoginScreen.this);
-                databaseReader.reOpen();
-                config = databaseReader.getConfig();
-                    ConfigConstants.maxHoursConstant =config.getMAXHOURS();
-                    ConfigConstants.minHoursConstant=config.getMINHOURS();
-                    ConfigConstants.maxMonConstant=config.getMAXMON();
-                    ConfigConstants.minMonConstant=config.getMINMON();
-                    ConfigConstants.maxTueConstant=config.getMAXTUE();
-                    ConfigConstants.minTueConstant=config.getMINTUE();
-                    ConfigConstants.maxWedConstant=config.getMAXWED();
-                    ConfigConstants.minWedConstant=config.getMINWED();
-                    ConfigConstants.maxThurConstant=config.getMAXTHUR();
-                    ConfigConstants.minThurConstant=config.getMINTHUR();
-                    ConfigConstants.maxFriConstant=config.getMAXFRI();
-                    ConfigConstants.minFriConstant=config.getMINFRI();
-                    ConfigConstants.maxSatConstant=config.getMAXSAT();
-                    ConfigConstants.minSatConstant=config.getMINSAT();
-                    ConfigConstants.maxSunConstant=config.getMAXSUN();
-                    ConfigConstants.minSunConstant=config.getMINSUN();
-                    ConfigConstants.submissionConstant=config.getSubmission();
+
 
                 }
                 catch (SQLiteException e){
@@ -353,9 +370,7 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
                         //dataService = soapWebService.getConfigFromServer();
                     }
                 }
-
-/*
-                JSONparser jsoNparser = new JSONparser(dataService, LoginScreen.this, 0);
+/*              JSONparser jsoNparser = new JSONparser(dataService, LoginScreen.this, 0);
                 jsoNparser.parsedData();
                 JSONparser jsoN1parser = new JSONparser(dataService, LoginScreen.this, 1);
                 jsoN1parser.parsedData();
@@ -370,8 +385,18 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
 
             return null;
         }
+        @Override
+        protected void onPostExecute(Void result) {
+            new Thread(new Runnable() {
+                public void run() {
+                    DatabaseReader databaseReader = new DatabaseReader();
+                    databaseReader.DataSource(LoginScreen.this);
+                    databaseReader.reOpen();
+                    ByDayGlobal.ByDayConstantsList = databaseReader.getByDay();
+                }
+            }).start();
 
-
+        }
     }
 }
 

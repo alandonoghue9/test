@@ -52,13 +52,12 @@ public class ListGplayCardFragment extends Fragment {
         LinearLayout linlaHeaderProgress = (LinearLayout) getActivity().findViewById(R.id.linlaHeaderProgress);
 
         ArrayList<Card> cards;
-        ArrayList<Task> task = new ArrayList<>();
+
 
         @Override
         protected void onPreExecute() {
             linlaHeaderProgress.setVisibility(View.VISIBLE);
         }
-
         @Override
         protected Void doInBackground(Void... params) {
             try {
@@ -74,12 +73,12 @@ public class ListGplayCardFragment extends Fragment {
 
                         cards.add(card);
                     }
-                    else if (i!=0) {
+                    else{
                         GooglePlaySmallCard card = new GooglePlaySmallCard(getActivity());
-                        card.setTitle(task.get(i).getProject());
-                        card.setSecondaryTitle(task.get(i).getTask());
-                        card.setComplete(task.get(i).getCompletion());
-                        card.setPlanned(task.get(i).getPlanned());
+                        card.setTitle(task.get(i-1).getProject());
+                        card.setSecondaryTitle(task.get(i-1).getTask());
+                        card.setComplete(task.get(i-1).getCompletion());
+                        card.setPlanned(task.get(i-1).getPlanned());
 
                         card.count = i - 1;
 
@@ -91,7 +90,9 @@ public class ListGplayCardFragment extends Fragment {
                 return null;
             }
             catch(Exception e){}
-
+             /*catch (IOException ) {
+                //e.printStackTrace();
+}*/
             return null;
         }
         @Override
@@ -103,16 +104,7 @@ public class ListGplayCardFragment extends Fragment {
             if (listView != null) {
 
                 listView.setAdapter(mCardArrayAdapter);
-
-                // SET THE ADAPTER TO THE LISTVIEW
-                //lv.setAdapter(adapter);
-
-                // CHANGE THE LOADINGMORE STATUS TO PERMIT FETCHING MORE DATA
-                //tloadingMore = false;
-
-                // HIDE THE SPINNER AFTER LOADING FEEDS
-
-            }
+           }
 
         }
     }
@@ -140,7 +132,13 @@ public class ListGplayCardFragment extends Fragment {
             setOnClickListener(new OnCardClickListener() {
                 @Override
                 public void onClick(Card card, View view) {
+
                     Intent i = new Intent(getActivity(), Timesheet.class);
+
+                    i.putExtra("project", task.get(count).getProject());
+                    i.putExtra("task", task.get(count).getTask());
+                    i.putExtra("complete", task.get(count).getCompletion());
+                    i.putExtra("planned",task.get(count).getPlanned());
                     startActivity(i);
                     }
             });
@@ -152,6 +150,7 @@ public class ListGplayCardFragment extends Fragment {
             int complete;
             int planned;
 
+            //Retrieve elements
             mTitle = (TextView) parent.findViewById(R.id.carddemo_myapps_main_inner_title);
             mSecondaryTitle = (TextView) parent.findViewById(R.id.carddemo_myapps_main_inner_secondaryTitle);
 

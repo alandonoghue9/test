@@ -3,10 +3,12 @@ package com.CoraSystems.mobile.test;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.CoraSystems.mobile.test.Services.JSONparser;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 
@@ -14,15 +16,20 @@ public class TimesheetHeader extends Fragment {
 
     LinearLayout comp;
     LinearLayout plan;
+    TextView projectTextView;
+    TextView taskTextView;
+    View.OnClickListener clickListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.timesheet_header, container, false);
-
+        Bundle bundle = this.getArguments();
         int complete;
         int planned;
         comp = (LinearLayout)view.findViewById(R.id.complete);
         plan = (LinearLayout)view.findViewById(R.id.planned);
+        projectTextView = (TextView)view.findViewById(R.id.teask_timesheet);
+        taskTextView = (TextView)view.findViewById(R.id.project_timesheet);
 
         //fetchService fetchservice = new fetchService();
 
@@ -34,6 +41,10 @@ public class TimesheetHeader extends Fragment {
 
         complete = ((int)(Math.random()*(100)));
         planned = 100-complete;
+        complete = Integer.parseInt(bundle.getString("complete"));
+        planned = Integer.parseInt(bundle.getString("complete"));
+        projectTextView.setText(bundle.getString("project"));
+        taskTextView.setText(bundle.getString("task"));
 
         c.weight = complete;
         p.weight = planned;

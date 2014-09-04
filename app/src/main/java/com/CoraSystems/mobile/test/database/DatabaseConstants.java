@@ -17,6 +17,7 @@ public class DatabaseConstants {
         public static final String BYDAY_KEY_ID = "byday_id";
         public static final String CONFIG_KEY_ID = "config_id";
         public static final String TIMESHEET_KEY_ID = "timesheet_id";
+        public static final String LOCAL_KEY_ID = "local_id";
 
         public static final String TASK = "task";
         public static final String PROJECT = "project";
@@ -67,6 +68,7 @@ public class DatabaseConstants {
         public static final String SATHOURS = "sathours";
         public static final String SUNHOURS = "sunhours";
 
+        public static final String LOCAL_DATABASE_TABLE = "local_table";
         public static final String COMPLETELOCAL = "completeLocal";
         public static final String TIMESTAMPLOCAL = "timestampLocal";
         public static final String TASKIDLOCAL = "taskIdLocal";

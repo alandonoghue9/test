@@ -38,10 +38,10 @@ public class JSONparser {
             /*testData = "<string xmlns=\"http://tempuri.org/ProjectVision/Project\">" + "{\"TaskList\" : [{\"project id\" : \"1318\",\"project description\" : \"this is to test how long it takes\",\"task id\" : \"14396\"," +
                     "\"task description\" : \"Initial Task\",\"planned hours\" : \"30.00\",\"start date\" : \"2008-09-12 00:00:00\"," +
                     "\"finish date\" : \"2008-10-28 00:00:00\",\"complete\" : \"1.00\"}]}" + "</string>";*/
-            testData ="<string xmlns=\"http://tempuri.org/ProjectVision/Project\">" + "{\"TaskList\" : [{\"project id\" : \"11318\",\"project description\" : \"this is to test how long it takes\",\"task id\" : \"143396\"," +
-                    "\"task description\" : \"Initial Task\",\"planned hours\" : \"35.00\",\"start date\" : \"2008-09-22 00:00:00\",\"finish date\" : \"2008-10-18 00:00:00\",\"complete\" : \"1.00\"},{\"project id\" : \"13618\",\"project description\" : \"this is to test how long it takes\",\"task id\" : \"14396\",\"task description\" : \"Initial Task\",\"planned hours\" : \"30.00\",\"start date\" : \"2008-09-12 00:00:00\",\"finish date\" : \"2008-10-28 00:00:00\",\"complete\" : \"1.00\"}]}" + "</string>";
+            testData ="{\"TaskList\" : [{\"project id\" : \"11318\",\"project description\" : \"this is to test how long it takes\",\"task id\" : \"143396\"," +
+                    "\"task description\" : \"Initial Task\",\"planned hours\" : \"35.00\",\"start date\" : \"2008-09-22 00:00:00\",\"finish date\" : \"2008-10-18 00:00:00\",\"complete\" : \"1.00\"},{\"project id\" : \"13618\",\"project description\" : \"this is to test how long it takes\",\"task id\" : \"14396\",\"task description\" : \"Initial Task\",\"planned hours\" : \"30.00\",\"start date\" : \"2008-09-12 00:00:00\",\"finish date\" : \"2008-10-28 00:00:00\",\"complete\" : \"1.00\"}]}";
         }else {
-            testData =  "<string xmlns=\"http://tempuri.org/ProjectVision/Project\">"+ "{\"ConfigItems\" : [{\"minhours\" : \"37.50\",\"maxhours\" : \"40.00\",\"maxsun\" : \"0.00\",\"maxmon\" : \"24.00\",\"maxtue\" : \"24.00\",\"maxwed\" : \"24.00\",\"maxthu\" : \"24.00\",\"maxfri\" : \"24.00\",\"maxsat\" : \"0.00\"}]}"+"</string>";
+            testData ="{\"ConfigItems\" : [{\"minhours\" : \"37.50\",\"maxhours\" : \"40.00\",\"maxsun\" : \"0.00\",\"maxmon\" : \"24.00\",\"maxtue\" : \"24.00\",\"maxwed\" : \"24.00\",\"maxthu\" : \"24.00\",\"maxfri\" : \"24.00\",\"maxsat\" : \"0.00\"}]}";
         }
         int parsedReturn = 0;
         String[] parts;
@@ -56,11 +56,6 @@ public class JSONparser {
 
         if (testData != null) {
             try {
-                parts = testData.split(">");
-                testData = parts[1];
-                parts = testData.split("<");
-                testData = testData + parts[0];
-
                 JSONObject jsonObject =  new JSONObject(testData);
                 iter = jsonObject.keys();
                 key = iter.next();

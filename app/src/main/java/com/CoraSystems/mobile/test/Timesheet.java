@@ -29,12 +29,14 @@ public class Timesheet extends Activity {
 
         setTitle("Timesheet");
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        Bundle bundle = getIntent().getExtras();
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         Fragment headerFragment = new TimesheetHeader();
+        headerFragment.setArguments(bundle);
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.timesheet_frag_header, headerFragment, "Frag_Main_tag");

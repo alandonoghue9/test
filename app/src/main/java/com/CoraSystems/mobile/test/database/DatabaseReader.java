@@ -394,12 +394,12 @@ public class DatabaseReader {
         return timesheet;
     }
     private Config cursorToConfig(Cursor cursor) {
-                Config config = new Config(cursor.getDouble(1), cursor.getDouble(2), cursor.getDouble(3),
-                        cursor.getDouble(4), cursor.getDouble(5), cursor.getDouble(6),
-                        cursor.getDouble(7), cursor.getDouble(8), cursor.getDouble(9),
-                        cursor.getDouble(10), cursor.getDouble(11), cursor.getDouble(12),
-                cursor.getDouble(13), cursor.getDouble(14), cursor.getDouble(15), cursor.getDouble(16),
-                cursor.getString(17));
+                Config config = new Config(cursor.getDouble(0), cursor.getDouble(1), cursor.getDouble(2),
+                        cursor.getDouble(3), cursor.getDouble(4), cursor.getDouble(5),
+                        cursor.getDouble(6), cursor.getDouble(7), cursor.getDouble(8),
+                        cursor.getDouble(9), cursor.getDouble(10), cursor.getDouble(11),
+                cursor.getDouble(12), cursor.getDouble(13), cursor.getDouble(14), cursor.getDouble(15),
+                cursor.getString(16));
         return config;
     }
     private ByDay cursorToByDay(Cursor cursor) {

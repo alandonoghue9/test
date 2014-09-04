@@ -11,6 +11,8 @@ import java.net.URL;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+
+import org.json.JSONObject;
 //import com.CoraSystems.mobile.test.Util;
 //import com.CoraSystems.mobile.test.Utility;
 
@@ -27,6 +29,7 @@ public class SoapWebService implements Serializable{
     private String BaseURL;
     private String SerialCloseTag;
     private String SerialOpenTag2;
+
     public SoapWebService(String uName, String Pwd, Activity context) {
         this.uName = uName;
         this.Pwd = Pwd;
@@ -75,14 +78,14 @@ public class SoapWebService implements Serializable{
     public String SendThisData(String strTextToSend, int Timeout) throws IOException
     {
         String strRetVal = "";
-        strTextToSend =  "GetTaskRequestJSON"/*?SecurityKey=cora&RequestString={\"userName\":\"" + uName + "\",\"password\":\"" +Pwd + "\"}"*/ ;
-        String bytessend = "{\"userName\":\"\" + uName + \"\",\"password\":\"\" +Pwd + \"\"}";
+        String bytessend =  "GetTaskRequestJSON"/*?SecurityKey=cora&RequestString={\"userName\":\"" + uName + "\",\"password\":\"" +Pwd + "\"}"*/ ;
+        //String bytessend = "{\"userName\":\"\" + uName + \"\",\"password\":\"\" +Pwd + \"\"}";
         try
         {
             StringBuilder sb = new StringBuilder();
 
-            bytessend = this.SerialOpenTag2 + bytessend + this.SerialCloseTag;
-            Log.i(TAG, "this.baseurl"+this.BaseURL);
+            bytessend = this.SerialOpenTag2 + strTextToSend + this.SerialCloseTag;
+
             URL url = new URL(this.BaseURL+strTextToSend/*+bytessend*/);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("POST");
@@ -128,15 +131,62 @@ public class SoapWebService implements Serializable{
         Log.i(TAG,"final tag: " +strRetVal);
         return strRetVal;
     }
-    public String GetUploadString(){
-        return "hello";
-    }
 
     public String ConvertDataToHexString(String strData) {
         String strRetVal ="";
         strRetVal = Integer.toHexString(Integer.parseInt(strData));
 
         return strRetVal;
+    }
+
+    public String getTaskFromServer(String start, String end){
+        StringBuilder taskToJson = new StringBuilder();
+        String responseStr="";
+        taskToJson.append("{\"Users\" : [{\"userName\":\"" + uName + "\",\"password\":\"" +Pwd + "\"");
+        taskToJson.append(",\"start_date\":" + start + ",\"finish_date\":\"" + end + "\"");
+        taskToJson.append("}");
+        try
+        {
+            responseStr = SendThisData(taskToJson.toString(),  450000);
+            responseStr = CleanResponseString(responseStr);
+        }
+        catch (IOException e)
+        {
+            Log.e("System out", "Error IO " + e.getMessage());
+        }
+        JSONparser jsoNparser = new JSONparser(responseStr, this.context, 0);
+        jsoNparser.parsedData();
+        return responseStr;
+    }
+
+    public String getConfigFromServer(){
+        StringBuilder configToJson = new StringBuilder();
+        String responseStr="";
+        configToJson.append("{\"Users\" : [{\"userName\":\"" + uName + "\",\"password\":\"" +Pwd + "\"");
+        configToJson.append("}");
+        try
+        {
+            responseStr = SendThisData(configToJson.toString(),  450000);
+            responseStr = CleanResponseString(responseStr);
+        }
+        catch (IOException e)
+        {
+            Log.e("System out", "Error IO " + e.getMessage());
+        }
+        JSONparser jsoNparser = new JSONparser(responseStr, this.context, 1);
+        jsoNparser.parsedData();
+        return responseStr;
+    }
+
+    public String CleanResponseString(String strResponse)
+    {
+        if (strResponse.contains(this.SerialOpenTag2)){
+            strResponse = strResponse.replace(this.SerialOpenTag2, "");
+        }
+        if (strResponse.contains(this.SerialCloseTag)){
+            strResponse = strResponse.replace(this.SerialCloseTag, "");
+        }
+        return strResponse;
     }
 
    /* public String ConvertDataToHexString(String strData)

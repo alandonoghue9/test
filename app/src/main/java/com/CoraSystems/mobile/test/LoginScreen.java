@@ -10,6 +10,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.AsyncTask;
 
@@ -17,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,7 +29,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.CoraSystems.mobile.test.Objects.Config;
 import com.CoraSystems.mobile.test.Services.JSONparser;
+import com.CoraSystems.mobile.test.Services.SoapWebService;
+import com.CoraSystems.mobile.test.database.DatabaseReader;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +44,7 @@ import java.util.List;
 
  */
 public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
-
+    public static final String TAG = "Login ";
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -62,8 +68,8 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-        //fetchService fetchask = new fetchService();
-        //fetchask.execute();
+        fetchService fetchask = new fetchService();
+        fetchask.execute();
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -314,18 +320,50 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
         @Override
         protected Void doInBackground(Void... params) {
             String dataService="";
-            try {
-                //SoapWebService soapWebService = new SoapWebService("alan", "password", uploadAndDownload.this);
-                //dataService = soapWebService.SendThisData("hello", 200000);
+            Config config;
 
+                try{
+                DatabaseReader databaseReader = new DatabaseReader();
+                databaseReader.DataSource(LoginScreen.this);
+                databaseReader.reOpen();
+                config = databaseReader.getConfig();
+                    ConfigConstants.maxHoursConstant =config.getMAXHOURS();
+                    ConfigConstants.minHoursConstant=config.getMINHOURS();
+                    ConfigConstants.maxMonConstant=config.getMAXMON();
+                    ConfigConstants.minMonConstant=config.getMINMON();
+                    ConfigConstants.maxTueConstant=config.getMAXTUE();
+                    ConfigConstants.minTueConstant=config.getMINTUE();
+                    ConfigConstants.maxWedConstant=config.getMAXWED();
+                    ConfigConstants.minWedConstant=config.getMINWED();
+                    ConfigConstants.maxThurConstant=config.getMAXTHUR();
+                    ConfigConstants.minThurConstant=config.getMINTHUR();
+                    ConfigConstants.maxFriConstant=config.getMAXFRI();
+                    ConfigConstants.minFriConstant=config.getMINFRI();
+                    ConfigConstants.maxSatConstant=config.getMAXSAT();
+                    ConfigConstants.minSatConstant=config.getMINSAT();
+                    ConfigConstants.maxSunConstant=config.getMAXSUN();
+                    ConfigConstants.minSunConstant=config.getMINSUN();
+                    ConfigConstants.submissionConstant=config.getSubmission();
+
+                }
+                catch (SQLiteException e){
+                    if (e.getMessage().toString().contains("no such table")){
+                        Log.e(TAG," table doesn't exist!");
+                        //SoapWebService soapWebService = new SoapWebService("alan", "password", LoginScreen.this);
+                        //dataService = soapWebService.getConfigFromServer();
+                    }
+                }
+
+/*
                 JSONparser jsoNparser = new JSONparser(dataService, LoginScreen.this, 0);
                 jsoNparser.parsedData();
                 JSONparser jsoN1parser = new JSONparser(dataService, LoginScreen.this, 1);
                 jsoN1parser.parsedData();
+*/
 
-                return null;
-            }
-            catch(Exception e){}
+               // return null;
+           // }
+           // catch(Exception e){}
              /*catch (IOException ) {
                 //e.printStackTrace();
             }*/

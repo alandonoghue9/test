@@ -3,23 +3,25 @@
 
     <string name="app_name">Project Vision</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="timesheet">Timesheet</string>
-    <string name="dashboard">Dashboard</string>
+    <string name="timesheet">timesheet</string>
+    <string name="dashboard">dashboard</string>
+    <string name="tasks">tasks</string>
+    <string name="stats"></string>
 
     <!--filter-->
     <string name="filter">Filter</string>
-    <string name="today">Today</string>
-    <string name="projects">Projects</string>
-    <string name="tomorrow">Tomorrow</string>
-    <string name="this_week">This Week</string>
-    <string name="pick_day">Pick Day</string>
-    <string name="pick_week">Pick Week</string>
-    <string name="pick_month">Pick Month</string>
-    <string name="all">All</string>
-    <string name="incomplete">Incomplete</string>
-    <string name="complete">Complete</string>
+    <string name="today">today</string>
+    <string name="projects">projects</string>
+    <string name="tomorrow">tomorrow</string>
+    <string name="this_week">this week</string>
+    <string name="pick_day">pick day</string>
+    <string name="pick_week">pick week</string>
+    <string name="pick_month">pick month</string>
+    <string name="all">all</string>
+    <string name="incomplete">incomplete</string>
+    <string name="complete">complete</string>
 
     <!--Menu -->
     <string name="action_menu_refresh">Refresh</string>

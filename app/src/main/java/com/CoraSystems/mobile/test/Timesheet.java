@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -11,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.CoraSystems.mobile.test.Objects.Task;
-import com.CoraSystems.mobile.test.Services.JSONparser;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 
 import java.util.ArrayList;
@@ -26,8 +26,6 @@ public class Timesheet extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timesheet_main);
-
-        setTitle("Timesheet");
         getActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle bundle = getIntent().getExtras();
 
@@ -51,27 +49,21 @@ public class Timesheet extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.timesheet, menu);
-        //Button button = (Button) findViewById(R.id.button);
-
-        /*button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fetchService fetchservice = new fetchService();
-                fetchservice.execute();
-            }
-        });*/
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            case R.id.stats:
+                stats();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     public class fetchService extends AsyncTask<Void, Void, Void> {
@@ -98,5 +90,10 @@ public class Timesheet extends Activity {
 
             return null;
         }
+    }
+
+    public void stats(){
+        Intent stat = new Intent(this, Stats.class);
+        startActivity(stat);
     }
 }

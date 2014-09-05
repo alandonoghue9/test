@@ -11,16 +11,15 @@
         android:gravity="top"
         android:paddingLeft="15dp"
         android:paddingTop="17dp"
-        style="@style/carddemo_myapps_main_inner_title"
+        style="@style/AppTheme.ProjectText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/teask_timesheet"
-        android:gravity="top"
         android:paddingLeft="15dp"
         android:paddingTop="10dp"
-        style="@style/carddemo_myapps_main_inner_secondarytitle"
+        style="@style/AppTheme.TaskText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -31,28 +30,26 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
+        android:gravity="center_vertical"
         android:paddingTop="25dp">
 
         <TextView
-            android:textSize="20sp"
+            style="@style/AppTheme.BarBig"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="40%"
-            android:textColor="@color/text_light"/>
+            android:text="40%"/>
 
         <TextView
-            android:textSize="15sp"
+            style="@style/AppTheme.BarSmall"
             android:paddingLeft="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="complete"
-            android:textColor="@color/text_light"/>
+            android:text="complete"/>
 
         <ImageView
             android:layout_width="30dp"
             android:layout_marginLeft="15dp"
             android:layout_height="30dp"
-            android:gravity="center_vertical"
             android:src="@drawable/edit"/>
 
     </LinearLayout>

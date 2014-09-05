@@ -9,9 +9,9 @@
         android:icon="@drawable/ic_action_overflow"
         android:showAsAction="never"/>
     <item
-        android:id="@+id/stats"
+        android:id="@+id/tasks"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:icon="@drawable/stats"
-        android:title="Statistics"/>
+        android:icon="@drawable/tasklist_icon"
+        android:title="Tasks"/>
 </menu>

@@ -217,10 +217,7 @@ public class ListGplayCardFragment extends Fragment {
             p.weight = 100-complete;
             comp.setLayoutParams(c);
             plan.setLayoutParams(p);
-
-
         }
-
 
         public String getTitle() {
             return title;

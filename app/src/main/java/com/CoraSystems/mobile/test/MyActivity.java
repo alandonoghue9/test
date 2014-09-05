@@ -41,7 +41,6 @@ public class MyActivity extends Activity implements
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_my);
-        setTitle("Tasks");
         mDarkHoverView = findViewById(R.id.dark_hover_view);
         mDarkHoverView.setAlpha(0);
 

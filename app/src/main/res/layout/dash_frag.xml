@@ -6,48 +6,48 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="378dp"
-    android:background="@drawable/container_dropshadow">
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="8dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="WEEK"
-            android:layout_gravity="center_vertical"
-            android:textSize="15sp"
-            android:fontFamily="sans-serif-light"
-            android:textColor="@color/text_light"/>
-        <Spinner
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:id="@+id/weeks_spinner"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="378dp"
+        android:background="@drawable/container_dropshadow">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="20dp">
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="8dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WEEK"
+                android:layout_gravity="center_vertical"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/text_light"/>
+            <Spinner
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:id="@+id/weeks_spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="20dp">
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
@@ -66,10 +66,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="hours"
-                    android:textSize="15sp"
-                    android:fontFamily="sans-serif-light"
-                    android:textColor="@color/text_dark"/>
-                </LinearLayout>
+                    style="@style/AppTheme.textAppearanceMedium"/>
+            </LinearLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
@@ -89,9 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="days"
-                    android:textSize="15sp"
-                    android:fontFamily="sans-serif-light"
-                    android:textColor="@color/text_dark"/>
+                    style="@style/AppTheme.textAppearanceMedium"/>
                 </LinearLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -112,121 +108,120 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="tasks"
-                    android:textSize="15sp"
-                    android:fontFamily="sans-serif-light"
-                    android:textColor="@color/text_dark"/>
+                    style="@style/AppTheme.textAppearanceMedium"/>
                 </LinearLayout>
-        </LinearLayout>
-
+            </LinearLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="-30dp">
+                android:layout_marginTop="-20dp">
 
-            <com.CoraSystems.mobile.test.Graph.PieGraph
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="35dp"
-                android:id="@+id/graph"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="27dp">
+                <com.CoraSystems.mobile.test.Graph.PieGraph
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:id="@+id/graph"/>
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="60%"
-                android:layout_centerInParent="true"
-                android:textSize="40sp"
-                android:fontFamily="sans-serif-light"
-                android:textColor="@color/text_dark"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="80dp"
-                android:text="of weekly hours"
-                android:layout_centerInParent="true"
-                android:textSize="15sp"
-                android:gravity="center"
-                android:fontFamily="sans-serif-light"
-                android:textColor="@color/text_dark"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="60%"
+                    android:layout_centerInParent="true"
+                    android:textSize="40sp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="@color/text_dark"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="80dp"
+                    android:text="of weekly hours"
+                    android:layout_centerInParent="true"
+                    style="@style/AppTheme.textAppearanceMedium"
+                    android:gravity="center"/>
 
-        </RelativeLayout>
+            </RelativeLayout>
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp">
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp">
 
-        <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/gridview"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:columnWidth="90dp"
-            android:numColumns="7"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:horizontalSpacing="4dp"
-            android:stretchMode="columnWidth"
-            android:gravity="center"
-            />
+                <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/gridview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:columnWidth="90dp"
+                    android:numColumns="7"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:horizontalSpacing="4dp"
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"
+                    />
 
-    </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
             android:orientation="vertical"
-            android:layout_marginTop="18dp"
-            android:background="@color/cora_red">
+            android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="50dp"
                 android:orientation="vertical"
-                android:background="#db5c4e"/>
+                android:layout_marginTop="18dp"
+                android:background="@color/cora_red">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="vertical"
+                    android:background="#db5c4e"/>
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="vertical"
+                android:layout_marginTop="18dp"
+                android:background="@color/cora_red">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="vertical"
+                    android:background="#db5c4e"/>
             </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="vertical"
-            android:layout_marginTop="18dp"
-            android:background="@color/cora_red">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="50dp"
                 android:orientation="vertical"
-                android:background="#db5c4e"/>
-        </LinearLayout>
+                android:layout_marginTop="18dp"
+                android:background="@color/cora_red">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="vertical"
+                    android:background="#db5c4e"/>
+            </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="vertical"
-            android:layout_marginTop="18dp"
-            android:background="@color/cora_red">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="50dp"
                 android:orientation="vertical"
-                android:background="#db5c4e"/>
-        </LinearLayout>
+                android:layout_marginTop="18dp"
+                android:background="@color/background_grey"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="vertical"
-            android:layout_marginTop="18dp"
-            android:background="@color/background_grey"/>
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
-    </ScrollView>
+</ScrollView>

@@ -25,6 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/today"
+            android:fontFamily="sans-serif-light"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/text_dark"
             android:layout_weight="27"/>
@@ -43,6 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal"
+        android:fontFamily="sans-serif-light"
         android:gravity="center_vertical"
         android:weightSum="30"
         android:paddingLeft="15dp"
@@ -52,6 +54,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
             android:textColor="@color/text_dark"
             android:text="@string/projects"
             android:layout_weight="27"/>
@@ -83,6 +86,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
             android:textColor="@color/text_dark"
             android:text="@string/tomorrow"
             android:layout_weight="27"/>
@@ -109,6 +113,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
             android:textColor="@color/text_dark"
             android:text="@string/this_week"
             android:layout_weight="27"/>
@@ -140,6 +145,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
             android:textColor="@color/text_dark"
             android:text="@string/pick_day"
             android:layout_weight="27"/>
@@ -166,6 +172,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
             android:textColor="@color/text_dark"
             android:text="@string/pick_week"
             android:layout_weight="27"/>
@@ -193,6 +200,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_dark"
+            android:fontFamily="sans-serif-light"
             android:text="@string/pick_month"
             android:layout_weight="27"/>
 
@@ -224,6 +232,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_dark"
+            android:fontFamily="sans-serif-light"
             android:text="@string/all"
             android:layout_weight="27"/>
 
@@ -250,6 +259,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_dark"
+            android:fontFamily="sans-serif-light"
             android:text="@string/incomplete"
             android:layout_weight="27"/>
 
@@ -276,6 +286,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_dark"
+            android:fontFamily="sans-serif-light"
             android:text="@string/complete"
             android:layout_weight="27"/>
 

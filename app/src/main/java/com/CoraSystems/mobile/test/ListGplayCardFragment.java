@@ -175,10 +175,10 @@ public class ListGplayCardFragment extends Fragment {
 
                     Intent i = new Intent(getActivity(), Timesheet.class);
 
-                    i.putExtra("project", task.get(count).getProject());
-                    i.putExtra("task", task.get(count).getTask());
-                    i.putExtra("complete", task.get(count).getCompletion());
-                    i.putExtra("planned",task.get(count).getPlanned());
+                    i.putExtra("project", TaskGlobal.task.get(count).getProject());
+                    i.putExtra("task", TaskGlobal.task.get(count).getTask());
+                    i.putExtra("complete", TaskGlobal.task.get(count).getCompletion());
+                    i.putExtra("planned",TaskGlobal.task.get(count).getPlanned());
                     startActivity(i);
                     }
             });
@@ -209,9 +209,9 @@ public class ListGplayCardFragment extends Fragment {
             planned = Integer.valueOf(plannedPer);
             complete = Integer.valueOf(completePer);
             complete = (complete/planned)*100;
-            Animation animation = AnimationUtils.loadAnimation(getContext(), (count > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+           /* Animation animation = AnimationUtils.loadAnimation(getContext(), (count > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
             view.startAnimation(animation);
-            lastPosition = count;
+            lastPosition = count;*/
 
             c.weight = complete;
             p.weight = 100-complete;

@@ -209,14 +209,15 @@ public class ListGplayCardFragment extends Fragment {
             planned = Integer.valueOf(plannedPer);
             complete = Integer.valueOf(completePer);
             complete = (complete/planned)*100;
+            Animation animation = AnimationUtils.loadAnimation(getContext(), (count > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+            view.startAnimation(animation);
+            lastPosition = count;
 
             c.weight = complete;
             p.weight = 100-complete;
             comp.setLayoutParams(c);
             plan.setLayoutParams(p);
-            Animation animation = AnimationUtils.loadAnimation(getContext(), (count > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
-            view.startAnimation(animation);
-            lastPosition = count;
+
 
         }
 

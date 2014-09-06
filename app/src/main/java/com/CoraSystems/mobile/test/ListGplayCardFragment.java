@@ -7,22 +7,16 @@ package com.CoraSystems.mobile.test;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
 import com.CoraSystems.mobile.test.Objects.Task;
-import com.CoraSystems.mobile.test.database.DatabaseReader;
-import com.CoraSystems.mobile.test.Timesheet;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
 import it.gmariotti.cardslib.library.internal.Card;
@@ -57,7 +51,7 @@ public class ListGplayCardFragment extends Fragment {
         ArrayList<Card> cards = new ArrayList<>();
         CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
 
-        for (int i = 0; i  < TaskGlobal.task.size(); i++) {
+        for (int i = 0; i  < taskGlobal.task.size(); i++) {
             if (i == 0) {
                 Gap card = new Gap(getActivity());
                 card.setShadow(false);
@@ -65,10 +59,10 @@ public class ListGplayCardFragment extends Fragment {
                 cards.add(card);
             } else {
                 GooglePlaySmallCard card = new GooglePlaySmallCard(getActivity());
-                card.setTitle(TaskGlobal.task.get(i - 1).getProject());
-                card.setSecondaryTitle(TaskGlobal.task.get(i - 1).getTask());
-                card.setComplete(TaskGlobal.task.get(i - 1).getCompletion());
-                card.setPlanned(TaskGlobal.task.get(i - 1).getPlanned());
+                card.setTitle(taskGlobal.task.get(i - 1).getProject());
+                card.setSecondaryTitle(taskGlobal.task.get(i - 1).getTask());
+                card.setComplete(taskGlobal.task.get(i - 1).getCompletion());
+                card.setPlanned(taskGlobal.task.get(i - 1).getPlanned());
 
                 card.count = i - 1;
 
@@ -175,10 +169,10 @@ public class ListGplayCardFragment extends Fragment {
 
                     Intent i = new Intent(getActivity(), Timesheet.class);
 
-                    i.putExtra("project", TaskGlobal.task.get(count).getProject());
-                    i.putExtra("task", TaskGlobal.task.get(count).getTask());
-                    i.putExtra("complete", TaskGlobal.task.get(count).getCompletion());
-                    i.putExtra("planned",TaskGlobal.task.get(count).getPlanned());
+                    i.putExtra("project", taskGlobal.task.get(count).getProject());
+                    i.putExtra("task", taskGlobal.task.get(count).getTask());
+                    i.putExtra("complete", taskGlobal.task.get(count).getCompletion());
+                    i.putExtra("planned", taskGlobal.task.get(count).getPlanned());
                     startActivity(i);
                     }
             });

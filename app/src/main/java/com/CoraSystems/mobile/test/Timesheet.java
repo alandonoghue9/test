@@ -20,7 +20,6 @@ public class Timesheet extends Activity {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
-    ArrayList<Task> task = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,32 +62,6 @@ public class Timesheet extends Activity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public class fetchService extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            String dataService="";
-            try {
-                //SoapWebService soapWebService = new SoapWebService("alan", "password", uploadAndDownload.this);
-                //dataService = soapWebService.SendThisData("hello", 200000);
-                DatabaseReader databaseReader = new DatabaseReader();
-                databaseReader.DataSource(Timesheet.this);
-                databaseReader.reOpen();
-                task = databaseReader.getProjectsTasks();
-
-
-
-                return null;
-            }
-            catch(Exception e){}
-             /*catch (IOException ) {
-                //e.printStackTrace();
-            }*/
-
-            return null;
         }
     }
 

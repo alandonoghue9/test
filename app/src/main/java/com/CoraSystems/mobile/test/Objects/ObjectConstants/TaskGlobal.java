@@ -5,8 +5,9 @@ import com.CoraSystems.mobile.test.Objects.Task;
 import java.util.ArrayList;
 
 /**
- * Created by eoghanmartin on 05/09/2014.
+ * Created by Alan on 9/4/2014.
  */
-public class TaskGlobal {
-    public static ArrayList<Task> task = new ArrayList<>();
+public class taskGlobal {
+    public static ArrayList<Task> task;
+    public static ArrayList<Task> filterTask;
 }

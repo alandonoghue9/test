@@ -18,8 +18,11 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.view.View;
 
+import com.CoraSystems.mobile.test.Objects.Task;
 import com.CoraSystems.mobile.test.Services.JSONparser;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
+
+import java.util.ArrayList;
 
 public class MyActivity extends Activity implements
         OnTextFragmentAnimationEndListener, FragmentManager.OnBackStackChangedListener {
@@ -191,6 +194,8 @@ public class MyActivity extends Activity implements
     }
 
     /*FILTER LIST STUFF*/
+
+   // public ArrayList<Task> filterList(){}
 
     public void check(View v){
         if (today==Boolean.TRUE) {

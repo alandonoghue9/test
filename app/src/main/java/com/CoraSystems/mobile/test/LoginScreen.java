@@ -27,7 +27,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.CoraSystems.mobile.test.Objects.Config;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
@@ -71,7 +71,7 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
                 DatabaseReader databaseReader = new DatabaseReader();
                 databaseReader.DataSource(LoginScreen.this);
                 databaseReader.reOpen();
-                TaskGlobal.task = databaseReader.getProjectsTasks();
+                taskGlobal.task = databaseReader.getProjectsTasks();
                     databaseReader.reOpen();
                     config = databaseReader.getConfig();
                     ConfigConstants.maxHoursConstant =config.getMAXHOURS();

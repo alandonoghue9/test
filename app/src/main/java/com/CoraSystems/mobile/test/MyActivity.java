@@ -11,6 +11,8 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.Time;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +24,10 @@ import com.CoraSystems.mobile.test.Objects.Task;
 import com.CoraSystems.mobile.test.Services.JSONparser;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MyActivity extends Activity implements
         OnTextFragmentAnimationEndListener, FragmentManager.OnBackStackChangedListener {
@@ -47,6 +52,7 @@ public class MyActivity extends Activity implements
         mDarkHoverView = findViewById(R.id.dark_hover_view);
         mDarkHoverView.setAlpha(0);
 
+        //filterList();
         Fragment baseFragment = new ListGplayCardFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -150,20 +156,6 @@ public class MyActivity extends Activity implements
         t.start();
     }
 
-    public class fetchService extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            try {
-                return null;
-            }
-            catch(Exception e){}
-
-            return null;
-        }
-    }
-
     public void onAnimationEnd() {
         mIsAnimating = false;
     }
@@ -195,8 +187,76 @@ public class MyActivity extends Activity implements
 
     /*FILTER LIST STUFF*/
 
-   // public ArrayList<Task> filterList(){}
+    public void filterList(){
+        //ArrayList<>
+        String startchecker = "08-6-2014";
+        String endchecker = "08-9-2014";
+        int dayOfWeek;
+        boolean checkInt;
+        Time today = new Time(Time.getCurrentTimezone());
+        today.setToNow();
+        Time other = new Time(Time.getCurrentTimezone());
+        dayOfWeek = today.weekDay;
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        Calendar startChecker = Calendar.getInstance();
+
+        Calendar endChecker = Calendar.getInstance();
+
+        Calendar startFilterDate = Calendar.getInstance();
+        Calendar endFilterDate = Calendar.getInstance();
+
+        try {
+            startChecker.setTime(sdf.parse(startchecker));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            endChecker.setTime(sdf.parse(endchecker));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        String startTime = today.monthDay+"-"+(today.month+1)+"-"+today.year;
+        try {
+            startFilterDate.setTime(sdf.parse(startTime));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        String endTime = today.monthDay+"-"+(today.month+1)+"-"+today.year;
+        try {
+            startFilterDate.setTime(sdf.parse(endTime));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        dayOfWeek =1;
+        endFilterDate.add(Calendar.DAY_OF_MONTH, dayOfWeek);
+        //
+        if((startFilterDate.equals(startChecker) || startFilterDate.equals(endChecker)) || (endFilterDate.equals(startChecker) || endFilterDate.equals(endChecker))){
+            Log.i(null, "got in first loop");
+        }
+
+        else if(startFilterDate.after(startChecker) && startFilterDate.before(endChecker)) {
+
+
+        }
+
+        //c.add(Calendar.DAY_OF_MONTH, i);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+/*
+        String outputDate = sdf.format(startFilterDate.getTime());
+        SimpleDateFormat humanReadableDate = new SimpleDateFormat("MMM dd");
+        try{
+            outputDate = humanReadableDate.format(sdf.parse(outputDate));}
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+*/
+
+
+    }
     public void check(View v){
         if (today==Boolean.TRUE) {
             ImageView tick = (ImageView) v.findViewById(R.id.todaytick);

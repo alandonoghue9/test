@@ -57,6 +57,7 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         Calendar c = Calendar.getInstance();
+
         try {
             c.setTime(sdf.parse(today.monthDay+"-"+today.month+1+"-"+today.year));
         } catch (ParseException e) {

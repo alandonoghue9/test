@@ -46,7 +46,7 @@ public class timesheetDays extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                selectionInterface.onItemSelectionChanged(i,i);
+                selectionInterface.onItemSelectionChanged(i);
                 grisViewCustomeAdapter.notifyDataSetChanged();
             }
         });

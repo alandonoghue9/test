@@ -78,6 +78,7 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
         } else {
             grid = convertView;
         }
+
         ImageView imageView = (ImageView)grid.findViewById(R.id.dots);
         imageView.setImageResource(R.drawable.ic_action_overflow);
         TextView dateGrid = (TextView) grid.findViewById(R.id.date_GridView);

@@ -9,7 +9,7 @@ public class SectionsPagerAdapter extends android.support.v13.app.FragmentPagerA
         super(fm);
     }
 
-    int selectedFragment,selectedItem;
+    int selectedFragment;
 
     @Override
     public Fragment getItem(int position) {
@@ -18,17 +18,17 @@ public class SectionsPagerAdapter extends android.support.v13.app.FragmentPagerA
 
     @Override
     public int getCount() {
-        // Show 3 weeks days.
+        // Show 3 weeks
         return 3;
     }
 
-    public void onItemSelectionChanged(int fragmentPosition,int itemIndex){
+    public void onItemSelectionChanged(int fragmentPosition){
         selectedFragment=fragmentPosition;
-        selectedItem=itemIndex;
     }
     public int getSelectedItemOnFragment(int fragmentPosition){
-        if(fragmentPosition!=selectedFragment) return -1;
-        return selectedItem;
-
+        if(fragmentPosition!=selectedFragment) {
+            return -1;
+        };
+        return 1;
     }
 }

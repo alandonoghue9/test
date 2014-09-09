@@ -194,10 +194,7 @@ public class DatabaseReader {
                 values.put(TaskConstants.MINSUN, MINSUN);
                 values.put(TaskConstants.submission, submission);
 
-
-
                 long configId = database.insert(TaskConstants.CONFIG_DATABASE_TABLE, null, values);
-
 
                 Cursor cursor = database.query(TaskConstants.CONFIG_DATABASE_TABLE,
                         allColumnsConfig, TaskConstants.CONFIG_KEY_ID + " = "
@@ -207,9 +204,7 @@ public class DatabaseReader {
 
                 //Task newTask = cursorToTask(cursor);
                 cursor.close();
-
                 // }
-
         }
     }
     public void addTimesheet(String data, Context context) {

@@ -2,19 +2,37 @@ package com.CoraSystems.mobile.test;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.util.Log;
 
-public class SectionsPagerAdapter extends android.support.v13.app.FragmentPagerAdapter implements ItemSelectionInterface {
+import java.util.List;
 
-    public SectionsPagerAdapter(FragmentManager fm) {
+public class SectionsPagerAdapter extends android.support.v13.app.FragmentStatePagerAdapter implements ItemSelectionInterface {
+
+    private List<timesheetDays> fragments;
+
+    public SectionsPagerAdapter(FragmentManager fm, List<timesheetDays> fragments) {
         super(fm);
+        this.fragments = fragments;
     }
 
     int selectedFragment;
 
     @Override
-    public Fragment getItem(int position) {
-        return timesheetDays.newInstance(position, this);
+    public timesheetDays getItem(int position) {
+        switch (position) {
+            case 0:
+                return fragments.get(position);
+            case 1:
+                return fragments.get(position);
+            case 2:
+                return fragments.get(position);
+            default:
+                return null;
+        }
     }
+        //return this.fragments.get(position);//timesheetDays.newInstance(position, this);
+    //}
 
     @Override
     public int getCount() {
@@ -23,12 +41,12 @@ public class SectionsPagerAdapter extends android.support.v13.app.FragmentPagerA
     }
 
     public void onItemSelectionChanged(int fragmentPosition){
-        selectedFragment=fragmentPosition;
+        getItem(fragmentPosition).select = fragmentPosition;
     }
     public int getSelectedItemOnFragment(int fragmentPosition){
-        if(fragmentPosition!=selectedFragment) {
+        if(fragmentPosition!=getItem(fragmentPosition).select) {
             return -1;
         };
-        return 1;
+        return getItem(fragmentPosition).select;
     }
 }

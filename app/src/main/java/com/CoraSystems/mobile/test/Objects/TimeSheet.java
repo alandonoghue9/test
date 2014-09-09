@@ -31,7 +31,6 @@ public class TimeSheet{
         sunHours = sunhourss;
         PDFurl  = pdfurl;
         SUBMITTED = submitted;
-
     }
 
     public int getID(){return id;}

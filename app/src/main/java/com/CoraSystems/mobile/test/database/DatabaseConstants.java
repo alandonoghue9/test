@@ -77,8 +77,5 @@ public class DatabaseConstants {
         //public static final String FRIHOURS = "frihours";
         //public static final String SATHOURS = "sathours";
         //public static final String SUNHOURS = "sunhours";
-
-
-
     }
 }

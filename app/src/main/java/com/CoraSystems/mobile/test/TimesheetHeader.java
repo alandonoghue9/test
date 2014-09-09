@@ -41,8 +41,8 @@ public class TimesheetHeader extends Fragment {
 
         complete = ((int)(Math.random()*(100)));
         planned = 100-complete;
-        complete = Integer.parseInt(bundle.getString("complete"));
-        planned = Integer.parseInt(bundle.getString("complete"));
+        //complete = Integer.parseInt(bundle.getString("complete"));
+        //planned = Integer.parseInt(bundle.getString("complete"));
         projectTextView.setText(bundle.getString("project"));
         taskTextView.setText(bundle.getString("task"));
 

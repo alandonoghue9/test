@@ -23,12 +23,16 @@ public class JSONparser {
     public static final String Timesheet = "Timesheet";
     public static final String ConfigItems = "ConfigItems";
 
+<<<<<<< Updated upstream
 
 
 
 
 
     public JSONparser(String data, Context Parent) {
+=======
+    public JSONparser(String data, Context Parent, int k) {
+>>>>>>> Stashed changes
         this.data = data;
         this.Parent = Parent;
 

@@ -15,22 +15,32 @@ import com.CoraSystems.mobile.test.Objects.Task;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Timesheet extends Activity {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
-    ViewPager mViewPager;
+    static ViewPager mViewPager;
+
+    ItemSelectionInterface selectionInterface;
+    static timesheetDays fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.timesheet_main);
+
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
         Bundle bundle = getIntent().getExtras();
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        List<timesheetDays> timesheetDays = getFragments();
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager(), timesheetDays);
+
         mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setAdapter(mSectionsPagerAdapter);//new SectionsPagerAdapter(getFragmentManager()));
+        //mViewPager.setOffscreenPageLimit(4);
 
         Fragment headerFragment = new TimesheetHeader();
         headerFragment.setArguments(bundle);
@@ -44,6 +54,16 @@ public class Timesheet extends Activity {
         FragmentTransaction transactionSave = saveManager.beginTransaction();
         transactionSave.add(R.id.save, saveFragment, "Frag_Main_tag");
         transactionSave.commit();
+    }
+
+    private List<timesheetDays> getFragments() {
+        List<timesheetDays> fList = new ArrayList<>();
+
+        fList.add(timesheetDays.newInstance(0));
+        fList.add(timesheetDays.newInstance(1));
+        fList.add(timesheetDays.newInstance(2));
+
+        return fList;
     }
 
     @Override

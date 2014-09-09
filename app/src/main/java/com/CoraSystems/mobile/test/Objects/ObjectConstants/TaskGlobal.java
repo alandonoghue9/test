@@ -11,4 +11,3 @@ public class taskGlobal {
     public static ArrayList<Task> task;
     public static ArrayList<Task> filterTask;
 }
-

@@ -1,5 +1,7 @@
 package com.CoraSystems.mobile.test;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -28,10 +30,12 @@ import android.widget.TextView;
 
 import com.CoraSystems.mobile.test.Objects.Config;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
+import com.CoraSystems.mobile.test.Services.SoapWebService;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +69,9 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-        new Thread(new Runnable() {
+
+
+       /* new Thread(new Runnable() {
             public void run() {
                 try{
                 DatabaseReader databaseReader = new DatabaseReader();
@@ -100,12 +106,12 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
                         Log.e(TAG," table doesn't exist!");
                         //SoapWebService soapWebService = new SoapWebService("alan", "password", LoginScreen.this);
                         //dataService = soapWebService.getConfigFromServer();
-                        fetchService fetchask = new fetchService();
-                        fetchask.execute();
+                        //fetchService fetchask = new fetchService();
+                        //fetchask.execute();
                     }
                 }
             }
-        }).start();
+        }).start();*/
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -133,6 +139,7 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
     }
 
     private void populateAutoComplete() {
@@ -157,6 +164,9 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        ConfigConstants.user = email;
+        ConfigConstants.password = password;
+
 
         boolean cancel = false;
         View focusView = null;
@@ -187,7 +197,8 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+              showProgress(true);
+
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
             Intent intent = new Intent(this, MyActivity.class);
@@ -196,7 +207,7 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
     }
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
@@ -209,6 +220,8 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
+        fetchService fetchService = new fetchService();
+        fetchService.execute();
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
@@ -353,49 +366,29 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
 
     }
     public class fetchService extends AsyncTask<Void, Void, Void> {
-
+        String checker="";
+        @Override
+        protected void onPreExecute() {
+            //showProgress(true);
+        }
         @Override
         protected Void doInBackground(Void... params) {
-            String dataService="";
                 try{
-                DatabaseReader databaseReader = new DatabaseReader();
-                databaseReader.DataSource(LoginScreen.this);
+                    SoapWebService soapWebService = new SoapWebService(ConfigConstants.user, ConfigConstants.password);
+                    checker = soapWebService.getTaskFromServer("2014-09-07", "2014-09-07", "GetWork");
+                    //checker = soapWebService.getConfigFromServer();
 
-
+// GetWork Byday GetTImesheet ConfigItems
                 }
-                catch (SQLiteException e){
-                    if (e.getMessage().toString().contains("no such table")){
-                        Log.e(TAG," table doesn't exist!");
-                        //SoapWebService soapWebService = new SoapWebService("alan", "password", LoginScreen.this);
-                        //dataService = soapWebService.getConfigFromServer();
+                catch (Exception e){
+                        Log.e(TAG,e.getMessage());
                     }
-                }
-/*              JSONparser jsoNparser = new JSONparser(dataService, LoginScreen.this, 0);
-                jsoNparser.parsedData();
-                JSONparser jsoN1parser = new JSONparser(dataService, LoginScreen.this, 1);
-                jsoN1parser.parsedData();
-*/
-
-               // return null;
-           // }
-           // catch(Exception e){}
-             /*catch (IOException ) {
-                //e.printStackTrace();
-            }*/
 
             return null;
         }
         @Override
         protected void onPostExecute(Void result) {
-            new Thread(new Runnable() {
-                public void run() {
-                    DatabaseReader databaseReader = new DatabaseReader();
-                    databaseReader.DataSource(LoginScreen.this);
-                    databaseReader.reOpen();
-                    ByDayGlobal.ByDayConstantsList = databaseReader.getByDay();
-                }
-            }).start();
-
+            //showProgress(false);
         }
     }
 }

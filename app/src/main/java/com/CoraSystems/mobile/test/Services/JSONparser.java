@@ -28,22 +28,21 @@ public class JSONparser {
 
 
 
-    public JSONparser(String data, Context Parent, int k) {
+    public JSONparser(String data, Context Parent) {
         this.data = data;
         this.Parent = Parent;
-        this.k = k;
+
     }
     public int parsedData() throws JSONException {
         String testData;
-        if (k == 0) {
+
             /*testData = "<string xmlns=\"http://tempuri.org/ProjectVision/Project\">" + "{\"TaskList\" : [{\"project id\" : \"1318\",\"project description\" : \"this is to test how long it takes\",\"task id\" : \"14396\"," +
                     "\"task description\" : \"Initial Task\",\"planned hours\" : \"30.00\",\"start date\" : \"2008-09-12 00:00:00\"," +
                     "\"finish date\" : \"2008-10-28 00:00:00\",\"complete\" : \"1.00\"}]}" + "</string>";*/
             testData ="{\"TaskList\" : [{\"project id\" : \"11318\",\"project description\" : \"this is to test how long it takes\",\"task id\" : \"143396\"," +
                     "\"task description\" : \"Initial Task\",\"planned hours\" : \"35.00\",\"start date\" : \"2008-09-22 00:00:00\",\"finish date\" : \"2008-10-18 00:00:00\",\"complete\" : \"1.00\"},{\"project id\" : \"13618\",\"project description\" : \"this is to test how long it takes\",\"task id\" : \"14396\",\"task description\" : \"Initial Task\",\"planned hours\" : \"30.00\",\"start date\" : \"2008-09-12 00:00:00\",\"finish date\" : \"2008-10-28 00:00:00\",\"complete\" : \"1.00\"}]}";
-        }else {
             testData ="{\"ConfigItems\" : [{\"minhours\" : \"37.50\",\"maxhours\" : \"40.00\",\"maxsun\" : \"0.00\",\"maxmon\" : \"12.00\",\"maxtue\" : \"12.00\",\"maxwed\" : \"12.00\",\"maxthu\" : \"12.00\",\"maxfri\" : \"12.00\",\"maxsat\" : \"0.00\",\"minsun\" : \"0.00\",\"minmon\" : \"5.00\",\"mintue\" : \"5.00\",\"minwed\" : \"5.00\",\"minthu\" : \"5.00\",\"minfri\" : \"5.00\",\"minsat\" : \"0.00\"}]}";
-        }
+
             testData ="{\"ByDay\" : [{\"comment\" :\"this is a comment\",\"planned hours\" : \"8.5\",\"hours\" : \"8.0\",\"date\" : \"2014-03-04\", \"task id\" : \"13618\",\"timestamp\" : \"2014-03-04 07:00:00\", \"actual_id\" : \"1234\"}]}";
         int parsedReturn = 0;
 
@@ -54,11 +53,11 @@ public class JSONparser {
 
         DatabaseReader databaseReader = new DatabaseReader();
         databaseReader.DataSource(Parent);
-        databaseReader.open();
+        //databaseReader.open();
 
         if (testData != null) {
             try {
-                JSONObject jsonObject =  new JSONObject(testData);
+                JSONObject jsonObject =  new JSONObject(data);
                 iter = jsonObject.keys();
                 key = iter.next();
                 switch(key) {

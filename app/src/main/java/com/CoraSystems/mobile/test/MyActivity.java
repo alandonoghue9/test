@@ -52,7 +52,7 @@ public class MyActivity extends Activity implements
         mDarkHoverView = findViewById(R.id.dark_hover_view);
         mDarkHoverView.setAlpha(0);
 
-        //filterList();
+        filterList();
         Fragment baseFragment = new ListGplayCardFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -189,10 +189,10 @@ public class MyActivity extends Activity implements
 
     public void filterList(){
         //ArrayList<>
-        String startchecker = "08-6-2014";
-        String endchecker = "08-9-2014";
+        String startchecker = "8-9-2014";
+        String endchecker = "8-9-2014";
         int dayOfWeek;
-        boolean checkInt;
+
         Time today = new Time(Time.getCurrentTimezone());
         today.setToNow();
         Time other = new Time(Time.getCurrentTimezone());
@@ -200,7 +200,6 @@ public class MyActivity extends Activity implements
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         Calendar startChecker = Calendar.getInstance();
-
         Calendar endChecker = Calendar.getInstance();
 
         Calendar startFilterDate = Calendar.getInstance();
@@ -233,18 +232,23 @@ public class MyActivity extends Activity implements
             e.printStackTrace();
         }
         dayOfWeek =1;
-        endFilterDate.add(Calendar.DAY_OF_MONTH, dayOfWeek);
-        //
-        if((startFilterDate.equals(startChecker) || startFilterDate.equals(endChecker)) || (endFilterDate.equals(startChecker) || endFilterDate.equals(endChecker))){
-            Log.i(null, "got in first loop");
+        endFilterDate.add(Calendar.DATE, dayOfWeek);
+        String outputDate = sdf.format(endFilterDate.getTime());
+       /* if(startFilterDate.equals(startChecker) || startFilterDate.equals(endChecker)){
+            //Log.i(null, "got in first loop");
+            String sf ="srgg";
+        }
+        else*/ if (sdf.format(endFilterDate.getTime())== sdf.format(startChecker.getTime())){
+            String sf ="srasgg";
         }
 
-        else if(startFilterDate.after(startChecker) && startFilterDate.before(endChecker)) {
+        else if((startFilterDate.after(startChecker) && startFilterDate.before(endChecker))||(endFilterDate.after(startChecker) && endFilterDate.before(endChecker))) {
 
+            String sf ="srafawfaffasgg";
 
-        }
+            }
 
-        //c.add(Calendar.DAY_OF_MONTH, i);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+            //c.add(Calendar.DAY_OF_MONTH, i);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
 /*
         String outputDate = sdf.format(startFilterDate.getTime());
         SimpleDateFormat humanReadableDate = new SimpleDateFormat("MMM dd");

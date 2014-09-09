@@ -76,7 +76,7 @@ public class OpenDbHelper extends SQLiteOpenHelper {
             TaskConstants.SUNHOURS + " real not null, " +
             TaskConstants.SUBMITTED + " integer not null);";
 
-    private static final String LOCAL_DATABASE_CREATE = "create table "+
+  /*  private static final String LOCAL_DATABASE_CREATE = "create table "+
             TaskConstants.LOCAL_DATABASE_TABLE + "("+
             TaskConstants.LOCAL_KEY_ID +
             " integer primary key autoincrement, " +
@@ -84,7 +84,7 @@ public class OpenDbHelper extends SQLiteOpenHelper {
             TaskConstants.DATELOCAL + " text not null, " +
             TaskConstants.COMPLETELOCAL + " real not null, " +
             TaskConstants.TIMESTAMPLOCAL + " text not null, " +
-            TaskConstants.TASKIDLOCAL + " integer not null);";
+            TaskConstants.TASKIDLOCAL + " integer not null);";*/
 
 
     public OpenDbHelper(Context context) {
@@ -97,7 +97,7 @@ public class OpenDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(TIMESHEET_DATABASE_CREATE);
         sqLiteDatabase.execSQL(CONFIG_DATABASE_CREATE);
         sqLiteDatabase.execSQL(BYDAY_DATABASE_CREATE);
-        sqLiteDatabase.execSQL(LOCAL_DATABASE_CREATE);
+        //sqLiteDatabase.execSQL(LOCAL_DATABASE_CREATE);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class OpenDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskConstants.CONFIG_DATABASE_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskConstants.TIMESHEET_DATABASE_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskConstants.BYDAY_DATABASE_TABLE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskConstants.LOCAL_DATABASE_TABLE);
+        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskConstants.LOCAL_DATABASE_TABLE);
 
         onCreate(sqLiteDatabase);
     }

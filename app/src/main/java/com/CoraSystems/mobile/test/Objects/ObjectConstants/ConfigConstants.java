@@ -21,4 +21,7 @@ public class ConfigConstants {
     public static double maxSunConstant;
     public static double minSunConstant;
     public static String submissionConstant;
+    public static String user;
+    public static String password;
+
 }

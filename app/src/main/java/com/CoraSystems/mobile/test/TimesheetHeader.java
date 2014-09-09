@@ -65,9 +65,9 @@ public class TimesheetHeader extends Fragment {
                 //SoapWebService soapWebService = new SoapWebService("alan", "password", uploadAndDownload.this);
                 //dataService = soapWebService.SendThisData("hello", 200000);
 
-                JSONparser jsoNparser = new JSONparser(dataService, getActivity(), 0);
+                JSONparser jsoNparser = new JSONparser(dataService, getActivity());
                 jsoNparser.parsedData();
-                JSONparser jsoN1parser = new JSONparser(dataService, getActivity(), 1);
+                JSONparser jsoN1parser = new JSONparser(dataService, getActivity());
                 jsoN1parser.parsedData();
 
                 return null;

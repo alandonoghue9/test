@@ -38,9 +38,6 @@ public class SoapWebService implements Serializable{
         SetIPAddress();
         this.SerialOpenTag2 ="<string xmlns=\"http://tempuri.org/ProjectVision/Project\">"; //User for replace on return data
         this.SerialCloseTag = "</string>";
-        //dbHelper = new DatabaseInterface(context);
-        //DatabaseReader databaseReader = new DatabaseReader();
-        //databaseReader.DataSource(context);
 
     }
     public SoapWebService(String uName, String Pwd) {
@@ -49,8 +46,6 @@ public class SoapWebService implements Serializable{
         SetIPAddress();
         this.SerialOpenTag2 ="<string xmlns=\"http://tempuri.org/ProjectVision/Project\">"; //User for replace on return data
         this.SerialCloseTag = "</string>";
-        //DatabaseReader databaseReader = new DatabaseReader();
-        //databaseReader.DataSource(context);
     }
     private void SetIPAddress()
     {
@@ -66,20 +61,24 @@ public class SoapWebService implements Serializable{
             //else
             //{
                 //this.BaseURL = "http://46.51.207.151/wmsservice/DataService/"; //Live Site
-                this.BaseURL = "http://192.168.1.4/ProjectVision/services/projectapi.asmx/";
-
+            //this.BaseURL = "http://192.168.1.4/MobileService/DataService/";
+            this.BaseURL = "http://corademo.corasystems.com/noellemobile/DataService/";
             //}
         }
         catch (Exception ex)
         {
-            this.BaseURL = "http://192.168.1.4/ProjectVision/services/projectapi.asmx/"; //Live Site
+            //this.BaseURL = "http://192.168.1.4/MobileService/DataService/";
+            this.BaseURL = "http://corademo.corasystems.com/noellemobile/DataService/";
+
+
         }
     }
 
-    public String SendThisData(String strTextToSend, int Timeout) throws IOException
+    public String SendThisData(String strTextToSend, int Timeout, String urlEnd) throws IOException
     {
         String strRetVal = "";
-        String bytessend =  "GetTaskRequestJSON"/*?SecurityKey=cora&RequestString={\"userName\":\"" + uName + "\",\"password\":\"" +Pwd + "\"}"*/ ;
+        String bytessend;
+        //String bytessend =  "GetTaskRequestJSON"/*?SecurityKey=cora&RequestString={\"userName\":\"" + uName + "\",\"password\":\"" +Pwd + "\"}"*/ ;
         //String bytessend = "{\"userName\":\"\" + uName + \"\",\"password\":\"\" +Pwd + \"\"}";
         try
         {
@@ -87,7 +86,7 @@ public class SoapWebService implements Serializable{
 
             bytessend = this.SerialOpenTag2 + strTextToSend + this.SerialCloseTag;
 
-            URL url = new URL(this.BaseURL+strTextToSend/*+bytessend*/);
+            URL url = new URL(this.BaseURL+urlEnd);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("POST");
             con.setUseCaches (false);
@@ -100,7 +99,7 @@ public class SoapWebService implements Serializable{
             con.connect();
             Log.i(TAG, "successful connection");
             DataOutputStream wr = new DataOutputStream (con.getOutputStream ());
-            wr.writeBytes (bytessend);
+            wr.writeBytes(bytessend);
             wr.flush ();
             wr.close ();
             Log.i(TAG, "sent data "+con.getResponseCode());
@@ -140,22 +139,70 @@ public class SoapWebService implements Serializable{
         return strRetVal;
     }
 
-    public String getTaskFromServer(String start, String end){
+    public String getTaskFromServer(String start, String end, String urlEnder){
         StringBuffer taskToJson = new StringBuffer();
         String responseStr="";
         taskToJson.append("{\"Users\" : [{\"userName\":\"" + uName + "\",\"password\":\"" +Pwd + "\"");
-        taskToJson.append(",\"start_date\":" + start + ",\"finish_date\":\"" + end + "\"");
-        taskToJson.append("}");
+        taskToJson.append(",\"start_date\":\"" + start + "\",\"finish_date\":\"" + end + "\"");
+        taskToJson.append("}]}");
         try
         {
-            responseStr = SendThisData(taskToJson.toString(),  450000);
+            responseStr = SendThisData(taskToJson.toString(),  450000, urlEnder);
             responseStr = CleanResponseString(responseStr);
+            Log.i("webservices", responseStr);
         }
         catch (IOException e)
         {
             Log.e("System out", "Error IO " + e.getMessage());
         }
-        JSONparser jsoNparser = new JSONparser(responseStr, this.context, 0);
+        JSONparser jsoNparser = new JSONparser(responseStr, this.context);
+        try {
+            jsoNparser.parsedData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return responseStr;
+    }
+    public String sendSummit(String start, String sumitee, String urlEnder){
+        StringBuffer taskToJson = new StringBuffer();
+        String responseStr="";
+        taskToJson.append("{\"Users\" : [{\"userName\":\"" + uName + "\",\"password\":\"" +Pwd + "\"");
+        taskToJson.append(",\"start_date\":\"" + start + "\",\"submit\":\"" + sumitee + "\"");
+        taskToJson.append("}]}");
+        try
+        {
+            responseStr = SendThisData(taskToJson.toString(),  450000, urlEnder);
+            responseStr = CleanResponseString(responseStr);
+            Log.i("webservices", responseStr);
+        }
+        catch (IOException e)
+        {
+            Log.e("System out", "Error IO " + e.getMessage());
+        }
+        JSONparser jsoNparser = new JSONparser(responseStr, this.context);
+        try {
+            jsoNparser.parsedData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return responseStr;
+    }
+    public String sendServer(String start, String end){
+        StringBuffer taskToJson = new StringBuffer();
+        String responseStr="";
+        taskToJson.append("{\"Users\" : [{\"userName\":\"" + uName + "\",\"password\":\"" +Pwd + "\"");
+        taskToJson.append(",\"start_date\":\"" + start + "\",\"finish_date\":\"" + end + "\"");
+        taskToJson.append("}]}");
+        try
+        {
+           responseStr = SendThisData(taskToJson.toString(),  450000, "");
+           responseStr = CleanResponseString(responseStr);
+        }
+        catch (IOException e)
+        {
+            Log.e("System out", "Error IO " + e.getMessage());
+        }
+        JSONparser jsoNparser = new JSONparser(responseStr, this.context);
         try {
             jsoNparser.parsedData();
         } catch (JSONException e) {
@@ -168,17 +215,17 @@ public class SoapWebService implements Serializable{
         StringBuffer configToJson = new StringBuffer();
         String responseStr="";
         configToJson.append("{\"Users\" : [{\"userName\":\"" + uName + "\",\"password\":\"" +Pwd + "\"");
-        configToJson.append("}");
+        configToJson.append("}]}");
         try
         {
-            responseStr = SendThisData(configToJson.toString(),  450000);
+            responseStr = SendThisData(configToJson.toString(),  450000, "ConfigItems");
             responseStr = CleanResponseString(responseStr);
         }
         catch (IOException e)
         {
             Log.e("System out", "Error IO " + e.getMessage());
         }
-        JSONparser jsoNparser = new JSONparser(responseStr, this.context, 1);
+        JSONparser jsoNparser = new JSONparser(responseStr, this.context);
         try {
             jsoNparser.parsedData();
         } catch (JSONException e) {
@@ -187,47 +234,46 @@ public class SoapWebService implements Serializable{
         return responseStr;
     }
 
+
     public String CleanResponseString(String strResponse)
     {
-        if (strResponse.contains(this.SerialOpenTag2)){
-            strResponse = strResponse.replace(this.SerialOpenTag2, "");
+        if (strResponse.contains("<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">\"")){
+            strResponse = strResponse.replace("<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">\"", "");
         }
         if (strResponse.contains(this.SerialCloseTag)){
             strResponse = strResponse.replace(this.SerialCloseTag, "");
         }
+        if (strResponse.contains("\\")){
+        strResponse = strResponse.replace("\\", "");
+    }
+        if (strResponse.contains(";")){
+            strResponse = strResponse.replace(";", "");
+        }
         return strResponse;
     }
 
-   /* public String ConvertDataToHexString(String strData)
-    {
-        String strRetVal = "";
-        String strChar = "";
-        int iCount=0;
-        if (strData != null) {
-            if(strData.length()>0){
-                try
-                {
-                    byte[] bytes = strData.getBytes("ISO-8859-1");
-                    for (iCount=0; iCount < bytes.length; iCount++)
-                    {
-                        int [] intArray = UnsignArray(bytes);
-                        strChar = Integer.toHexString(intArray[iCount]);
-                        if (strChar.length() == 1)
-                        {
-                            strChar = "0" + strChar;
-                        }
-                        strRetVal = strRetVal + strChar;
-                    }
-                }
-                catch (UnsupportedEncodingException e)
-                {
-                    strData="";
-                    e.printStackTrace();
-                }
-            }
-        }
+    	public String ConvertHexDataToString(String strData)
+	{
+		String strRetVal = "";
+		int iCount=0;
 
-        return strRetVal;
-    }
-*/
+		try
+		{
+			byte[] bytes = strData .getBytes("US-ASCII");
+			for (iCount=0; iCount < bytes.length; iCount++)
+			{
+				strRetVal = strRetVal + Integer.toHexString(bytes[iCount]);
+			}
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			strData="";
+			e.printStackTrace();
+		}
+
+
+
+		return strRetVal;
+	}
+
 }

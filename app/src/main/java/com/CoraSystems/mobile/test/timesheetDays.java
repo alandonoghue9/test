@@ -1,7 +1,11 @@
 package com.CoraSystems.mobile.test;
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +14,9 @@ import android.widget.GridView;
 
 public class timesheetDays extends Fragment {
 
-    private static final String ARG_SECTION_NUMBER = "section_number";
     public static int section;
+
+    public int select=-1;
 
     ItemSelectionInterface selectionInterface;
 
@@ -21,17 +26,18 @@ public class timesheetDays extends Fragment {
 
     public Boolean clicks[] = new Boolean[] {Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE};
 
-    public static timesheetDays newInstance(int sectionNumber, ItemSelectionInterface selectionInterface) {
+    public static timesheetDays newInstance(int sectionNumber) {
         fragment = new timesheetDays();
         Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        section = sectionNumber;
+        args.putInt("Sect", sectionNumber);
         fragment.setArguments(args);
-        fragment.selectionInterface=selectionInterface;
         return fragment;
     }
 
-    public timesheetDays() {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        section = getArguments() != null ? getArguments().getInt("Sect") : 1;
+        select = -1;
     }
 
     @Override
@@ -46,11 +52,10 @@ public class timesheetDays extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                selectionInterface.onItemSelectionChanged(i);
+                select = i;
                 grisViewCustomeAdapter.notifyDataSetChanged();
             }
         });
-
         return rootView;
     }
 }

@@ -268,6 +268,7 @@ public class DatabaseReader {
 
                 //Task newTask = cursorToTask(cursor);
                 cursor.close();
+                counter++;
                 // }
             }
              ByDayGlobal.ByDayConstantsList=getByDay();

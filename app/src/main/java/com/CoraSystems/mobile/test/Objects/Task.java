@@ -25,7 +25,6 @@ public class Task {
         start=taskstart;
         finish=taskfinish;
         completion=taskcompletion;
-
     }
 
     public int getID(){return id;}

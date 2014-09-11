@@ -19,8 +19,6 @@ public class ByDay {
         timestamp = timestampByDay;
         date  = dateByDay;
         taskId = taskIdByDay;
-
-
     }
 
     public int gettaskId(){return taskId;}

@@ -10,8 +10,4 @@ import java.util.ArrayList;
 public class taskGlobal {
     public static ArrayList<Task> task;
     public static ArrayList<Task> filterTask;
-//<<<<<<< Updated upstream
 }
-/*=======
-}
->>>>>>> Stashed changes*/

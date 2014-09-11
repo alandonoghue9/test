@@ -57,61 +57,17 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
-
+    Config config;
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    Config config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
-
-
-       /* new Thread(new Runnable() {
-            public void run() {
-                try{
-                DatabaseReader databaseReader = new DatabaseReader();
-                databaseReader.DataSource(LoginScreen.this);
-                databaseReader.reOpen();
-                taskGlobal.task = databaseReader.getProjectsTasks();
-                    databaseReader.reOpen();
-                    config = databaseReader.getConfig();
-                    ConfigConstants.maxHoursConstant =config.getMAXHOURS();
-                    ConfigConstants.minHoursConstant=config.getMINHOURS();
-                    ConfigConstants.maxMonConstant=config.getMAXMON();
-                    ConfigConstants.minMonConstant=config.getMINMON();
-                    ConfigConstants.maxTueConstant=config.getMAXTUE();
-                    ConfigConstants.minTueConstant=config.getMINTUE();
-                    ConfigConstants.maxWedConstant=config.getMAXWED();
-                    ConfigConstants.minWedConstant=config.getMINWED();
-                    ConfigConstants.maxThurConstant=config.getMAXTHUR();
-                    ConfigConstants.minThurConstant=config.getMINTHUR();
-                    ConfigConstants.maxFriConstant=config.getMAXFRI();
-                    ConfigConstants.minFriConstant=config.getMINFRI();
-                    ConfigConstants.maxSatConstant=config.getMAXSAT();
-                    ConfigConstants.minSatConstant=config.getMINSAT();
-                    ConfigConstants.maxSunConstant=config.getMAXSUN();
-                    ConfigConstants.minSunConstant=config.getMINSUN();
-                    ConfigConstants.submissionConstant=config.getSubmission();
-                //databaseReader.reOpen();
-                //ByDayGlobal.ByDayConstantsList = databaseReader.getByDay();
-                }
-
-                catch (SQLiteException e){
-                    if (e.getMessage().toString().contains("no such")){
-                        Log.e(TAG," table doesn't exist!");
-                        //SoapWebService soapWebService = new SoapWebService("alan", "password", LoginScreen.this);
-                        //dataService = soapWebService.getConfigFromServer();
-                        //fetchService fetchask = new fetchService();
-                        //fetchask.execute();
-                    }
-                }
-            }
-        }).start();*/
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -172,8 +128,13 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
         View focusView = null;
 
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        /*if (TextUtils.isEmpty(email)) {
+            mEmailView.setError(getString(R.string.error_field_required));
+            focusView = mEmailView;
+            cancel = true;
+            // Check for a valid password, if the user entered one.
+            //TODO: remove isempty and make password mandatory
+        } else*/ if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -198,11 +159,59 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
               showProgress(true);
+              fetchService fetchask = new fetchService();
+              fetchask.execute();
+       /*new Thread(new Runnable() {
+            public void run() {
+                try{
+                DatabaseReader databaseReader = new DatabaseReader();
+                databaseReader.DataSource(LoginScreen.this);
+                databaseReader.open();
 
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
-            Intent intent = new Intent(this, MyActivity.class);
-            startActivity(intent);
+                    config = databaseReader.getConfig();
+                    if (config == null){
+                        fetchService fetchask = new fetchService();
+                        fetchask.execute();
+                    }
+                    else {
+                        taskGlobal.task = databaseReader.getProjectsTasks();
+                        ConfigConstants.maxHoursConstant = config.getMAXHOURS();
+                        ConfigConstants.minHoursConstant = config.getMINHOURS();
+                        ConfigConstants.maxMonConstant = config.getMAXMON();
+                        ConfigConstants.minMonConstant = 0;
+                        ConfigConstants.maxTueConstant = config.getMAXTUE();
+                        ConfigConstants.minTueConstant = 0;
+                        ConfigConstants.maxWedConstant = config.getMAXWED();
+                        ConfigConstants.minWedConstant = 0;
+                        ConfigConstants.maxThurConstant = config.getMAXTHUR();
+                        ConfigConstants.minThurConstant = 0;
+                        ConfigConstants.maxFriConstant = config.getMAXFRI();
+                        ConfigConstants.minFriConstant = 0;
+                        ConfigConstants.maxSatConstant = config.getMAXSAT();
+                        ConfigConstants.minSatConstant = 0;
+                        ConfigConstants.maxSunConstant = config.getMAXSUN();
+                        ConfigConstants.minSunConstant = 0;
+                        ConfigConstants.submissionConstant = config.getSubmission();
+                    }
+                //  databaseReader.reOpen();
+                //  ByDayGlobal.ByDayConstantsList = databaseReader.getByDay();
+                }
+
+                catch (SQLiteException e){
+                    if (e.getMessage().toString().contains("no such")){
+                        Log.e(TAG," table doesn't exist!");
+                        //SoapWebService soapWebService = new SoapWebService("alan", "password", LoginScreen.this);
+                        //dataService = soapWebService.getConfigFromServer();
+                        //fetchService fetchask = new fetchService();
+                        //fetchask.execute();
+                    }
+                }
+            }
+        }).start();*/
+            //mAuthTask = new UserLoginTask(email, password);
+            //mAuthTask.execute((Void) null);
+            //Intent intent = new Intent(this, MyActivity.class);
+            //startActivity(intent);
         }
     }
     private boolean isEmailValid(String email) {
@@ -212,20 +221,19 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
+        return password.length() > 4; }
 
     /**
      * Shows the progress UI and hides the login form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
-        fetchService fetchService = new fetchService();
-        fetchService.execute();
+        //fetchService fetchService = new fetchService();
+        //fetchService.execute();
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
@@ -250,7 +258,7 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }*/
+        }
     }
 
     @Override
@@ -367,28 +375,39 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
     }
     public class fetchService extends AsyncTask<Void, Void, Void> {
         String checker="";
-        @Override
+      /*  @Override
         protected void onPreExecute() {
-            //showProgress(true);
-        }
+            showProgress(true);
+        }*/
         @Override
         protected Void doInBackground(Void... params) {
-                try{
-                    SoapWebService soapWebService = new SoapWebService(ConfigConstants.user, ConfigConstants.password);
+            DatabaseReader databaseReader = new DatabaseReader();
+            databaseReader.DataSource(LoginScreen.this);
+           try{
+            databaseReader.open();}
+           catch(SQLiteException e){
+               Log.e(TAG, e.getMessage());
+           }
+
+            config = databaseReader.getConfig();
+            if (config == null){
+                    SoapWebService soapWebService = new SoapWebService(ConfigConstants.user, ConfigConstants.password, LoginScreen.this);
                     checker = soapWebService.getTaskFromServer("2014-09-07", "2014-09-07", "GetWork");
-                    //checker = soapWebService.getConfigFromServer();
-
-// GetWork Byday GetTImesheet ConfigItems
-                }
-                catch (Exception e){
-                        Log.e(TAG,e.getMessage());
-                    }
-
+                    checker = soapWebService.getConfigFromServer();
+                    checker = soapWebService.getTaskFromServer("2014-09-07", "2014-09-07", "ByDay");
+                 // GetWork Byday GetTImesheet ConfigItems
+            }
+            else {
+                taskGlobal.task = databaseReader.getProjectsTasks();
+                ConfigConstants.config = config;
+            }
             return null;
         }
         @Override
         protected void onPostExecute(Void result) {
-            //showProgress(false);
+            showProgress(false);
+            Intent intent = new Intent(LoginScreen.this, MyActivity.class);
+            startActivity(intent);
         }
     }
 }

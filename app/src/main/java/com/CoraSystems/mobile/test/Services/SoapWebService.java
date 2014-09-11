@@ -62,7 +62,7 @@ public class SoapWebService implements Serializable{
             //{
                 //this.BaseURL = "http://46.51.207.151/wmsservice/DataService/"; //Live Site
             //this.BaseURL = "http://192.168.1.4/MobileService/DataService/";
-            this.BaseURL = "http://corademo.corasystems.com/noellemobile/DataService/";
+            this.BaseURL = " http://46.17.93.112/MobileTest/DataService/";
             //}
         }
         catch (Exception ex)

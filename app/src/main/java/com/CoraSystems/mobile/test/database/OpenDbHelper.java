@@ -44,20 +44,12 @@ public class OpenDbHelper extends SQLiteOpenHelper {
             TaskConstants.MAXHOURS + " real not null, " +
             TaskConstants.MINHOURS + " real not null, " +
             TaskConstants.MAXMON + " real not null, " +
-            TaskConstants.MINMON + " real not null, " +
             TaskConstants.MAXTUE + " real not null, " +
-            TaskConstants.MINTUE + " real not null, " +
             TaskConstants.MAXWED + " real not null, " +
-            TaskConstants.MINWED + " real not null, " +
             TaskConstants.MAXTHUR + " real not null, " +
-            TaskConstants.MINTHUR + " real not null, " +
             TaskConstants.MAXFRI + " real not null, " +
-            TaskConstants.MINFRI + " real not null, " +
             TaskConstants.MAXSAT + " real not null, " +
-            TaskConstants.MINSAT + " real not null, " +
-            TaskConstants.MAXSUN + " real not null, " +
-            TaskConstants.MINSUN + " real not null, " +
-            TaskConstants.submission + " text not null);";
+            TaskConstants.MAXSUN + " real not null);";
 
     private static final String TIMESHEET_DATABASE_CREATE = "create table "+
             TaskConstants.TIMESHEET_DATABASE_TABLE + "("+

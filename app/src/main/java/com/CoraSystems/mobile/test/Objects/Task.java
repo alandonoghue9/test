@@ -8,21 +8,20 @@ public class Task {
     private int numTasks;
     private String task;
     private String project;
-    private String completion;
+    private double completion;
     private String start;
     private String finish;
     private String planned;
     private int projectId;
     private int taskId;
 
-    public Task(int dbId, int taskprojectid, String taskProject,int taskID, String taskName,String taskplanned,
-    String taskstart, String taskfinish,String taskcompletion){
+    public Task(int dbId,int taskprojectid, String taskProject,int taskID , String taskName, String taskstart, String taskfinish, String taskplanned,double taskcompletion){
         id=dbId;
-        taskId = dbId;
+        taskId = taskID;
         task=taskName;
         projectId = taskprojectid;
         project=taskProject;
-        planned  =  taskplanned;
+        planned = taskplanned;
         start=taskstart;
         finish=taskfinish;
         completion=taskcompletion;
@@ -34,7 +33,7 @@ public class Task {
     public void setNumTasks(int numTasks){this.numTasks = numTasks;}
     public String getTask(){return task;}
     public String getProject(){return project;}
-    public String getCompletion(){return completion;}
+    public double getCompletion(){return completion;}
     public String getStart(){return start;}
     public String getFinish(){return finish;}
     public String getPlanned(){return planned;}

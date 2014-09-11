@@ -5,8 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
 import com.CoraSystems.mobile.test.Objects.ByDay;
 import com.CoraSystems.mobile.test.Objects.Config;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
 import com.CoraSystems.mobile.test.Objects.TimeSheet;
 import com.CoraSystems.mobile.test.database.DatabaseConstants.TaskConstants;
 import com.CoraSystems.mobile.test.Objects.Task;
@@ -72,10 +77,10 @@ public class DatabaseReader {
 
     private String[] allColumns = {
             TaskConstants.TASK_KEY_ID,
-            TaskConstants.PROJECT,
             TaskConstants.PROJECTID,
-            TaskConstants.TASK,
+            TaskConstants.PROJECT,
             TaskConstants.TASKID,
+            TaskConstants.TASK,
             TaskConstants.START_DATE,
             TaskConstants.FINISH_DATE,
             TaskConstants.PLANNED,
@@ -85,20 +90,12 @@ public class DatabaseReader {
             TaskConstants.MAXHOURS,
             TaskConstants.MINHOURS,
             TaskConstants.MAXMON,
-            TaskConstants.MINMON,
             TaskConstants.MAXTUE,
-            TaskConstants.MINTUE,
             TaskConstants.MAXWED,
-            TaskConstants.MINWED,
             TaskConstants.MAXTHUR,
-            TaskConstants.MINTHUR,
             TaskConstants.MAXFRI,
-            TaskConstants.MINFRI,
             TaskConstants.MAXSAT,
-            TaskConstants.MINSAT,
-            TaskConstants.MAXSUN,
-            TaskConstants.MINSUN,
-            TaskConstants.submission};
+            TaskConstants.MAXSUN};
 
     private String[] allColumnsTimesheet = {
             TaskConstants.PLANNEDHOURS,
@@ -137,39 +134,45 @@ public class DatabaseReader {
         dbHelper.close();
     }
 
-    public void addTask(String data, Context context) {
+    public void addTask(Context context) {
         int counter=0;
+        Task task;
         if (taskIdArraylist.size() > 0 ){
             while(counter < taskIdArraylist.size()){
             ContentValues values = new ContentValues();
             //String[] whereArgs = {task.getTask()};
             //String where = TaskConstants.TASK + " = ?";
-            values.put(TaskConstants.PROJECTID, projectIdArrayList.get(counter));
+            values.put(TaskConstants.PROJECTID, Integer.parseInt(projectIdArrayList.get(counter)));
             values.put(TaskConstants.PROJECT, projectDescArrayList.get(counter));
-            values.put(TaskConstants.TASKID, taskIdArraylist.get(counter));
+            values.put(TaskConstants.TASKID, Integer.parseInt(taskIdArraylist.get(counter)));
             values.put(TaskConstants.TASK, taskDescArrayList.get(counter));
             values.put(TaskConstants.PLANNED, plannedHoursArrayList.get(counter));
-            values.put(TaskConstants.START_DATE, taskIdArraylist.get(counter));
+            values.put(TaskConstants.START_DATE, startDateArrayList.get(counter));
             values.put(TaskConstants.FINISH_DATE, finishDateArrayList.get(counter));
-            values.put(TaskConstants.COMPLETE, completeArrayList.get(counter));
+            values.put(TaskConstants.COMPLETE, Double.parseDouble(completeArrayList.get(counter)));
             int numberRowsUpdated;
 /*            numberRowsUpdated = database.update(
                     TaskConstants.DATABASE_TABLE,
                     values, where, whereArgs);*/
   //          if (numberRowsUpdated == 0) {
-                long taskId = database.insert(TaskConstants.TASK_DATABASE_TABLE, null, values);
-
+                long taskId=0;
+                //database = dbHelper.getWritableDatabase();
+                try{
+                taskId = database.insertOrThrow(TaskConstants.TASK_DATABASE_TABLE, null, values);}
+                catch(SQLException e){
+                    Log.e(TAG, e.getMessage());
+                }
                 Cursor cursor = database.query(TaskConstants.TASK_DATABASE_TABLE,
                         allColumns, TaskConstants.TASK_KEY_ID + " = "
-                                + taskId, null, null, null, null
-                );
+                                + taskId, null, null, null, null);
+                //task = cursorToTask(cursor);
+                //taskGlobal.task.add(task);
                 cursor.moveToFirst();
-
-                //Task newTask = cursorToTask(cursor);
                 cursor.close();
                 counter++;
            // }
         }}
+        taskGlobal.task = getProjectsTasks();
     }
     public void addConfig(String data, Context context) {
         if (MAXHOURS > 0){
@@ -179,38 +182,21 @@ public class DatabaseReader {
                 values.put(TaskConstants.MAXHOURS, MAXHOURS);
                 values.put(TaskConstants.MINHOURS, MINHOURS);
                 values.put(TaskConstants.MAXMON, MAXMON);
-                values.put(TaskConstants.MINMON, MINMON);
                 values.put(TaskConstants.MAXTUE, MAXTUE);
-                values.put(TaskConstants.MINTUE, MINTUE);
                 values.put(TaskConstants.MAXWED, MAXWED);
-                values.put(TaskConstants.MINWED, MINWED);
                 values.put(TaskConstants.MAXTHUR, MAXTHUR);
-                values.put(TaskConstants.MINTHUR, MINTHUR);
                 values.put(TaskConstants.MAXFRI, MAXFRI);
-                values.put(TaskConstants.MINFRI, MINFRI);
                 values.put(TaskConstants.MAXSAT, MAXSAT);
-                values.put(TaskConstants.MINSAT, MINSAT);
                 values.put(TaskConstants.MAXSUN, MAXSUN);
-                values.put(TaskConstants.MINSUN, MINSUN);
-                values.put(TaskConstants.submission, submission);
-
-
 
                 long configId = database.insert(TaskConstants.CONFIG_DATABASE_TABLE, null, values);
-
-
                 Cursor cursor = database.query(TaskConstants.CONFIG_DATABASE_TABLE,
                         allColumnsConfig, TaskConstants.CONFIG_KEY_ID + " = "
-                                + configId, null, null, null, null
-                );
+                                + configId, null, null, null, null);
                 cursor.moveToFirst();
-
-                //Task newTask = cursorToTask(cursor);
                 cursor.close();
-
-                // }
-
         }
+        ConfigConstants.config = getConfig();
     }
     public void addTimesheet(String data, Context context) {
         ContentValues values = new ContentValues();
@@ -232,7 +218,7 @@ public class DatabaseReader {
         values.put(TaskConstants.MINSAT, MINSAT);
         values.put(TaskConstants.MAXSUN, MAXSUN);
         values.put(TaskConstants.MINSUN, MINSUN);
-        values.put(TaskConstants.submission, submission);
+
         int numberRowsUpdated;
         // numberRowsUpdated = database.update(
       /*              TaskConstants.DATABASE_TABLE,
@@ -255,7 +241,7 @@ public class DatabaseReader {
     }
     public void addByDay(String data, Context context) {
         int counter=0;
-        if (taskIdArraylist.size() > 0 ){
+        if (taskIdArraylist1.size() > 0 ){
             while(counter < timestampArrayList.size()){
                 ContentValues values = new ContentValues();
                 //String[] whereArgs = {task.getTask()};
@@ -271,7 +257,7 @@ public class DatabaseReader {
 /*            numberRowsUpdated = database.update(
                     TaskConstants.DATABASE_TABLE,
                     values, where, whereArgs);*/
-                //          if (numberRowsUpdated == 0) {
+                //        if (numberRowsUpdated == 0) {
                 long taskId = database.insert(TaskConstants.TASK_DATABASE_TABLE, null, values);
 
                 Cursor cursor = database.query(TaskConstants.TASK_DATABASE_TABLE,
@@ -282,14 +268,19 @@ public class DatabaseReader {
 
                 //Task newTask = cursorToTask(cursor);
                 cursor.close();
-                counter++;
                 // }
-            }}
+            }
+             ByDayGlobal.ByDayConstantsList=getByDay();
+        }
     }
     public ArrayList<Task> getProjectsTasks() {
         ArrayList<Task> tasks = new ArrayList<Task>();
+        database = dbHelper.getReadableDatabase();
         Cursor cursor = database.query(
                 DatabaseConstants.TaskConstants.TASK_DATABASE_TABLE, allColumns, null, null, null, null, null);
+        if(cursor==null){
+            return null;
+        }
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
             Task task = cursorToTask(cursor);
@@ -297,25 +288,32 @@ public class DatabaseReader {
             cursor.moveToNext();
         }
         cursor.close();
-        database.close();
+
         return tasks;
     }
     public Config getConfig() {
         Config config = null;
         Cursor cursor = database.query(
                 TaskConstants.CONFIG_DATABASE_TABLE, allColumnsConfig, null, null, null, null, null);
+        if(cursor==null){
+            return null;
+        }
         cursor.moveToFirst();
         if (!cursor.isAfterLast()){
              config = cursorToConfig(cursor);
         }
         cursor.close();
-        database.close();
+        dbHelper.close();
+
         return config;
     }
     public ArrayList<ByDay> getByDay() {
         ArrayList<ByDay> byDays = new ArrayList<ByDay>();
         Cursor cursor = database.query(
                 TaskConstants.BYDAY_DATABASE_TABLE, allColumns, null, null, null, null, null);
+        if(cursor==null){
+            return null;
+        }
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
             ByDay byDay = cursorToByDay(cursor);
@@ -323,7 +321,8 @@ public class DatabaseReader {
             cursor.moveToNext();
         }
         cursor.close();
-        database.close();
+
+
         return byDays;
     }
 
@@ -331,7 +330,9 @@ public class DatabaseReader {
         ArrayList<TimeSheet> timeSheets = new ArrayList<TimeSheet>();
         Cursor cursor = database.query(
                 TaskConstants.TIMESHEET_DATABASE_TABLE, allColumnsTimesheet, null, null, null, null, null);
-
+        if(cursor==null){
+            return null;
+        }
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
             TimeSheet timeSheet = cursorToTimesheet(cursor);
@@ -339,7 +340,7 @@ public class DatabaseReader {
             cursor.moveToNext();
         }
         cursor.close();
-        database.close();
+
         return timeSheets;
     }
 
@@ -374,14 +375,14 @@ public class DatabaseReader {
             j++;
             Log.i(TAG, taskString[i] + " " + taskString[i+1]);}
         cursor.close();
-        database.close();
+
         return taskString;
     }*/
 
     private Task cursorToTask(Cursor cursor) {
-        Task task = new Task(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getInt(3),
-                cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7),
-                cursor.getString(8));
+        Task task = new Task(cursor.getInt(0),cursor.getInt(1), cursor.getString(2),
+                cursor.getInt(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
+                cursor.getString(7), cursor.getDouble(8));
         return task;
 
     }
@@ -395,10 +396,7 @@ public class DatabaseReader {
     private Config cursorToConfig(Cursor cursor) {
                 Config config = new Config(cursor.getDouble(0), cursor.getDouble(1), cursor.getDouble(2),
                         cursor.getDouble(3), cursor.getDouble(4), cursor.getDouble(5),
-                        cursor.getDouble(6), cursor.getDouble(7), cursor.getDouble(8),
-                        cursor.getDouble(9), cursor.getDouble(10), cursor.getDouble(11),
-                cursor.getDouble(12), cursor.getDouble(13), cursor.getDouble(14), cursor.getDouble(15),
-                cursor.getString(16));
+                        cursor.getDouble(6), cursor.getDouble(7), cursor.getDouble(8));
         return config;
     }
     private ByDay cursorToByDay(Cursor cursor) {
@@ -407,7 +405,7 @@ public class DatabaseReader {
         return byDay;
     }
 
-    public Task getTask(int id)
+   /* public Task getTask(int id)
     {
         Cursor cursor = database.query(TaskConstants.TASK_DATABASE_TABLE,
                 allColumns, TaskConstants.TASK_KEY_ID+" = ?", new String[] {String.valueOf(id)}, null, null, null);
@@ -419,5 +417,5 @@ public class DatabaseReader {
                 cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7),
                 cursor.getString(8));
         return task;
-    }
+    }*/
 }

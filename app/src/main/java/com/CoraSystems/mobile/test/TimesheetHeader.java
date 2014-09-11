@@ -24,8 +24,8 @@ public class TimesheetHeader extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.timesheet_header, container, false);
         Bundle bundle = this.getArguments();
-        int complete;
-        int planned;
+        double complete;
+        double planned;
         comp = (LinearLayout)view.findViewById(R.id.complete);
         plan = (LinearLayout)view.findViewById(R.id.planned);
         projectTextView = (TextView)view.findViewById(R.id.teask_timesheet);
@@ -39,15 +39,16 @@ public class TimesheetHeader extends Fragment {
         LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-        complete = ((int)(Math.random()*(100)));
-        planned = 100-complete;
-        complete = Integer.parseInt(bundle.getString("complete"));
-        planned = Integer.parseInt(bundle.getString("complete"));
+        //complete = ((int)(Math.random()*(100)));
+        //planned = 100-complete;
+        //TODO: fix parsing
+        //complete = Double.valueOf(bundle.getString("complete"));
+        //planned = Double.valueOf(bundle.getString("complete"));
         projectTextView.setText(bundle.getString("project"));
         taskTextView.setText(bundle.getString("task"));
 
-        c.weight = complete;
-        p.weight = planned;
+        //c.weight = (float)complete;
+        //p.weight = (float)planned;
         c.height = 30;
         p.height = 30;
         comp.setLayoutParams(c);

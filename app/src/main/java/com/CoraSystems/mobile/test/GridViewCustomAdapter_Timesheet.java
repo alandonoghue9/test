@@ -24,7 +24,6 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
     Context context;
     String text[]=new String[] {"M","T","W","T","F","S","S"};
 
-
     ItemSelectionInterface selectionInterface;
 
     View grid;
@@ -37,9 +36,7 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
     {
         super(context, 0);
         this.context=context;
-
         this.parentFrag = Frag;
-
         selectionInterface=Frag.selectionInterface;
     }
 
@@ -51,7 +48,6 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
     @Override
     public View getView(final int i, View convertView, ViewGroup parent)
     {
-
       Time today = new Time(Time.getCurrentTimezone());
         today.setToNow();
 

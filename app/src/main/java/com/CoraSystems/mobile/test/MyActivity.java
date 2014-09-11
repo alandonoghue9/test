@@ -20,14 +20,20 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.view.View;
 
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
 import com.CoraSystems.mobile.test.Objects.Task;
 import com.CoraSystems.mobile.test.Services.JSONparser;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
+import com.CoraSystems.mobile.test.database.DatabaseConstants;
 
+import java.text.DateFormat;
+import java.text.FieldPosition;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class MyActivity extends Activity implements
         OnTextFragmentAnimationEndListener, FragmentManager.OnBackStackChangedListener {
@@ -44,6 +50,9 @@ public class MyActivity extends Activity implements
     boolean mDidSlideOut = false;
     boolean mIsAnimating = false;
 
+    ArrayList<Task> filterTask;
+    Time todayTime = new Time(Time.getCurrentTimezone());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +61,8 @@ public class MyActivity extends Activity implements
         mDarkHoverView = findViewById(R.id.dark_hover_view);
         mDarkHoverView.setAlpha(0);
 
-        filterList();
+        //filterList();
+        filterTask = taskGlobal.task;
         Fragment baseFragment = new ListGplayCardFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -187,24 +197,26 @@ public class MyActivity extends Activity implements
 
     /*FILTER LIST STUFF*/
 
-    public void filterList(){
+    public void filterList(Calendar startFilterDate, Calendar endFilterDate){
         //ArrayList<>
-        String startchecker = "8-9-2014";
-        String endchecker = "8-9-2014";
-        int dayOfWeek;
 
-        Time today = new Time(Time.getCurrentTimezone());
-        today.setToNow();
-        Time other = new Time(Time.getCurrentTimezone());
-        dayOfWeek = today.weekDay;
+        todayTime = new Time(Time.getCurrentTimezone());
+        todayTime.setToNow();
+        int dayOfWeek = todayTime.weekDay;
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat dateComparer = new SimpleDateFormat("ddMMyyyy");
         Calendar startChecker = Calendar.getInstance();
         Calendar endChecker = Calendar.getInstance();
 
+        for (int i = 0; i < taskGlobal.task.size(); i++){
+        String startchecker = "9-9-2014";//taskGlobal.task.get(i).getStart();
+        String endchecker = "14-9-2014";//taskGlobal.task.get(i).getFinish();
+
+/*
         Calendar startFilterDate = Calendar.getInstance();
         Calendar endFilterDate = Calendar.getInstance();
-
+*/
         try {
             startChecker.setTime(sdf.parse(startchecker));
         } catch (ParseException e) {
@@ -215,38 +227,36 @@ public class MyActivity extends Activity implements
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
-        String startTime = today.monthDay+"-"+(today.month+1)+"-"+today.year;
+/*
+        String startTime = todayTime.monthDay+"-"+(todayTime.month+1)+"-"+todayTime.year;
         try {
             startFilterDate.setTime(sdf.parse(startTime));
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-
-        String endTime = today.monthDay+"-"+(today.month+1)+"-"+today.year;
+        String endTime = todayTime.monthDay+"-"+(todayTime.month+1)+"-"+todayTime.year;
         try {
             startFilterDate.setTime(sdf.parse(endTime));
         } catch (ParseException e) {
             e.printStackTrace();
-        }
-        dayOfWeek =1;
-        endFilterDate.add(Calendar.DATE, dayOfWeek);
+        }*/
+
+        endFilterDate.add(Calendar.DATE, 7-dayOfWeek);
         String outputDate = sdf.format(endFilterDate.getTime());
-       /* if(startFilterDate.equals(startChecker) || startFilterDate.equals(endChecker)){
-            //Log.i(null, "got in first loop");
-            String sf ="srgg";
-        }
-        else*/ if (sdf.format(endFilterDate.getTime())== sdf.format(startChecker.getTime())){
+
+        if ((dateComparer.format(startChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))==0) || (dateComparer.format(endChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))==0)){
             String sf ="srasgg";
         }
 
-        else if((startFilterDate.after(startChecker) && startFilterDate.before(endChecker))||(endFilterDate.after(startChecker) && endFilterDate.before(endChecker))) {
+        else if((dateComparer.format(startChecker.getTime()).compareTo(dateComparer.format(endFilterDate.getTime()))==0) || (dateComparer.format(endChecker.getTime()).compareTo(dateComparer.format(endFilterDate.getTime()))==0)) {
 
             String sf ="srafawfaffasgg";
-
             }
+        else if((dateComparer.format(startChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))<0) && (dateComparer.format(endChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))>0)) {
+
+        }
+        else if((dateComparer.format(startChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))>0) && (dateComparer.format(startChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))<0)){}
 
             //c.add(Calendar.DAY_OF_MONTH, i);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
 /*
@@ -257,9 +267,7 @@ public class MyActivity extends Activity implements
         catch (ParseException e) {
             e.printStackTrace();
         }
-*/
-
-
+*/      }
     }
     public void check(View v){
         if (today==Boolean.TRUE) {
@@ -305,6 +313,28 @@ public class MyActivity extends Activity implements
             ImageView tick = (ImageView) v.findViewById(R.id.todaytick);
             tick.setVisibility(v.VISIBLE);
             today=Boolean.TRUE;
+
+            todayTime = new Time(Time.getCurrentTimezone());
+            todayTime.setToNow();
+
+            Calendar startFilterDate = Calendar.getInstance();
+            Calendar endFilterDate = Calendar.getInstance();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            String startTime = todayTime.monthDay+"-"+(todayTime.month+1)+"-"+todayTime.year;
+            try {
+                startFilterDate.setTime(sdf.parse(startTime));
+            } catch (ParseException e) {
+                e.printStackTrace();}
+
+            try {
+                endFilterDate.setTime(sdf.parse(startTime));
+            } catch (ParseException e) {
+                e.printStackTrace();}
+            if (tomorrow==Boolean.TRUE){
+                endFilterDate.add(Calendar.DATE, 1);}
+
+            filterList(startFilterDate, endFilterDate);
         }
         else {
             ImageView tick = (ImageView) v.findViewById(R.id.todaytick);
@@ -322,6 +352,30 @@ public class MyActivity extends Activity implements
             ImageView tick = (ImageView) v.findViewById(R.id.tomorrowtick);
             tick.setVisibility(v.VISIBLE);
             tomorrow=Boolean.TRUE;
+
+            todayTime = new Time(Time.getCurrentTimezone());
+            todayTime.setToNow();
+
+            Calendar startFilterDate = Calendar.getInstance();
+            Calendar endFilterDate = Calendar.getInstance();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            String startTime = todayTime.monthDay+"-"+(todayTime.month+1)+"-"+todayTime.year;
+            try {
+                startFilterDate.setTime(sdf.parse(startTime));
+            } catch (ParseException e) {
+                e.printStackTrace();}
+
+            try {
+                endFilterDate.setTime(sdf.parse(startTime));
+            } catch (ParseException e) {
+                e.printStackTrace();}
+            startFilterDate.add(Calendar.DATE, 1);
+            endFilterDate.add(Calendar.DATE, 1);
+            if (today==Boolean.TRUE){
+                startFilterDate.add(Calendar.DATE, -1);}
+
+            filterList(startFilterDate, endFilterDate);
         }
         else {
             ImageView tick = (ImageView) v.findViewById(R.id.tomorrowtick);

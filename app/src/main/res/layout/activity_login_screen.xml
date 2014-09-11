@@ -11,10 +11,11 @@
     tools:context="com.CoraSystems.mobile.test.LoginScreen"
     android:background="@color/background_grey">
 
-    <!-- Login progress -->
+    <!-- Login progress android:background ="@xml/progress"-->
     <ProgressBar
         android:id="@+id/login_progress"
-        android:background ="@xml/progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"/>

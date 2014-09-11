@@ -61,7 +61,7 @@ public class ListGplayCardFragment extends Fragment {
                 GooglePlaySmallCard card = new GooglePlaySmallCard(getActivity());
                 card.setTitle(taskGlobal.task.get(i - 1).getProject());
                 card.setSecondaryTitle(taskGlobal.task.get(i - 1).getTask());
-                card.setComplete(taskGlobal.task.get(i - 1).getCompletion());
+                card.setComplete(Double.toString(taskGlobal.task.get(i - 1).getCompletion()));
                 card.setPlanned(taskGlobal.task.get(i - 1).getPlanned());
 
                 card.count = i - 1;
@@ -181,8 +181,8 @@ public class ListGplayCardFragment extends Fragment {
         @Override
         public void setupInnerViewElements(ViewGroup parent, View view) {
 
-            int complete;
-            int planned;
+            double complete;
+            double planned;
 
             //Retrieve elements
             mTitle = (TextView) parent.findViewById(R.id.carddemo_myapps_main_inner_title);
@@ -200,15 +200,15 @@ public class ListGplayCardFragment extends Fragment {
             LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-            planned = Integer.valueOf(plannedPer);
-            complete = Integer.valueOf(completePer);
+            planned = Double.valueOf(plannedPer);
+            complete = Double.valueOf(completePer);
             complete = (complete/planned)*100;
            /* Animation animation = AnimationUtils.loadAnimation(getContext(), (count > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
             view.startAnimation(animation);
             lastPosition = count;*/
 
-            c.weight = complete;
-            p.weight = 100-complete;
+            c.weight = (float)complete;
+            p.weight = (float)(100-complete);
             comp.setLayoutParams(c);
             plan.setLayoutParams(p);
         }

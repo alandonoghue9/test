@@ -7,60 +7,56 @@ public class Config{
     private double MAXHOURS;
     private double MINHOURS;
     private double MAXMON;
-    private double MINMON;
+    //private double MINMON;
     private double MAXTUE;
-    private double MINTUE;
+   // private double MINTUE;
     private double MAXWED;
-    private double MINWED;
+   // private double MINWED;
     private double MAXTHUR;
-    private double MINTHUR;
+   // private double MINTHUR;
     private double MAXFRI;
-    private double MINFRI;
+   // private double MINFRI;
     private double MAXSAT;
-    private double MINSAT;
+   // private double MINSAT;
     private double MAXSUN;
-    private double MINSUN;
-    private String submission;
+   // private double MINSUN;
 
-    public Config(double maxHoursConfig, double minHoursConfig, double maxMonConfig, double minMonConfig, double maxTueConfig,
-                     double minTueConfig, double maxWedConfig, double minWedConfig, double maxThuConfig,double minThuConfig, double maxFriConfig,
-                     double minFriConfig, double maxSatConfig, double minSatConfig,  double maxSunConfig, double minSunConfig, String submissionByDay){
+    public Config(double maxHoursConfig, double minHoursConfig, double maxMonConfig,double maxTueConfig,
+                     double maxWedConfig, double maxThuConfig, double maxFriConfig,
+                     double maxSatConfig, double maxSunConfig){
 
         MAXHOURS = maxHoursConfig;
         MINHOURS = minHoursConfig;
         MAXMON  = maxMonConfig;
-        MINMON = minMonConfig;
+        //MINMON = minMonConfig;
         MAXTUE = maxTueConfig;
-        MINTUE  = minTueConfig;
+        //MINTUE  = minTueConfig;
         MAXWED = maxWedConfig;
-        MINWED  = minWedConfig;
+        //MINWED  = minWedConfig;
         MAXTHUR = maxThuConfig;
-        MINTHUR = minThuConfig;
+        //MINTHUR = minThuConfig;
         MAXFRI  = maxFriConfig;
-        MINFRI = minFriConfig;
+        //MINFRI = minFriConfig;
         MAXSAT = maxSatConfig;
-        MINSAT = minSatConfig;
+        //MINSAT = minSatConfig;
         MAXSUN = maxSunConfig;
-        MINSUN  = minSunConfig;
-        submission = submissionByDay;
-
+        //MINSUN  = minSunConfig;
     }
 
     public double getMAXHOURS(){return MAXHOURS;}
     public double getMINHOURS(){return MINHOURS;}
     public double getMAXMON(){return MAXMON;}
-    public double getMINMON(){return MINMON;}
+    //public double getMINMON(){return MINMON;}
     public double getMAXTUE(){return MAXTUE;}
-    public double getMINTUE(){return MINTUE;}
+    //public double getMINTUE(){return MINTUE;}
     public double getMAXWED(){return MAXWED;}
-    public double getMINWED(){return MINWED;}
+    //public double getMINWED(){return MINWED;}
     public double getMAXTHUR(){return MAXTHUR;}
-    public double getMINTHUR(){return MINTHUR;}
+    //public double getMINTHUR(){return MINTHUR;}
     public double getMAXFRI(){return MAXFRI;}
-    public double getMINFRI(){return MINFRI;}
+    //public double getMINFRI(){return MINFRI;}
     public double getMAXSAT(){return MAXSAT;}
-    public double getMINSAT(){return MINSAT;}
+    //public double getMINSAT(){return MINSAT;}
     public double getMAXSUN(){return MAXSUN;}
-    public double getMINSUN(){return MINSUN;}
-    public String getSubmission(){return submission;}
+    //public double getMINSUN(){return MINSUN;}
 }

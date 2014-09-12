@@ -3,11 +3,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:paddingTop="8dp"
+    android:paddingTop="10dp"
     android:layout_height="112dp">
 
     <TextView
         android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:id="@+id/carddemo_myapps_main_inner_title"
         android:layout_width="match_parent"
         style="@style/AppTheme.ProjectText"
@@ -15,25 +16,26 @@
 
     <TextView
         android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:paddingTop="6dp"
         android:id="@+id/carddemo_myapps_main_inner_secondaryTitle"
         android:layout_width="match_parent"
         style="@style/AppTheme.TaskText"
         android:layout_height="wrap_content"/>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="20dp">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2">
+            android:weightSum="2">
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,7 +47,8 @@
                     android:text="hours complete"
                     style="@style/AppTheme.BarSmall"/>
             </LinearLayout>
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+            <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:gravity="right"
@@ -57,23 +60,22 @@
                     android:layout_height="wrap_content"
                     android:text="hours planned"
                     style="@style/AppTheme.BarSmall"/>
-                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:id="@+id/progress"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:layout_marginTop="15dp">
+            android:weightSum="100">
 
             <LinearLayout
                 android:id="@+id/complete"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="@color/cora_green"
-                android:layout_weight="@integer/hours_planned"/>
+                android:background="@color/cora_green"/>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -86,8 +88,7 @@
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:layout_height="10dp"
-                android:background="@color/cora_blue"
-                android:layout_weight="@integer/hours_complete"/>
+                android:background="@color/cora_blue"/>
 
         </LinearLayout>
     </LinearLayout>

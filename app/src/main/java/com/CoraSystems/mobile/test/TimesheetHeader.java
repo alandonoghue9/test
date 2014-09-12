@@ -18,69 +18,60 @@ public class TimesheetHeader extends Fragment {
     LinearLayout plan;
     TextView projectTextView;
     TextView taskTextView;
+    TextView percentTextView;
     View.OnClickListener clickListener;
+    static String percentComp;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.timesheet_header, container, false);
+
         Bundle bundle = this.getArguments();
-        double complete;
-        double planned;
+
+        int complete;
+        int planned;
+
         comp = (LinearLayout)view.findViewById(R.id.complete);
         plan = (LinearLayout)view.findViewById(R.id.planned);
-        projectTextView = (TextView)view.findViewById(R.id.teask_timesheet);
-        taskTextView = (TextView)view.findViewById(R.id.project_timesheet);
 
-        //fetchService fetchservice = new fetchService();
-
-        //
-        // fetchservice.execute();
+        taskTextView = (TextView)view.findViewById(R.id.teask_timesheet);
+        projectTextView = (TextView)view.findViewById(R.id.project_timesheet);
+        percentTextView = (TextView)view.findViewById(R.id.percent);
 
         LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-        //complete = ((int)(Math.random()*(100)));
-        //planned = 100-complete;
         //TODO: fix parsing
-        //complete = Double.valueOf(bundle.getString("complete"));
-        //planned = Double.valueOf(bundle.getString("complete"));
         projectTextView.setText(bundle.getString("project"));
-        taskTextView.setText(bundle.getString("task"));
+        taskTextView.setText(bundle.getString("task desc"));
+        //planned = bundle.getInt("planned");
+        complete = bundle.getInt("complete");
+        complete=complete+30;
+        percentComp = (Integer.toString(complete)+"%");
+        percentTextView.setText(percentComp);
 
         //c.weight = (float)complete;
-        //p.weight = (float)planned;
-        c.height = 30;
-        p.height = 30;
+        //p.weight = (float)(100-complete);
+
+        if(complete<30) {
+            p.weight = (float)complete;
+            comp.setBackgroundColor(getActivity().getResources().getColor(R.color.cora_red));
+            c.weight = (float)(100 - complete);
+        }
+        else if(complete<70) {
+            p.weight = (float)complete;
+            comp.setBackgroundColor(getActivity().getResources().getColor(R.color.cora_blue));
+            c.weight = (float)(100 - complete);
+        }
+        else if(complete>70){
+            comp.setBackgroundColor(getActivity().getResources().getColor(R.color.cora_green));
+            p.weight = 100;
+            c.weight = 0;
+        }
+
         comp.setLayoutParams(c);
         plan.setLayoutParams(p);
 
         return view;
-    }
-
-    public class fetchService extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            String dataService="";
-            try {
-                //SoapWebService soapWebService = new SoapWebService("alan", "password", uploadAndDownload.this);
-                //dataService = soapWebService.SendThisData("hello", 200000);
-
-                JSONparser jsoNparser = new JSONparser(dataService, getActivity());
-                jsoNparser.parsedData();
-                JSONparser jsoN1parser = new JSONparser(dataService, getActivity());
-                jsoN1parser.parsedData();
-
-                return null;
-            }
-            catch(Exception e){}
-             /*catch (IOException ) {
-                //e.printStackTrace();
-            }*/
-
-            return null;
-        }
-
-
     }
 }

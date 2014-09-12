@@ -35,6 +35,7 @@
 
         <TextView
             style="@style/AppTheme.BarBig"
+            android:id="@+id/percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="40%"/>
@@ -67,8 +68,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:background="@color/cora_green"
-            android:layout_weight="@integer/hours_planned"/>
+            android:background="@color/cora_green"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -81,8 +81,7 @@
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:layout_height="10dp"
-            android:background="@color/text_grey"
-            android:layout_weight="@integer/hours_complete"/>
+            android:background="@color/text_grey"/>
 
     </LinearLayout>
 

@@ -5,25 +5,32 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.CoraSystems.mobile.test.Objects.Task;
-import com.CoraSystems.mobile.test.database.DatabaseReader;
-
+import com.CoraSystems.mobile.test.Objects.ByDay;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Timesheet extends Activity {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     static ViewPager mViewPager;
 
-    ItemSelectionInterface selectionInterface;
     static timesheetDays fragment;
+    int taskID;
+
+    ByDayGlobal GlobalDay;
+    public GlobalSelectTimesheet g;
+
+    ArrayList<timesheetDays> swipe_windows;
+    ArrayList<ByDay> Days;
+
+    int planned;
+    int completion;
+    String project_des;
+    public String startDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +38,40 @@ public class Timesheet extends Activity {
 
         setContentView(R.layout.timesheet_main);
 
+        Bundle bundle = getIntent().getExtras();
+        taskID = bundle.getInt("task");
+        project_des = bundle.getString("project");
+        completion = bundle.getInt("complete");
+        planned = bundle.getInt("planned");
+
+        g = GlobalSelectTimesheet.getInstance();
+        g.onItemSelectionChanged(-1);
+        g.clicked(10);
+
+        GlobalDay = ByDayGlobal.getInstance();
+        Days = new ArrayList<>();
+
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Bundle bundle = getIntent().getExtras();
+        for(int t=0;t<GlobalDay.ByDayConstantsList.size();t++){
+            if(GlobalDay.ByDayConstantsList.get(t).gettaskId()==taskID){
+                Days.add(GlobalDay.ByDayConstantsList.get(t));
+            }
+        }
+        /*for(int t=0;t<taskGlobal.task.size();t++){
+            if(taskID==taskGlobal.task.get(t).getTaskId()){
+                startDate=taskGlobal.task.get(t).getStart();
+                t=taskGlobal.task.size();
+            }
+        }*/
+       startDate = "2014-09-11";
 
-        List<timesheetDays> timesheetDays = getFragments();
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager(), timesheetDays);
+        swipe_windows = getFragments();
+
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager(), swipe_windows);
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);//new SectionsPagerAdapter(getFragmentManager()));
+        mViewPager.setAdapter(mSectionsPagerAdapter);
         //mViewPager.setOffscreenPageLimit(4);
 
         Fragment headerFragment = new TimesheetHeader();
@@ -56,13 +88,17 @@ public class Timesheet extends Activity {
         transactionSave.commit();
     }
 
-    private List<timesheetDays> getFragments() {
-        List<timesheetDays> fList = new ArrayList<>();
+    private ArrayList<timesheetDays> getFragments() {
+        ArrayList<timesheetDays> fList = new ArrayList<>();
 
-        fList.add(timesheetDays.newInstance(0));
-        fList.add(timesheetDays.newInstance(1));
-        fList.add(timesheetDays.newInstance(2));
+        int i = 21;//Days.size();
+        int extra = i%7;
+        int week = i/7;
+        if(extra>0)week=week++;
 
+        for(int swipes=0;swipes<week;swipes++){
+            fList.add(timesheetDays.newInstance(swipes, g, Days, startDate));
+        }
         return fList;
     }
 

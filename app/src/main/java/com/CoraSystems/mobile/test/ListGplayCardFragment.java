@@ -8,6 +8,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class ListGplayCardFragment extends Fragment {
     LinearLayout plan;
     ArrayList<Task> task;
     int lastPosition =-1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.demo_fragment_list_gplaycard, container, false);
@@ -42,8 +44,6 @@ public class ListGplayCardFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //FetchTask fetchask = new FetchTask();
-        //fetchask.execute();
         fillCards();
     }
 
@@ -78,71 +78,7 @@ public class ListGplayCardFragment extends Fragment {
             }
         }
     }
- /*   public class FetchTask extends AsyncTask<Void, Void, Void> {
-        LinearLayout linlaHeaderProgress = (LinearLayout) getActivity().findViewById(R.id.linlaHeaderProgress);
 
-        ArrayList<Card> cards;
-
-
-        @Override
-        protected void onPreExecute() {
-            linlaHeaderProgress.setVisibility(View.VISIBLE);
-        }
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                DatabaseReader databaseReader = new DatabaseReader();
-                databaseReader.DataSource(getActivity());
-                databaseReader.reOpen();
-                task = databaseReader.getProjectsTasks();
-                cards = new ArrayList<>();
-                for (int i = 0; i < task.size(); i++) {
-                    if (i==0) {
-                        Gap card = new Gap(getActivity());
-                        card.setShadow(false);
-
-                        cards.add(card);
-                    }
-                    else{
-                        GooglePlaySmallCard card = new GooglePlaySmallCard(getActivity());
-                        card.setTitle(task.get(i-1).getProject());
-                        card.setSecondaryTitle(task.get(i-1).getTask());
-                        card.setComplete(task.get(i-1).getCompletion());
-                        card.setPlanned(task.get(i-1).getPlanned());
-
-                        card.count = i - 1;
-
-                        card.init();
-
-                        cards.add(card);
-                    }
-
-
-                }
-                return null;
-            }
-            catch(Exception e){}
-
-            return null;
-        }
-        @Override
-        protected void onPostExecute(Void result) {
-            CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
-            new Thread(new Runnable() {
-                public void run() {
-                }
-            }).start();
-            CardListView listView = (CardListView) getActivity().findViewById(R.id.carddemo_list_gplaycard);
-            linlaHeaderProgress.setVisibility(View.GONE);
-            if (listView != null) {
-
-                listView.setAdapter(mCardArrayAdapter);
-
-           }
-
-        }
-    }
-*/
     public class GooglePlaySmallCard extends Card {
 
         protected TextView mTitle;
@@ -170,7 +106,8 @@ public class ListGplayCardFragment extends Fragment {
                     Intent i = new Intent(getActivity(), Timesheet.class);
 
                     i.putExtra("project", taskGlobal.task.get(count).getProject());
-                    i.putExtra("task", taskGlobal.task.get(count).getTask());
+                    i.putExtra("task desc", taskGlobal.task.get(count).getTask());
+                    i.putExtra("task", taskGlobal.task.get(count).getID());
                     i.putExtra("complete", taskGlobal.task.get(count).getCompletion());
                     i.putExtra("planned", taskGlobal.task.get(count).getPlanned());
                     startActivity(i);
@@ -184,7 +121,6 @@ public class ListGplayCardFragment extends Fragment {
             double complete;
             double planned;
 
-            //Retrieve elements
             mTitle = (TextView) parent.findViewById(R.id.carddemo_myapps_main_inner_title);
             mSecondaryTitle = (TextView) parent.findViewById(R.id.carddemo_myapps_main_inner_secondaryTitle);
 
@@ -194,21 +130,32 @@ public class ListGplayCardFragment extends Fragment {
             if (mSecondaryTitle != null)
                 mSecondaryTitle.setText(secondaryTitle);
 
-            comp = (LinearLayout)parent.findViewById(R.id.progress);
+            comp = (LinearLayout)parent.findViewById(R.id.complete);
             plan = (LinearLayout)parent.findViewById(R.id.planned);
 
             LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
-            planned = Double.valueOf(plannedPer);
-            complete = Double.valueOf(completePer);
+            planned = Double.parseDouble(plannedPer);
+            complete = Double.parseDouble(completePer);
             complete = (complete/planned)*100;
+
            /* Animation animation = AnimationUtils.loadAnimation(getContext(), (count > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
             view.startAnimation(animation);
             lastPosition = count;*/
 
-            c.weight = (float)complete;
-            p.weight = (float)(100-complete);
+            Log.v("blah", plannedPer);
+
+            if(complete<100) {
+                c.weight = (float) complete;
+                p.weight = (float) (100 - complete);
+            }
+            else if(complete>100){
+                comp.setBackgroundColor(getActivity().getResources().getColor(R.color.cora_red));
+                c.weight = 100;
+                p.weight = 0;
+            }
+
             comp.setLayoutParams(c);
             plan.setLayoutParams(p);
         }

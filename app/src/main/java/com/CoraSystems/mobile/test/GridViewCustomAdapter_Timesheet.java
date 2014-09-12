@@ -1,34 +1,28 @@
 package com.CoraSystems.mobile.test;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
-
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Random;
+import java.util.Date;
+import java.util.TimeZone;
 
 
 public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
 {
     Context context;
-    String text[]=new String[] {"M","T","W","T","F","S","S"};
-
-    ItemSelectionInterface selectionInterface;
+    String dayLabel[]=new String[] {"M","T","W","T","F","S","S"};
 
     Boolean clicked[]=new Boolean[] {Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE};
 
@@ -36,22 +30,54 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
 
     timesheetDays parentFrag;
     int section;
+    GlobalSelectTimesheet select;
 
-    Calendar w;
+    Time today;
+    Calendar calendar;
 
-    public GridViewCustomAdapter_Timesheet(Context context, timesheetDays Frag)
+    String hoursWork;
+    String h;
+
+    public GridViewCustomAdapter_Timesheet(Context context, timesheetDays Frag, String start)
     {
         super(context, 0);
 
         this.context=context;
         this.parentFrag = Frag;
 
-        w = Calendar.getInstance();
-        w.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        section = Frag.section;
-        //w.add(Calendar.DATE, (section*7));
+        Date date=new Date();
 
-        selectionInterface=Frag.selectionInterface;
+        h="0";
+
+        DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+
+        int randomHour = ((int)(Math.random()*(8)));
+        hoursWork = Integer.toString(randomHour);
+
+        try {
+            date = formatter.parse("09-20-2014");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+
+        today = new Time();
+        today.set(calendar.getTimeInMillis());
+
+        TimeZone tz = TimeZone.getDefault();
+        int offsetInMillis = tz.getOffset(calendar.getTimeInMillis());
+        long millis = calendar.getTimeInMillis();
+        //millis -= offsetInMillis;
+        String test = Long.toString(millis);
+        Log.v("timeTest", test);
+
+        section = Frag.section;
+
+        this.select = Frag.select;
     }
 
     public int getCount()
@@ -62,22 +88,20 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
     @Override
     public View getView(int i, View convertView, ViewGroup parent)
     {
-        Time today = new Time(Time.getCurrentTimezone());
-        today.setToNow();
-
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
         try {
-            w.setTime(sdf.parse(today.monthDay + (section*7) + "-" + today.month + 1 + "-" + today.year));
+            calendar.setTime(sdf.parse(today.monthDay + (section*7) + "-" + today.month + 1 + "-" + today.year));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        w.add(Calendar.DAY_OF_WEEK, i);
+        calendar.add(Calendar.DAY_OF_WEEK, i);
 
-        String outputDate = sdf.format(w.getTime());
+        String dayDate = sdf.format(calendar.getTime());
         SimpleDateFormat humanReadableDate = new SimpleDateFormat("MMM dd");
         try{
-            outputDate = humanReadableDate.format(sdf.parse(outputDate));}
+            dayDate = humanReadableDate.format(sdf.parse(dayDate));
+        }
         catch (ParseException e) {
             e.printStackTrace();
         }
@@ -93,14 +117,12 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
         imageView.setImageResource(R.drawable.ic_action_overflow);
         TextView dateGrid = (TextView) grid.findViewById(R.id.date_GridView);
 
-        if((parentFrag.select == i) && (parentFrag.clicks[i]==Boolean.FALSE)){
+        if((select.getSelectedItemOnFragment(i)==i)&&(parentFrag.clicks[i]==Boolean.FALSE)){
 
             for(int x=0;x<7;x++){
                 parentFrag.clicks[x]=Boolean.FALSE;
             }
             parentFrag.clicks[i]=Boolean.TRUE;
-
-            imageView.setVisibility(View.VISIBLE);
 
             if(clicked[i]==Boolean.FALSE) {
                 ViewSwitcher switcher = (ViewSwitcher) grid.findViewById(R.id.my_switcher);
@@ -109,20 +131,23 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
             clicked[i]=Boolean.TRUE;
 
             TextView hrs = (TextView) grid.findViewById(R.id.new_hrs);
-            TextView day = (TextView) grid.findViewById(R.id.hour);
-            TextView day1 = (TextView) grid.findViewById(R.id.hour_label);
+            TextView dayTop = (TextView) grid.findViewById(R.id.hour);
+            TextView dayShort = (TextView) grid.findViewById(R.id.hour_label);
+            EditText edit = (EditText)grid.findViewById(R.id.hidden_edit_view);
 
-            day.setText("");
+            h = edit.getText().toString();
+
+            imageView.setVisibility(View.VISIBLE);
+            dayTop.setVisibility(View.INVISIBLE);
             hrs.setText("hrs");
-            day1.setText("wed");
-            dateGrid.setText(outputDate);
+            dayShort.setText("wed");
+            dateGrid.setText(dayDate);
         }
-        else if(((parentFrag.select == i) && (parentFrag.clicks[i]==Boolean.TRUE))||(parentFrag.clicks[i]==Boolean.FALSE)) {
+
+        else if(((select.getSelectedItemOnFragment(i)==i)&&(parentFrag.clicks[i]==Boolean.TRUE))||(parentFrag.clicks[i]==Boolean.FALSE)) {
             for (int y = 0; y < 7; y++) {
                 parentFrag.clicks[y] = Boolean.FALSE;
             }
-
-            imageView.setVisibility(View.INVISIBLE);
 
             if (clicked[i] == Boolean.TRUE) {
                 ViewSwitcher switcher = (ViewSwitcher) grid.findViewById(R.id.my_switcher);
@@ -130,29 +155,40 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
             }
             clicked[i] = Boolean.FALSE;
 
-            TextView viewtext = (TextView) grid.findViewById(R.id.new_hrs);
-            TextView textView = (TextView) grid.findViewById(R.id.day_letter);
-            TextView day = (TextView) grid.findViewById(R.id.hour);
-            TextView day1 = (TextView) grid.findViewById(R.id.hour_label);
+            TextView hrsTop = (TextView) grid.findViewById(R.id.new_hrs);
+            TextView dayLetter = (TextView) grid.findViewById(R.id.day_letter);
+            TextView hoursWorked = (TextView) grid.findViewById(R.id.hour);
+            TextView hrs = (TextView) grid.findViewById(R.id.hour_label);
 
             int randomHour = ((int)(Math.random()*(8)));
-            String sectionNum = Integer.toString(randomHour);
-            day1.setText("hrs");
+            String workHours = Integer.toString(randomHour);
+
             if(i==6){
-                sectionNum="";
-                day1.setText("");
+                hoursWork="";
+                hrs.setText("");
             }
 
-            textView.setText(text[i]);
-            day.setText(sectionNum);
-            viewtext.setText("");
-            dateGrid.setText(outputDate);
+            if(randomHour==0){
+                hoursWorked.setText("");
+                hrs.setText("");
+            }
+            else {
+                hoursWorked.setText(workHours);
+                hrs.setText("hrs");
+            }
+
+            imageView.setVisibility(View.INVISIBLE);
+            dayLetter.setText(dayLabel[i]);
+            hrsTop.setVisibility(View.INVISIBLE);
+            dateGrid.setText(dayDate);
 
             if (randomHour>5) {
                 grid.setBackgroundColor(context.getResources().getColor(R.color.cora_green));
-            } else if ((randomHour < 6)&&(randomHour>2)) {
+            }
+            else if ((randomHour < 6)&&(randomHour>2)) {
                 grid.setBackgroundColor(context.getResources().getColor(R.color.cora_red));
-            } else if (randomHour <3) {
+            }
+            else if (randomHour <3) {
                 grid.setBackgroundColor(context.getResources().getColor(R.color.cora_blue));
             }
             if (i==6){

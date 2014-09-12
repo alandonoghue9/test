@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.CoraSystems.mobile.test.GlobalSelectTimesheet;
 import com.CoraSystems.mobile.test.Objects.ByDay;
 import com.CoraSystems.mobile.test.Objects.Config;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
@@ -271,7 +272,9 @@ public class DatabaseReader {
                 counter++;
                 // }
             }
-             ByDayGlobal.ByDayConstantsList=getByDay();
+            ByDayGlobal g;
+            g = ByDayGlobal.getInstance();
+            g.ByDayConstantsList=getByDay();
         }
     }
     public ArrayList<Task> getProjectsTasks() {
@@ -322,7 +325,6 @@ public class DatabaseReader {
             cursor.moveToNext();
         }
         cursor.close();
-
 
         return byDays;
     }

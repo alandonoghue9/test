@@ -10,4 +10,21 @@ import java.util.ArrayList;
 public class ByDayGlobal
 {
     public static ArrayList<ByDay> ByDayConstantsList;
+    private ByDayGlobal(){}
+    private static ByDayGlobal instance;
+
+    public void setData(ByDay d){
+        ByDayConstantsList.add(d);
+    }
+    public ByDay getData(int i){
+        return ByDayConstantsList.get(i);
+    }
+
+    public static synchronized ByDayGlobal getInstance(){
+        if(instance==null){
+            instance=new ByDayGlobal();
+            instance.ByDayConstantsList = new ArrayList<>();
+        }
+        return instance;
+    }
 }

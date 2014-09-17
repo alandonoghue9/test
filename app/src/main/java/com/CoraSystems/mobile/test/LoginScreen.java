@@ -28,16 +28,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.CoraSystems.mobile.test.Objects.ByDay;
 import com.CoraSystems.mobile.test.Objects.Config;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.TimesheetGlobal;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -401,7 +397,7 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
                  // GetWork Byday GetTImesheet ConfigItems
             }
             else {
-                taskGlobal.task = databaseReader.getProjectsTasks();
+                TaskGlobal.task = databaseReader.getProjectsTasks();
                 ConfigConstants.config = config;
                 //ByDayGlobal.ByDayConstantsList = databaseReader.getByDay();
                 //TimesheetGlobal.timesheetArrayList = databaseReader.getTimeSheet();

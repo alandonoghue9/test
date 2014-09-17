@@ -8,5 +8,5 @@ import java.util.ArrayList;
  * Created by Alan on 9/13/2014.
  */
 public class LocalSaveGlobal {
-    public static ArrayList<LocalSave> LocalSaveArrayList;
+    public static ArrayList<LocalSave> LocalSaveArrayList=new ArrayList<>();
 }

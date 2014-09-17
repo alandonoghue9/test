@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.CoraSystems.mobile.test.Graph.PieGraph;
@@ -42,6 +43,14 @@ public class DashFrag extends Fragment {
     String firstDay;
     int pos;
 
+    ArrayList<ByDay> tasksList;
+    ArrayList<ByDay> daysList;
+
+    int hours;
+    int days;
+    int tasks;
+    double complete;
+
     View view;
 
     @Override
@@ -52,12 +61,7 @@ public class DashFrag extends Fragment {
         pos=0;
 
         spinner1 = (Spinner) view.findViewById(R.id.weeks_spinner);
-        List<String> list = NotSubmitted.NotSubmitted; //new ArrayList<>();
-        /*list.add("21 July - 27 July");
-        list.add("28 July - 3 August");
-        list.add("4 August - 10 August");
-        list.add("11 August - 17 August");
-        list.add("1 September - 7 September");*/
+        List<String> list = NotSubmitted.NotSubmitted;
 
         Date Thedate=new Date();
         DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
@@ -123,117 +127,84 @@ public class DashFrag extends Fragment {
 
         spinner1.setAdapter(dataAdapter);
 
-        //LIST OF DAYS WITHIN WEEK
-        /*ArrayList<ByDay> tasks = new ArrayList<>();
-        for(int i = 0; i< ByDayGlobal.ByDayConstantsList.size();i++){
-            if(ByDayGlobal.ByDayConstantsList.get(i).getDate()==date){
-                tasks.add(ByDayGlobal.ByDayConstantsList.get(i));
-            }
-        }*/
         firstDay = spinner1.getSelectedItem().toString();
         for(int i=0;i<displayList.size();i++){
             if(firstDay==displayList.get(i)){
                 pos = i;
+                NotSubmitted.i=pos;
             }
         }
         firstDay = date.substring(0, 6);
 
         gridView=(GridView)view.findViewById(R.id.gridview);
-        gridViewAdapterDash = new GridViewCustomAdapter_Dash(this.getActivity(), pos);
+        gridViewAdapterDash = new GridViewCustomAdapter_Dash(this.getActivity());
         gridView.setAdapter(gridViewAdapterDash);
 
         addListenerOnSpinnerItemSelection();
-
-        loadGraph();
 
         return view;
     }
 
     public void loadGraph(){
-        int complete = 60;
 
+        //LIST OF DAYS WITHIN WEEK
+        /*tasksList = new ArrayList<>();
+        daysList = new ArrayList<>();
+        for(int i = 0; i< ByDayGlobal.ByDayConstantsList.size();i++){
+            if(ByDayGlobal.ByDayConstantsList.get(i).getDate()==date){
+                tasksList.add(ByDayGlobal.ByDayConstantsList.get(i));
+                //check taskID with tasksList and add if not in there
+            }
+        }*/
+
+        hours = ((int)(Math.random()*(40)));
+        TextView hoursView = (TextView) view.findViewById(R.id.hours);
+        String hoursComp = Integer.toString(hours);
+        hoursView.setText(hoursComp);
+
+        days = ((int)((Math.random()*(4)+3)));
+        TextView daysView = (TextView) view.findViewById(R.id.days);
+        String daysComp = Integer.toString(days);
+        daysView.setText(daysComp);
+
+        tasks = ((int)(Math.random()*(12)));
+        TextView tasksView = (TextView) view.findViewById(R.id.tasks);
+        String tasksComp = Integer.toString(tasks);
+        tasksView.setText(tasksComp);
+
+        complete = (hours/40.00);//((int)(Math.random()*(100)));
+        complete = complete*100;
         PieGraph pg = (PieGraph)view.findViewById(R.id.graph);
+        pg.removeSlices();
         PieSlice slice = new PieSlice();
         slice.setColor(Color.parseColor("#ffffff"));
-        slice.setValue(100-complete);
+        slice.setValue(100-(int)complete);
         pg.addSlice(slice);
         slice = new PieSlice();
         slice.setColor(Color.parseColor("#1da9e1"));
-        slice.setValue(complete);
+        slice.setValue((int)complete);
         pg.addSlice(slice);
+
+        TextView percentView = (TextView) view.findViewById(R.id.percent);
+        String percentComp = (Double.toString(complete)+"%");
+        percentView.setText(percentComp);
     }
 
     public void addListenerOnSpinnerItemSelection(){
         spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener(){
         @Override
-        public void onItemSelected(AdapterView<?> arg0, View arg1,
-        int arg2, long arg3) {
-            // TODO Auto-generated method stub
-            String s = spinner1.getItemAtPosition(arg2).toString();
-            //list.add(s);
+        public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+            firstDay = spinner1.getSelectedItem().toString();
+            for(int i=0;i<displayList.size();i++){
+                if(firstDay==displayList.get(i)){
+                    pos = i;
+                    NotSubmitted.i=pos;
+                }
+            }
+            loadGraph();
+
             gridViewAdapterDash.notifyDataSetChanged();
         }});
-        /*date = spinner1.getSelectedItem().toString();
-        firstDay = spinner1.getSelectedItem().toString();
-        for(int i=0;i<displayList.size();i++){
-            if(firstDay==displayList.get(i)){
-                pos = i;
-            }
-        }*/
-        //gridViewAdapterDash = new GridViewCustomAdapter_Dash(this.getActivity(), pos);
-        //gridView.setAdapter(gridViewAdapterDash);
-        //gridViewAdapterDash.notifyDataSetChanged();
 
-        /*date = date.substring(0, 6);
-
-        //ARRANGE INTO CORRECT FORMAT
-        //date = date.substring(0, 7);
-        Date Thedate=new Date();
-        DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
-        try {
-            Thedate = formatter.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        calendar = Calendar.getInstance();
-        calendar.setTime(Thedate);
-
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-
-        today = new Time();
-        today.set(calendar.getTimeInMillis());
-        String dayDate1;
-        String dayDate7;
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-
-        try {
-            calendar.setTime(sdf.parse(today.monthDay + "-" + today.month + "-" + today.year));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        calendar.add(Calendar.DAY_OF_WEEK, 0);
-
-            dayDate1 = sdf.format(calendar.getTime());
-            SimpleDateFormat humanReadableDate = new SimpleDateFormat("MMM dd");
-            try {
-                dayDate1 = humanReadableDate.format(sdf.parse(dayDate1));
-                Log.v("blah", dayDate1);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            try {
-                calendar.setTime(sdf.parse(today.monthDay + 7 + "-" + today.month + "-" + today.year));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            calendar.add(Calendar.DAY_OF_WEEK, 1);
-        dayDate7 = sdf.format(calendar.getTime());
-        try {
-            dayDate7 = humanReadableDate.format(sdf.parse(dayDate7));
-            Log.v("blah", dayDate7);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
     }
 }

@@ -7,5 +7,5 @@ import java.util.ArrayList;
  * Created by Alan on 9/4/2014.
  */
 public class TimesheetGlobal {
-    public static ArrayList<TimeSheet> timesheetArrayList;
+    public static ArrayList<TimeSheet> timesheetArrayList=new ArrayList<>();
 }

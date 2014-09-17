@@ -28,11 +28,10 @@ public class GridViewCustomAdapter_Dash extends ArrayAdapter
 
     View grid;
 
-    public GridViewCustomAdapter_Dash(Context context, int firstDay)
+    public GridViewCustomAdapter_Dash(Context context)
     {
         super(context, 0);
         this.context=context;
-        this.firstDay = firstDay;
     }
 
     public int getCount()
@@ -50,6 +49,8 @@ public class GridViewCustomAdapter_Dash extends ArrayAdapter
         } else {
             grid = convertView;
         }
+
+        this.firstDay = NotSubmitted.i;
 
         TextView textView = (TextView) grid.findViewById(R.id.day);
         textView.setText(text[i]);
@@ -109,6 +110,4 @@ public class GridViewCustomAdapter_Dash extends ArrayAdapter
 
         return grid;
     }
-
-
 }

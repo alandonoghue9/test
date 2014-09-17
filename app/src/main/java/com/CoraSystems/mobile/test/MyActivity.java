@@ -11,12 +11,9 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,21 +22,14 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.view.View;
 
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.Objects.Task;
-import com.CoraSystems.mobile.test.Services.JSONparser;
-import com.CoraSystems.mobile.test.Services.SoapWebService;
-import com.CoraSystems.mobile.test.database.DatabaseConstants;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 
-import java.text.DateFormat;
-import java.text.FieldPosition;
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class MyActivity extends Activity implements
         OnTextFragmentAnimationEndListener, FragmentManager.OnBackStackChangedListener {
@@ -68,7 +58,7 @@ public class MyActivity extends Activity implements
         mDarkHoverView.setAlpha(0);
 
         //filterList();
-        filterTask = taskGlobal.task;
+        filterTask = TaskGlobal.task;
         Fragment baseFragment = new ListGplayCardFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -215,7 +205,7 @@ public class MyActivity extends Activity implements
             Calendar startChecker = Calendar.getInstance();
             Calendar endChecker = Calendar.getInstance();
 
-            for (int i = 0; i < taskGlobal.task.size(); i++){
+            for (int i = 0; i < TaskGlobal.task.size(); i++){
                 String startchecker = "9-9-2014";//taskGlobal.task.get(i).getStart();
                 String endchecker = "14-9-2014";//taskGlobal.task.get(i).getFinish();
 
@@ -267,8 +257,8 @@ public class MyActivity extends Activity implements
         }
         else if ((dateComparer.format(endChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))<0)&& isToday == true)
         {
-            if(taskGlobal.task.get(i).getCompletion() > 0.99){
-                taskGlobal.delTask.add(taskGlobal.task.get(i));}
+            if(TaskGlobal.task.get(i).getCompletion() > 0.99){
+                TaskGlobal.delTask.add(TaskGlobal.task.get(i));}
         }
             //c.add(Calendar.DAY_OF_MONTH, i);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
 /*
@@ -284,7 +274,7 @@ public class MyActivity extends Activity implements
             public void run() {
                 DatabaseReader databaseReader = new DatabaseReader();
                 databaseReader.DataSource(MyActivity.this);
-                databaseReader.deleteTask(taskGlobal.delTask);
+                databaseReader.deleteTask(TaskGlobal.delTask);
             }
         }).start();
     }

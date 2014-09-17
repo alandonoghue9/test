@@ -1,16 +1,21 @@
 package com.CoraSystems.mobile.test;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.CoraSystems.mobile.test.Objects.ByDay;
+import com.CoraSystems.mobile.test.Objects.ByDayInArray;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
+
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
 public class Timesheet extends Activity {
@@ -21,7 +26,6 @@ public class Timesheet extends Activity {
     static timesheetDays fragment;
     int taskID;
 
-    ByDayGlobal GlobalDay;
     public GlobalSelectTimesheet g;
 
     ArrayList<timesheetDays> swipe_windows;
@@ -48,21 +52,16 @@ public class Timesheet extends Activity {
 
         selected = 20;
 
-        g = GlobalSelectTimesheet.getInstance();
-        g.onItemSelectionChanged(-1);
-        g.clicked(10);
-
-        GlobalDay = ByDayGlobal.getInstance();
         Days = new ArrayList<>();
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        for(int t=0;t<GlobalDay.ByDayConstantsList.size();t++){
-            if(GlobalDay.ByDayConstantsList.get(t).gettaskId()==taskID){
-                Days.add(GlobalDay.ByDayConstantsList.get(t));
+        /*for(int t=0;t<ByDayGlobal.ByDayConstantsList.size();t++){
+            if(ByDayGlobal.ByDayConstantsList.get(t).gettaskId()==taskID){
+                Days.add(ByDayGlobal.ByDayConstantsList.get(t));
             }
         }
-        /*for(int t=0;t<taskGlobal.task.size();t++){
+        for(int t=0;t<taskGlobal.task.size();t++){
             if(taskID==taskGlobal.task.get(t).getTaskId()){
                 startDate=taskGlobal.task.get(t).getStart();
                 t=taskGlobal.task.size();
@@ -129,9 +128,58 @@ public class Timesheet extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    Intent stat;
     public void stats(){
-        Intent stat = new Intent(this, Stats.class);
-        startActivity(stat);
+        stat = new Intent(this, Stats.class);
+        if(ByDayInArray.ByDayIn.size()>0) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Save Changes")
+                    .setMessage("Would you like to save changes?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(stat);
+                        }
+
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(stat);
+                        }
+
+                    })
+                    .show();
+        }
+        else{
+            startActivity(stat);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(ByDayInArray.ByDayIn.size()>0) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Save Changes")
+                    .setMessage("Would you like to save changes?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+
+                    })
+                    .show();
+        }
+        else {
+            finish();
+        }
     }
 }

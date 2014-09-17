@@ -40,7 +40,7 @@ public class timesheetDays extends Fragment implements GridViewCustomAdapter_Tim
         super.onCreate(savedInstanceState);
         section = getArguments() != null ? getArguments().getInt("Sect") : 1;
         start = getArguments() != null ? getArguments().getString("start") : "1";
-        selected = 20;
+        selected = -1;
         clicks = new Boolean[] {Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE};
         clicked =new Boolean[] {Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE};
         viewBool = Boolean.FALSE;
@@ -68,7 +68,7 @@ public class timesheetDays extends Fragment implements GridViewCustomAdapter_Tim
 
     public int isItemSelected(int position){
         if(position!=selected){
-            return 20;
+            return -1;
         }
         return selected;
     }

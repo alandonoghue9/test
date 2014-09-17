@@ -7,7 +7,8 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/background_grey">
 
     <LinearLayout
         android:orientation="vertical"
@@ -58,6 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="36"
+                android:id="@+id/hours"
                 android:textSize="40sp"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@color/text_dark"/>
@@ -79,6 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="8"
+                android:id="@+id/days"
                 android:textSize="40sp"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@color/text_dark"/>
@@ -100,6 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2"
+                android:id="@+id/tasks"
                 android:textSize="40sp"
                 android:fontFamily="sans-serif-light"
                 android:textColor="@color/text_dark"/>
@@ -132,6 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="60%"
+                    android:id="@+id/percent"
                     android:layout_centerInParent="true"
                     android:textSize="40sp"
                     android:fontFamily="sans-serif-light"

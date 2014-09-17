@@ -7,14 +7,13 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.CoraSystems.mobile.test.GlobalSelectTimesheet;
 import com.CoraSystems.mobile.test.Objects.ByDay;
 import com.CoraSystems.mobile.test.Objects.Config;
 import com.CoraSystems.mobile.test.Objects.LocalSave;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.LocalSaveGlobal;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.Objects.TimeSheet;
 import com.CoraSystems.mobile.test.database.DatabaseConstants.TaskConstants;
 import com.CoraSystems.mobile.test.Objects.Task;
@@ -208,7 +207,7 @@ public class DatabaseReader {
                 counter++;
            // }
         }}
-        taskGlobal.task = getProjectsTasks();
+        TaskGlobal.task = getProjectsTasks();
     }
     public void addConfig(Context context) {
         if (MAXHOURS > 0){
@@ -299,10 +298,8 @@ public class DatabaseReader {
                 counter++;
                 // }
             }
-            ByDayGlobal g;
-            g = ByDayGlobal.getInstance();
-            g.ByDayConstantsList=getByDay();
-            //ByDayGlobal.ByDayConstantsList=getByDay();
+
+            ByDayGlobal.ByDayConstantsList=getByDay();
         }
     }
 
@@ -445,7 +442,7 @@ public class DatabaseReader {
             database.delete(TaskConstants.TASK_DATABASE_TABLE, TaskConstants.TASK_KEY_ID
                     + " = " + id, null);
         }
-        taskGlobal.delTask.clear();
+        TaskGlobal.delTask.clear();
     }
     public void deleteByDay(ArrayList<ByDay> delByDay){
         for (int i = 0; i < delByDay.size(); i++){

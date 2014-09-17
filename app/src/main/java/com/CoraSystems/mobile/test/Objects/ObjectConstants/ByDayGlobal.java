@@ -9,8 +9,8 @@ import java.util.ArrayList;
  */
 public class ByDayGlobal
 {
-    public static ArrayList<ByDay> ByDayConstantsList;
-    private ByDayGlobal(){}
+    public static ArrayList<ByDay> ByDayConstantsList=new ArrayList<>();
+    /*private ByDayGlobal(){}
     private static ByDayGlobal instance;
 
     public void setData(ByDay d){
@@ -26,5 +26,5 @@ public class ByDayGlobal
             instance.ByDayConstantsList = new ArrayList<>();
         }
         return instance;
-    }
+    }*/
 }

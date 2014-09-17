@@ -1,19 +1,19 @@
 package com.CoraSystems.mobile.test;
 
+import android.app.Dialog;
 import android.app.Fragment;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
-import com.CoraSystems.mobile.test.Services.JSONparser;
-import com.CoraSystems.mobile.test.database.DatabaseReader;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 
 public class TimesheetHeader extends Fragment {
 
@@ -24,14 +24,15 @@ public class TimesheetHeader extends Fragment {
     TextView percentTextView;
     View.OnClickListener clickListener;
     static String percentComp;
+    double complete;
+
+    View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.timesheet_header, container, false);
+        view = inflater.inflate(R.layout.timesheet_header, container, false);
 
         Bundle bundle = this.getArguments();
-
-        double complete;
         double planned;
 
         comp = (LinearLayout)view.findViewById(R.id.complete);
@@ -48,10 +49,10 @@ public class TimesheetHeader extends Fragment {
         //planned = 100-complete;
 
         int count = bundle.getInt("count");
-        complete = taskGlobal.task.get(count).getCompletion();
-        planned = taskGlobal.task.get(count).getCompletion();
-        projectTextView.setText(taskGlobal.task.get(count).getProject()+" ("+(taskGlobal.task.get(count).getProjectId())+")");
-        taskTextView.setText(taskGlobal.task.get(count).getTask()+" ("+(taskGlobal.task.get(count).getTaskId())+")");
+        complete = TaskGlobal.task.get(count).getCompletion();
+        planned = TaskGlobal.task.get(count).getCompletion();
+        projectTextView.setText(TaskGlobal.task.get(count).getProject()+" ("+(TaskGlobal.task.get(count).getProjectId())+")");
+        taskTextView.setText(TaskGlobal.task.get(count).getTask()+" ("+(TaskGlobal.task.get(count).getTaskId())+")");
         percentComp = (Double.toString(100*complete)+"%");
         percentTextView.setText(percentComp);
         //c.weight = (float)complete;
@@ -77,6 +78,54 @@ public class TimesheetHeader extends Fragment {
         comp.setLayoutParams(c);
         plan.setLayoutParams(p);
 
+        ImageView edit = (ImageView) view.findViewById(R.id.edit);
+        edit.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v) {
+                show();
+            }
+        });
         return view;
+    }
+    /*@Override
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+
+        Log.i("value is",""+newVal);
+
+    }*/
+
+    public void show(){
+        /*NumberPicker np=(NumberPicker) findViewById(R.id.numberPicker);
+        np.setMaxValue(9);
+        np.setMinValue(0);*/
+
+        final Dialog d = new Dialog(getActivity());
+        d.setTitle("Percentage Complete");
+        d.setContentView(R.layout.dialog);
+        Button b1 = (Button) d.findViewById(R.id.button1);
+        Button b2 = (Button) d.findViewById(R.id.button2);
+        final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
+        np.setMaxValue(100);
+        np.setMinValue(0);
+        np.setWrapSelectorWheel(false);
+        //np.setOnValueChangedListener(this);
+        b1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                Log.v("test",(String.valueOf(np.getValue())));
+                d.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                d.dismiss();
+            }
+        });
+        d.show();
     }
 }

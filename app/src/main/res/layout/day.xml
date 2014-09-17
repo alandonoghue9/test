@@ -62,7 +62,7 @@
                 android:textSize="48sp"
                 android:textColor="@color/white"
                 android:gravity="center"
-                android:fontFamily="sans-serif-light"
+                android:fontFamily="sans-serif-thin"
                 android:id="@+id/day_letter"/>
 
             <EditText

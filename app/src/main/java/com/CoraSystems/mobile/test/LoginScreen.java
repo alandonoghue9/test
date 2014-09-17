@@ -28,7 +28,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.CoraSystems.mobile.test.Objects.ByDay;
 import com.CoraSystems.mobile.test.Objects.Config;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TimesheetGlobal;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
@@ -394,12 +396,15 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
                     SoapWebService soapWebService = new SoapWebService(ConfigConstants.user, ConfigConstants.password, LoginScreen.this);
                     checker = soapWebService.getTaskFromServer("2014-09-07", "2014-09-07", "GetWork");
                     checker = soapWebService.getConfigFromServer();
-                    checker = soapWebService.getTaskFromServer("2014-09-07", "2014-09-07", "ByDay");
+                    soapWebService.sendSummit("2014-09-07", "False","SubmitTimeSheet");
+                    //checker = soapWebService.getTaskFromServer("2014-09-07", "2014-09-07", "ByDay");
                  // GetWork Byday GetTImesheet ConfigItems
             }
             else {
                 taskGlobal.task = databaseReader.getProjectsTasks();
                 ConfigConstants.config = config;
+                //ByDayGlobal.ByDayConstantsList = databaseReader.getByDay();
+                //TimesheetGlobal.timesheetArrayList = databaseReader.getTimeSheet();
             }
             return null;
         }

@@ -234,7 +234,6 @@ public class SoapWebService implements Serializable{
         return responseStr;
     }
 
-
     public String CleanResponseString(String strResponse)
     {
         if (strResponse.contains("<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">\"")){
@@ -249,8 +248,7 @@ public class SoapWebService implements Serializable{
         if (strResponse.contains(";")){
             strResponse = strResponse.replace(";", "");
         }
-        return strResponse;
-    }
+        return strResponse;}
 
     	public String ConvertHexDataToString(String strData)
 	{
@@ -268,12 +266,8 @@ public class SoapWebService implements Serializable{
 		catch (UnsupportedEncodingException e)
 		{
 			strData="";
-			e.printStackTrace();
-		}
-
-
+			e.printStackTrace();}
 
 		return strRetVal;
 	}
-
 }

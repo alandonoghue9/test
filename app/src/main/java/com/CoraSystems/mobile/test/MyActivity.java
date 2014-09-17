@@ -5,9 +5,13 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +21,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.view.View;
 
@@ -25,6 +30,7 @@ import com.CoraSystems.mobile.test.Objects.Task;
 import com.CoraSystems.mobile.test.Services.JSONparser;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
 import com.CoraSystems.mobile.test.database.DatabaseConstants;
+import com.CoraSystems.mobile.test.database.DatabaseReader;
 
 import java.text.DateFormat;
 import java.text.FieldPosition;
@@ -197,7 +203,7 @@ public class MyActivity extends Activity implements
 
     /*FILTER LIST STUFF*/
 
-    public void filterList(Calendar startFilterDate, Calendar endFilterDate){
+    public void filterList(Calendar startFilterDate, Calendar endFilterDate, boolean isToday){
         //ArrayList<>
 
         todayTime = new Time(Time.getCurrentTimezone());
@@ -205,28 +211,28 @@ public class MyActivity extends Activity implements
         int dayOfWeek = todayTime.weekDay;
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        SimpleDateFormat dateComparer = new SimpleDateFormat("ddMMyyyy");
-        Calendar startChecker = Calendar.getInstance();
-        Calendar endChecker = Calendar.getInstance();
+            SimpleDateFormat dateComparer = new SimpleDateFormat("ddMMyyyy");
+            Calendar startChecker = Calendar.getInstance();
+            Calendar endChecker = Calendar.getInstance();
 
-        for (int i = 0; i < taskGlobal.task.size(); i++){
-        String startchecker = "9-9-2014";//taskGlobal.task.get(i).getStart();
-        String endchecker = "14-9-2014";//taskGlobal.task.get(i).getFinish();
+            for (int i = 0; i < taskGlobal.task.size(); i++){
+                String startchecker = "9-9-2014";//taskGlobal.task.get(i).getStart();
+                String endchecker = "14-9-2014";//taskGlobal.task.get(i).getFinish();
 
 /*
         Calendar startFilterDate = Calendar.getInstance();
         Calendar endFilterDate = Calendar.getInstance();
 */
-        try {
-            startChecker.setTime(sdf.parse(startchecker));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        try {
-            endChecker.setTime(sdf.parse(endchecker));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+                try {
+                    startChecker.setTime(sdf.parse(startchecker));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    endChecker.setTime(sdf.parse(endchecker));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 /*
         String startTime = todayTime.monthDay+"-"+(todayTime.month+1)+"-"+todayTime.year;
         try {
@@ -256,9 +262,15 @@ public class MyActivity extends Activity implements
         else if((dateComparer.format(startChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))<0) && (dateComparer.format(endChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))>0)) {
 
         }
-        else if((dateComparer.format(startChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))>0) && (dateComparer.format(startChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))<0)){}
+        else if((dateComparer.format(startChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))>0) && (dateComparer.format(startChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))<0)){
 
-        //c.add(Calendar.DAY_OF_MONTH, i);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+        }
+        else if ((dateComparer.format(endChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))<0)&& isToday == true)
+        {
+            if(taskGlobal.task.get(i).getCompletion() > 0.99){
+                taskGlobal.delTask.add(taskGlobal.task.get(i));}
+        }
+            //c.add(Calendar.DAY_OF_MONTH, i);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
 /*
         String outputDate = sdf.format(startFilterDate.getTime());
         SimpleDateFormat humanReadableDate = new SimpleDateFormat("MMM dd");
@@ -268,6 +280,13 @@ public class MyActivity extends Activity implements
             e.printStackTrace();
         }
 */      }
+        new Thread(new Runnable() {
+            public void run() {
+                DatabaseReader databaseReader = new DatabaseReader();
+                databaseReader.DataSource(MyActivity.this);
+                databaseReader.deleteTask(taskGlobal.delTask);
+            }
+        }).start();
     }
     public void check(View v){
         if (today==Boolean.TRUE) {
@@ -334,7 +353,7 @@ public class MyActivity extends Activity implements
             if (tomorrow==Boolean.TRUE){
                 endFilterDate.add(Calendar.DATE, 1);}
 
-            filterList(startFilterDate, endFilterDate);
+            filterList(startFilterDate, endFilterDate, true);
         }
         else {
             ImageView tick = (ImageView) v.findViewById(R.id.todaytick);
@@ -375,7 +394,7 @@ public class MyActivity extends Activity implements
             if (today==Boolean.TRUE){
                 startFilterDate.add(Calendar.DATE, -1);}
 
-            filterList(startFilterDate, endFilterDate);
+            filterList(startFilterDate, endFilterDate, false);
         }
         else {
             ImageView tick = (ImageView) v.findViewById(R.id.tomorrowtick);
@@ -385,10 +404,33 @@ public class MyActivity extends Activity implements
     }
 
     public void thisweek(View v){
+
         if (thisweek==Boolean.FALSE) {
             ImageView tick = (ImageView) v.findViewById(R.id.thisweektick);
             tick.setVisibility(v.VISIBLE);
             thisweek=Boolean.TRUE;
+
+            todayTime = new Time(Time.getCurrentTimezone());
+            todayTime.setToNow();
+            int dayOfWeek = todayTime.weekDay;
+
+            Calendar startFilterDate = Calendar.getInstance();
+            Calendar endFilterDate = Calendar.getInstance();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            String startTime = todayTime.monthDay+"-"+(todayTime.month+1)+"-"+todayTime.year;
+            try {
+                startFilterDate.setTime(sdf.parse(startTime));
+            } catch (ParseException e) {
+                e.printStackTrace();}
+
+            try {
+                endFilterDate.setTime(sdf.parse(startTime));
+            } catch (ParseException e) {
+                e.printStackTrace();}
+
+            endFilterDate.add(Calendar.DATE, 7-dayOfWeek);
+            filterList(startFilterDate, endFilterDate, false);
         }
         else {
             ImageView tick = (ImageView) v.findViewById(R.id.thisweektick);
@@ -402,6 +444,8 @@ public class MyActivity extends Activity implements
             ImageView tick = (ImageView) v.findViewById(R.id.pickdaytick);
             tick.setVisibility(v.VISIBLE);
             pickday=Boolean.TRUE;
+            DialogFragment newFragment = new DatePickerFragment();
+            newFragment.show(getFragmentManager(), "datePicker");
         }
         else {
             ImageView tick = (ImageView) v.findViewById(R.id.pickdaytick);
@@ -472,6 +516,29 @@ public class MyActivity extends Activity implements
             ImageView tick = (ImageView) v.findViewById(R.id.completetick);
             tick.setVisibility(v.GONE);
             complete=Boolean.FALSE;
+        }
+    }
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+        public void showDatePickerDialog(View v) {
+            DialogFragment newFragment = new DatePickerFragment();
+            newFragment.show(getFragmentManager(), "datePicker");
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            // Do something with the date chosen by the user
         }
     }
 }

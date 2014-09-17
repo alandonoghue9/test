@@ -50,8 +50,8 @@ public class ListGplayCardFragment extends Fragment {
     public void fillCards(){
         ArrayList<Card> cards = new ArrayList<>();
         CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
-
-        for (int i = 0; i  < taskGlobal.task.size(); i++) {
+        int j=0;
+          for (int i = 0; i  <  (taskGlobal.task.size()+1); i++) {
             if (i == 0) {
                 Gap card = new Gap(getActivity());
                 card.setShadow(false);
@@ -59,22 +59,29 @@ public class ListGplayCardFragment extends Fragment {
                 cards.add(card);
             } else {
                 GooglePlaySmallCard card = new GooglePlaySmallCard(getActivity());
-                card.setTitle(taskGlobal.task.get(i - 1).getProject());
-                card.setSecondaryTitle(taskGlobal.task.get(i - 1).getTask());
-                card.setComplete(Double.toString(taskGlobal.task.get(i - 1).getCompletion()));
-                card.setPlanned(taskGlobal.task.get(i - 1).getPlanned());
+                card.setTitle(taskGlobal.task.get(j).getTask()+" ("+(taskGlobal.task.get(j).getTaskId())+")");
+                card.setSecondaryTitle(taskGlobal.task.get(j).getTask());
+                card.setComplete(Double.toString(taskGlobal.task.get(j).getCompletion()));
+                card.setPlanned(taskGlobal.task.get(j).getPlanned());
 
                 card.count = i - 1;
 
                 card.init();
 
                 cards.add(card);
+                j++;
 
             }
             CardListView listView = (CardListView) getActivity().findViewById(R.id.carddemo_list_gplaycard);
             if (listView != null) {
 
                 listView.setAdapter(mCardArrayAdapter);
+                new Thread(new Runnable() {
+
+                    public void run() {
+
+                    }}).start();
+
             }
         }
     }
@@ -121,6 +128,7 @@ public class ListGplayCardFragment extends Fragment {
             double complete;
             double planned;
 
+            //Retrieve elements
             mTitle = (TextView) parent.findViewById(R.id.carddemo_myapps_main_inner_title);
             mSecondaryTitle = (TextView) parent.findViewById(R.id.carddemo_myapps_main_inner_secondaryTitle);
 

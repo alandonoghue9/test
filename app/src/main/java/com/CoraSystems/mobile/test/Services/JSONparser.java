@@ -28,13 +28,13 @@ public class JSONparser {
         this.Parent = Parent;
     }
     public int parsedData() throws JSONException {
-        //String Tdata;
+            //String Tdata;
 
-          //  Tdata = "<string xmlns=\"http://tempuri.org/ProjectVision/Project\">" + "{\"TaskList\" : [{\"project id\" : \"1318\",\"project description\" : \"this is to test how long it takes\",\"task id\" : \"14396\"," +
+            //  Tdata = "<string xmlns=\"http://tempuri.org/ProjectVision/Project\">" + "{\"TaskList\" : [{\"project id\" : \"1318\",\"project description\" : \"this is to test how long it takes\",\"task id\" : \"14396\"," +
             //        "\"task description\" : \"Initial Task\",\"planned hours\" : \"30.00\",\"start date\" : \"2008-09-12 00:00:00\"," +
-             //       "\"finish date\" : \"2008-10-28 00:00:00\",\"complete\" : \"1.00\"}]}" + "</string>";
+            //       "\"finish date\" : \"2008-10-28 00:00:00\",\"complete\" : \"1.00\"}]}" + "</string>";
             //Tdata ="{\"TaskList\" : [{\"project id\" : \"11318\",\"project description\" : \"this is to test how long it takes\",\"task id\" : \"143396\"," +
-             //       "\"task description\" : \"Initial Task\",\"planned hours\" : \"35.00\",\"start date\" : \"2008-09-22 00:00:00\",\"finish date\" : \"2008-10-18 00:00:00\",\"complete\" : \"1.00\"},{\"project id\" : \"13618\",\"project description\" : \"this is to test how long it takes\",\"task id\" : \"14396\",\"task description\" : \"Initial Task\",\"planned hours\" : \"30.00\",\"start date\" : \"2008-09-12 00:00:00\",\"finish date\" : \"2008-10-28 00:00:00\",\"complete\" : \"1.00\"}]}";
+            //       "\"task description\" : \"Initial Task\",\"planned hours\" : \"35.00\",\"start date\" : \"2008-09-22 00:00:00\",\"finish date\" : \"2008-10-18 00:00:00\",\"complete\" : \"1.00\"},{\"project id\" : \"13618\",\"project description\" : \"this is to test how long it takes\",\"task id\" : \"14396\",\"task description\" : \"Initial Task\",\"planned hours\" : \"30.00\",\"start date\" : \"2008-09-12 00:00:00\",\"finish date\" : \"2008-10-28 00:00:00\",\"complete\" : \"1.00\"}]}";
             //Tdata ="{\"ConfigItems\" : [{\"minhours\" : \"37.50\",\"maxhours\" : \"40.00\",\"maxsun\" : \"0.00\",\"maxmon\" : \"12.00\",\"maxtue\" : \"12.00\",\"maxwed\" : \"12.00\",\"maxthu\" : \"12.00\",\"maxfri\" : \"12.00\",\"maxsat\" : \"0.00\",\"minsun\" : \"0.00\",\"minmon\" : \"5.00\",\"mintue\" : \"5.00\",\"minwed\" : \"5.00\",\"minthu\" : \"5.00\",\"minfri\" : \"5.00\",\"minsat\" : \"0.00\"}]}";
 
             //Tdata ="{\"ByDay\" : [{\"comment\" :\"this is a comment\",\"planned hours\" : \"8.5\",\"hours\" : \"8.0\",\"date\" : \"2014-03-04\", \"task id\" : \"13618\",\"timestamp\" : \"2014-03-04 07:00:00\", \"actual_id\" : \"1234\"}]}";
@@ -46,11 +46,8 @@ public class JSONparser {
         JSONArray daysArray;
         DatabaseReader databaseReader = new DatabaseReader();
         databaseReader.DataSource(this.Parent);
-
         databaseReader.open();
-       /* catch (SQLiteException e){
-            Log.e("JSON Database",e.getMessage());
-        }*/
+
         if (data != null) {
             try {
                 JSONObject jsonObject =  new JSONObject(data);
@@ -85,24 +82,25 @@ public class JSONparser {
                             databaseReader.timestampArrayList.add(jsonobject.getString("timestamp"));
                             databaseReader.taskIdArraylist1.add("" + jsonobject.getInt("task id"));}
 
-                        databaseReader.addByDay(data, Parent);
+                        databaseReader.addByDay(Parent);
                         break;
                     case Timesheet:
-                        databaseReader.plannedHours = jsonObject.getDouble("planned hours");
-                        databaseReader.noOfTasks = jsonObject.getInt("number of tasks");
-                        databaseReader.totalHours = jsonObject.getDouble("total hours");
-                        daysArray = jsonObject.getJSONArray("hours day");
-                        databaseReader.pdfUrl = jsonObject.getString("PDF URL");
-                        databaseReader.submitted = jsonObject.getBoolean("submitted");
+                            databaseReader.plannedHoursTimeArrayList.add("" + jsonObject.getDouble("planned hours"));
+                            databaseReader.noOfTasksArrayList.add("" + jsonObject.getInt("number of tasks"));
+                            databaseReader.totalHoursArraylist.add("" + jsonObject.getDouble("total hours"));
+                            daysArray = jsonObject.getJSONArray("hours day");
+                            databaseReader.pdfUrlArrayList.add(jsonObject.getString("PDF URL"));
+                            databaseReader.submittedArrayList.add("" + jsonObject.getBoolean("submitted"));
 
-                        databaseReader.mondayHours = daysArray.getDouble(0);
-                        databaseReader.tuesdayHours = daysArray.getDouble(1);
-                        databaseReader.wednesdayHours = daysArray.getDouble(2);
-                        databaseReader.thursdayHours = daysArray.getDouble(3);
-                        databaseReader.fridayHours = daysArray.getDouble(4);
-                        databaseReader.saturdayHours = daysArray.getDouble(5);
-                        databaseReader.sundayHours = daysArray.getDouble(6);
+                            databaseReader.mondayHoursArrayList.add("" + daysArray.getDouble(0));
+                            databaseReader.tuesdayHoursArrayList.add("" + daysArray.getDouble(1));
+                            databaseReader.wednesdayHoursArrayList.add("" + daysArray.getDouble(2));
+                            databaseReader.thursdayHoursArraylist.add("" + daysArray.getDouble(3));
+                            databaseReader.fridayHoursArrayList.add("" + daysArray.getDouble(4));
+                            databaseReader.saturdayHoursArrayList.add("" + daysArray.getDouble(5));
+                            databaseReader.sundayHoursArrayList.add("" + daysArray.getDouble(6));
 
+                        databaseReader.addTimesheet(Parent);
                         break;
                     case ConfigItems:
                         jsonArray = jsonObject.optJSONArray(ConfigItems);
@@ -126,7 +124,7 @@ public class JSONparser {
                             databaseReader.MAXSUN= jsonobject.getDouble("maxsun");
                             //databaseReader.MINSUN= jsonobject.getDouble("minsun");
                         }
-                        databaseReader.addConfig(data, Parent);
+                        databaseReader.addConfig(Parent);
                         break;
                 }
             } catch (JSONException e) {

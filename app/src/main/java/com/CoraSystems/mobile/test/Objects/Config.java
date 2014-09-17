@@ -4,6 +4,7 @@ package com.CoraSystems.mobile.test.Objects;
  * Created by Alan on 8/24/2014.
  */
 public class Config{
+    private  int id;
     private double MAXHOURS;
     private double MINHOURS;
     private double MAXMON;
@@ -21,10 +22,10 @@ public class Config{
     private double MAXSUN;
    // private double MINSUN;
 
-    public Config(double maxHoursConfig, double minHoursConfig, double maxMonConfig,double maxTueConfig,
+    public Config(int dbId, double maxHoursConfig, double minHoursConfig, double maxMonConfig,double maxTueConfig,
                      double maxWedConfig, double maxThuConfig, double maxFriConfig,
                      double maxSatConfig, double maxSunConfig){
-
+        id = dbId;
         MAXHOURS = maxHoursConfig;
         MINHOURS = minHoursConfig;
         MAXMON  = maxMonConfig;
@@ -42,7 +43,7 @@ public class Config{
         MAXSUN = maxSunConfig;
         //MINSUN  = minSunConfig;
     }
-
+    public int getConfigId(){ return id;}
     public double getMAXHOURS(){return MAXHOURS;}
     public double getMINHOURS(){return MINHOURS;}
     public double getMAXMON(){return MAXMON;}

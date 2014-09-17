@@ -12,7 +12,10 @@
         android:id="@+id/carddemo_myapps_main_inner_title"
         android:layout_width="match_parent"
         style="@style/AppTheme.ProjectText"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"/>
 
     <TextView
         android:paddingLeft="15dp"
@@ -21,7 +24,10 @@
         android:id="@+id/carddemo_myapps_main_inner_secondaryTitle"
         android:layout_width="match_parent"
         style="@style/AppTheme.TaskText"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"/>
 
     <LinearLayout
         android:orientation="vertical"

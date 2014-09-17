@@ -1,11 +1,14 @@
 package com.CoraSystems.mobile.test;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,13 +27,14 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
     Context context;
     String dayLabel[]=new String[] {"M","T","W","T","F","S","S"};
 
-    Boolean clicked[]=new Boolean[] {Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE};
+    int selected;
+
+    //Boolean clicked[]=new Boolean[] {Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE};
 
     View grid;
 
     timesheetDays parentFrag;
     int section;
-    GlobalSelectTimesheet select;
 
     Time today;
     Calendar calendar;
@@ -38,12 +42,16 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
     String hoursWork;
     String h;
 
-    public GridViewCustomAdapter_Timesheet(Context context, timesheetDays Frag, String start)
+    public GridViewCustomAdapter_Timesheet(Context context, timesheetDays Frag, String start, clickListener buttonListener)
     {
         super(context, 0);
 
+        this.mCallback = buttonListener;
+
         this.context=context;
         this.parentFrag = Frag;
+
+        selected = 20;
 
         Date date=new Date();
 
@@ -76,14 +84,14 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
         Log.v("timeTest", test);
 
         section = Frag.section;
-
-        this.select = Frag.select;
     }
 
     public int getCount()
     {
         return 7;
     }
+
+    public int item;
 
     @Override
     public View getView(int i, View convertView, ViewGroup parent)
@@ -113,47 +121,78 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
             grid = convertView;
         }
 
+        item = i;
+
         ImageView imageView = (ImageView)grid.findViewById(R.id.dots);
         imageView.setImageResource(R.drawable.ic_action_overflow);
         TextView dateGrid = (TextView) grid.findViewById(R.id.date_GridView);
 
-        if((select.getSelectedItemOnFragment(i)==i)&&(parentFrag.clicks[i]==Boolean.FALSE)){
+        if((mCallback.isItemSelected(i)==i)&&(mCallback.returnClicks(i)==Boolean.FALSE)){
 
-            for(int x=0;x<7;x++){
-                parentFrag.clicks[x]=Boolean.FALSE;
-            }
-            parentFrag.clicks[i]=Boolean.TRUE;
-
-            if(clicked[i]==Boolean.FALSE) {
+            if(mCallback.returnClicked(i)==Boolean.FALSE) {
                 ViewSwitcher switcher = (ViewSwitcher) grid.findViewById(R.id.my_switcher);
                 switcher.showNext();
             }
-            clicked[i]=Boolean.TRUE;
+            mCallback.changeClicked(i, Boolean.TRUE);
+            for(int x=0;x<7;x++){
+                mCallback.changeClicks(x, Boolean.FALSE);
+                //parentFrag.clicks[x]=Boolean.FALSE;
+            }
+            mCallback.changeClicks(i, Boolean.TRUE);
+            //clicked[i]=Boolean.TRUE;
+
+            /*for(int x=0;x<7;x++){
+                mCallback.changeBool(x, Boolean.FALSE);
+                //parentFrag.clicks[x]=Boolean.FALSE;
+            }
+            mCallback.changeBool(i, Boolean.TRUE);*/
+            //parentFrag.clicks[i]=Boolean.TRUE;
 
             TextView hrs = (TextView) grid.findViewById(R.id.new_hrs);
             TextView dayTop = (TextView) grid.findViewById(R.id.hour);
             TextView dayShort = (TextView) grid.findViewById(R.id.hour_label);
             EditText edit = (EditText)grid.findViewById(R.id.hidden_edit_view);
 
-            h = edit.getText().toString();
-
             imageView.setVisibility(View.VISIBLE);
             dayTop.setVisibility(View.INVISIBLE);
             hrs.setText("hrs");
             dayShort.setText("wed");
             dateGrid.setText(dayDate);
+
+            edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                        h = v.getText().toString();
+                        mCallback.onArticleSelected(item);
+                    }
+                    return false;
+                }
+            });
         }
 
-        else if(((select.getSelectedItemOnFragment(i)==i)&&(parentFrag.clicks[i]==Boolean.TRUE))||(parentFrag.clicks[i]==Boolean.FALSE)) {
-            for (int y = 0; y < 7; y++) {
-                parentFrag.clicks[y] = Boolean.FALSE;
-            }
+        else if(((mCallback.isItemSelected(i)==i)&&(mCallback.returnClicks(i)==Boolean.TRUE))||(mCallback.returnClicks(i)/*parentFrag.clicks[i]*/==Boolean.FALSE)) {
 
-            if (clicked[i] == Boolean.TRUE) {
+            /*if (clicked[i] == Boolean.TRUE) {
                 ViewSwitcher switcher = (ViewSwitcher) grid.findViewById(R.id.my_switcher);
                 switcher.showPrevious();
             }
-            clicked[i] = Boolean.FALSE;
+            clicked[i] = Boolean.FALSE;*/
+
+            if(mCallback.returnClicked(i)==Boolean.TRUE) {
+                ViewSwitcher switcher = (ViewSwitcher) grid.findViewById(R.id.my_switcher);
+                switcher.showPrevious();
+            }
+            mCallback.changeClicked(i, Boolean.FALSE);
+            for(int x=0;x<7;x++) {
+                mCallback.changeClicks(x, Boolean.FALSE);
+                //parentFrag.clicks[x]=Boolean.FALSE;
+            }
+            //mCallback.changeBool(i, Boolean.FALSE);
+/*
+            for(int x=0;x<7;x++) {
+                mCallback.changeBool(x, Boolean.FALSE);
+                //parentFrag.clicks[x]=Boolean.FALSE;
+            }*/
 
             TextView hrsTop = (TextView) grid.findViewById(R.id.new_hrs);
             TextView dayLetter = (TextView) grid.findViewById(R.id.day_letter);
@@ -168,14 +207,14 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
                 hrs.setText("");
             }
 
-            if(randomHour==0){
+            /*if(randomHour==0){
                 hoursWorked.setText("");
                 hrs.setText("");
             }
-            else {
+            else {*/
                 hoursWorked.setText(workHours);
                 hrs.setText("hrs");
-            }
+            //}
 
             imageView.setVisibility(View.INVISIBLE);
             dayLetter.setText(dayLabel[i]);
@@ -196,5 +235,18 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
             }
         }
         return grid;
+    }
+
+    clickListener mCallback;
+
+    public interface clickListener {
+        public int isItemSelected(int position);
+        public void changeClicks(int position, Boolean bool);
+        public Boolean returnClicks(int position);
+        public void changeClicked(int position, Boolean bool);
+        public Boolean returnClicked(int position);
+        public void onArticleSelected(int position);
+        public Boolean returnView();
+        public void changeView(Boolean bool);
     }
 }

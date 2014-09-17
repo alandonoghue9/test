@@ -25,12 +25,14 @@ public class Timesheet extends Activity {
     public GlobalSelectTimesheet g;
 
     ArrayList<timesheetDays> swipe_windows;
-    ArrayList<ByDay> Days;
+    public ArrayList<ByDay> Days;
 
     int planned;
     int completion;
     String project_des;
     public String startDate;
+
+    int selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,8 @@ public class Timesheet extends Activity {
         project_des = bundle.getString("project");
         completion = bundle.getInt("complete");
         planned = bundle.getInt("planned");
+
+        selected = 20;
 
         g = GlobalSelectTimesheet.getInstance();
         g.onItemSelectionChanged(-1);
@@ -64,7 +68,7 @@ public class Timesheet extends Activity {
                 t=taskGlobal.task.size();
             }
         }*/
-       startDate = "2014-09-11";
+        startDate = "2014-09-11";
 
         swipe_windows = getFragments();
 
@@ -92,12 +96,17 @@ public class Timesheet extends Activity {
         ArrayList<timesheetDays> fList = new ArrayList<>();
 
         int i = 21;//Days.size();
+        if(i==0){
+            fList.add(timesheetDays.newInstance(0, Days, "0"));
+            return fList;
+        }
         int extra = i%7;
         int week = i/7;
         if(extra>0)week=week++;
 
+
         for(int swipes=0;swipes<week;swipes++){
-            fList.add(timesheetDays.newInstance(swipes, g, Days, startDate));
+            fList.add(timesheetDays.newInstance(swipes, Days, startDate));
         }
         return fList;
     }

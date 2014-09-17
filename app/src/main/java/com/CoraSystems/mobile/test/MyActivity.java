@@ -258,7 +258,7 @@ public class MyActivity extends Activity implements
         }
         else if((dateComparer.format(startChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))>0) && (dateComparer.format(startChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))<0)){}
 
-            //c.add(Calendar.DAY_OF_MONTH, i);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+        //c.add(Calendar.DAY_OF_MONTH, i);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
 /*
         String outputDate = sdf.format(startFilterDate.getTime());
         SimpleDateFormat humanReadableDate = new SimpleDateFormat("MMM dd");

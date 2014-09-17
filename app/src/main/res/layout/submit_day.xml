@@ -14,7 +14,8 @@
         android:textSize="12sp"
         android:textColor="@color/white"
         android:paddingTop="8dp"
-        android:gravity="center|top"/>
+        android:gravity="center|top"
+        android:id="@+id/date"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -30,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="8 hrs"
+        android:id="@+id/hours"
         android:textSize="16sp"
         android:textColor="@color/white"
         android:paddingBottom="8dp"

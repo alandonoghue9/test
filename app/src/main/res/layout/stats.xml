@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/project_stats"
+        android:id="@+id/project_name"
         android:paddingLeft="15dp"
         android:paddingTop="17dp"
         style="@style/AppTheme.ProjectText"
@@ -15,7 +15,7 @@
         android:text="Project Name"/>
 
     <TextView
-        android:id="@+id/task_stats"
+        android:id="@+id/task_name"
         android:paddingLeft="15dp"
         android:paddingTop="10dp"
         style="@style/AppTheme.TaskText"
@@ -55,6 +55,7 @@
             <TextView
                 style="@style/AppTheme.textAppearanceMedium"
                 android:fontFamily="sans-serif"
+                android:id="@+id/start"
                 android:paddingLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,6 +80,7 @@
                     style="@style/AppTheme.textAppearanceMedium"
                     android:fontFamily="sans-serif"
                     android:paddingLeft="5dp"
+                    android:id="@+id/finish"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="30 July 2014"/>
@@ -104,6 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/AppTheme.BarBig"
+                android:id="@+id/hours_complete"
                 android:text="16"/>
 
             <TextView
@@ -128,6 +131,7 @@
                 android:paddingRight="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/hours_week"
                 android:text="8"/>
 
             <TextView
@@ -187,6 +191,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="60%"
+            android:id="@+id/percent"
             android:layout_centerInParent="true"
             android:textSize="40sp"
             android:fontFamily="sans-serif-light"

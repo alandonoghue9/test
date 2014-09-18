@@ -24,7 +24,7 @@ public class TimesheetHeader extends Fragment {
     TextView percentTextView;
     View.OnClickListener clickListener;
     static String percentComp;
-    double complete;
+    public double complete;
 
     View view;
 
@@ -35,12 +35,12 @@ public class TimesheetHeader extends Fragment {
         Bundle bundle = this.getArguments();
         double planned;
 
-        comp = (LinearLayout)view.findViewById(R.id.complete);
-        plan = (LinearLayout)view.findViewById(R.id.planned);
+        comp = (LinearLayout) view.findViewById(R.id.complete);
+        plan = (LinearLayout) view.findViewById(R.id.planned);
 
-        taskTextView = (TextView)view.findViewById(R.id.teask_timesheet);
-        projectTextView = (TextView)view.findViewById(R.id.project_timesheet);
-        percentTextView = (TextView)view.findViewById(R.id.percent);
+        taskTextView = (TextView) view.findViewById(R.id.teask_timesheet);
+        projectTextView = (TextView) view.findViewById(R.id.project_timesheet);
+        percentTextView = (TextView) view.findViewById(R.id.percent);
 
         LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -51,25 +51,23 @@ public class TimesheetHeader extends Fragment {
         int count = bundle.getInt("count");
         complete = TaskGlobal.task.get(count).getCompletion();
         planned = TaskGlobal.task.get(count).getCompletion();
-        projectTextView.setText(TaskGlobal.task.get(count).getProject()+" ("+(TaskGlobal.task.get(count).getProjectId())+")");
-        taskTextView.setText(TaskGlobal.task.get(count).getTask()+" ("+(TaskGlobal.task.get(count).getTaskId())+")");
-        percentComp = (Double.toString(100*complete)+"%");
+        projectTextView.setText(TaskGlobal.task.get(count).getProject() + " (" + (TaskGlobal.task.get(count).getProjectId()) + ")");
+        taskTextView.setText(TaskGlobal.task.get(count).getTask() + " (" + (TaskGlobal.task.get(count).getTaskId()) + ")");
+        percentComp = (Double.toString(100 * complete) + "%");
         percentTextView.setText(percentComp);
         //c.weight = (float)complete;
         //p.weight = (float)(100-complete);
 
-        complete = complete +0.3; //testing
-        if(complete<0.30) {
-            p.weight = (float)(100*complete);
+        complete = complete + 0.3; //testing
+        if (complete < 0.30) {
+            p.weight = (float) (100 * complete);
             comp.setBackgroundColor(getActivity().getResources().getColor(R.color.cora_red));
-            c.weight = (float)(100 - 100*complete);
-        }
-        else if(complete<0.70) {
-            p.weight = (float)(100*complete);
+            c.weight = (float) (100 - 100 * complete);
+        } else if (complete < 0.70) {
+            p.weight = (float) (100 * complete);
             comp.setBackgroundColor(getActivity().getResources().getColor(R.color.cora_blue));
-            c.weight = (float)(100 - 100*complete);
-        }
-        else if(complete>0.70){
+            c.weight = (float) (100 - 100 * complete);
+        } else if (complete > 0.70) {
             comp.setBackgroundColor(getActivity().getResources().getColor(R.color.cora_green));
             p.weight = 100;
             c.weight = 0;
@@ -79,8 +77,7 @@ public class TimesheetHeader extends Fragment {
         plan.setLayoutParams(p);
 
         ImageView edit = (ImageView) view.findViewById(R.id.edit);
-        edit.setOnClickListener(new View.OnClickListener()
-        {
+        edit.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -89,17 +86,8 @@ public class TimesheetHeader extends Fragment {
         });
         return view;
     }
-    /*@Override
-    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-
-        Log.i("value is",""+newVal);
-
-    }*/
 
     public void show(){
-        /*NumberPicker np=(NumberPicker) findViewById(R.id.numberPicker);
-        np.setMaxValue(9);
-        np.setMinValue(0);*/
 
         final Dialog d = new Dialog(getActivity());
         d.setTitle("Percentage Complete");
@@ -110,7 +98,6 @@ public class TimesheetHeader extends Fragment {
         np.setMaxValue(100);
         np.setMinValue(0);
         np.setWrapSelectorWheel(false);
-        //np.setOnValueChangedListener(this);
         b1.setOnClickListener(new View.OnClickListener()
         {
             @Override

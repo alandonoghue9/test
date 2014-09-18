@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.CoraSystems.mobile.test.Objects.ByDay;
 import com.CoraSystems.mobile.test.Objects.ByDayInArray;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class Timesheet extends Activity {
     public String startDate;
 
     int selected;
+
+    public Fragment headerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +80,7 @@ public class Timesheet extends Activity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         //mViewPager.setOffscreenPageLimit(4);
 
-        Fragment headerFragment = new TimesheetHeader();
+        headerFragment = new TimesheetHeader();
         headerFragment.setArguments(bundle);
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -131,6 +134,9 @@ public class Timesheet extends Activity {
     Intent stat;
     public void stats(){
         stat = new Intent(this, Stats.class);
+
+        stat.putExtra("task", taskID);
+
         if(ByDayInArray.ByDayIn.size()>0) {
             new AlertDialog.Builder(this)
                     .setTitle("Save Changes")

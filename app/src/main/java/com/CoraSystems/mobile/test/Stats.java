@@ -12,11 +12,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.CoraSystems.mobile.test.Graph.PieGraph;
 import com.CoraSystems.mobile.test.Graph.PieSlice;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
+import com.CoraSystems.mobile.test.Objects.Task;
 
 public class Stats extends Activity {
+
+    int taskID;
+    Task task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +33,37 @@ public class Stats extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         int complete = 60;
+
+        Bundle bundle = getIntent().getExtras();
+        taskID = bundle.getInt("task");
+
+        for(int i=0;i< TaskGlobal.task.size();i++){
+            if(taskID==TaskGlobal.task.get(i).getID()){
+                task=TaskGlobal.task.get(i);
+                i=TaskGlobal.task.size()-1;
+            }
+        }
+
+        String taskDesc=task.getTask();
+        String projectDesc=task.getProject();
+        String start=task.getStart();
+        String finish = task.getFinish();
+        Double hoursComplete;
+        Double thisWeek;
+        Double percent=task.getCompletion()*100;
+
+        TextView percentTextView = (TextView) this.findViewById(R.id.percent);
+        percentTextView.setText(Double.toString(percent)+"%");
+        TextView projectTextView = (TextView) this.findViewById(R.id.project_name);
+        projectTextView.setText(projectDesc);
+        TextView taskTextView = (TextView) this.findViewById(R.id.task_name);
+        taskTextView.setText(taskDesc);
+        TextView startTextView = (TextView) this.findViewById(R.id.start);
+        startTextView.setText(start);
+        TextView finishTextView = (TextView) this.findViewById(R.id.finish);
+        finishTextView.setText(finish.substring(0,10));
+
+        complete=(percent.intValue())*100;
 
         PieGraph pg = (PieGraph)this.findViewById(R.id.graph);
         PieSlice slice = new PieSlice();

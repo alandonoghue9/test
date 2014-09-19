@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.CoraSystems.mobile.test.Graph.PieGraph;
 import com.CoraSystems.mobile.test.Graph.PieSlice;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
 import com.CoraSystems.mobile.test.Objects.Task;
 
 public class Stats extends Activity {
@@ -37,10 +37,10 @@ public class Stats extends Activity {
         Bundle bundle = getIntent().getExtras();
         taskID = bundle.getInt("task");
 
-        for(int i=0;i< TaskGlobal.task.size();i++){
-            if(taskID==TaskGlobal.task.get(i).getID()){
-                task=TaskGlobal.task.get(i);
-                i=TaskGlobal.task.size()-1;
+        for(int i=0;i< taskGlobal.task.size();i++){
+            if(taskID==taskGlobal.task.get(i).getID()){
+                task=taskGlobal.task.get(i);
+                i=taskGlobal.task.size()-1;
             }
         }
 

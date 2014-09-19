@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import com.CoraSystems.mobile.test.Objects.ByDay;
 import com.CoraSystems.mobile.test.Objects.ByDayInArray;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;

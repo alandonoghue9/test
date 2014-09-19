@@ -35,7 +35,8 @@ public class OpenDbHelper extends SQLiteOpenHelper {
             TaskConstants.DATE + " text not null, " +
             TaskConstants.COMPLETE + " real not null, " +
             TaskConstants.TIMESTAMP + " text not null, " +
-            TaskConstants.BYDAY_TASKID + " integer not null);";
+            TaskConstants.BYDAY_TASKID + " integer not null, " +
+            TaskConstants.ACTUALID + " integer not null);";
 
     private static final String CONFIG_DATABASE_CREATE = "create table "+
             TaskConstants.CONFIG_DATABASE_TABLE + "("+
@@ -50,6 +51,17 @@ public class OpenDbHelper extends SQLiteOpenHelper {
             TaskConstants.MAXFRI + " real not null, " +
             TaskConstants.MAXSAT + " real not null, " +
             TaskConstants.MAXSUN + " real not null);";
+
+    private static final String TIMESHEET_STATUS_DATABASE_CREATE = "create table "+
+            TaskConstants.TIMESHEETSTATUS_DATABASE_TABLE+ "("+
+            TaskConstants.TIMESHEET_STATUS_KEY_ID +
+            " integer primary key autoincrement, " +
+            TaskConstants.TIMESHEETID + " integer not null, " +
+            TaskConstants.STARTTIMESTAT + " text not null, " +
+            TaskConstants.FINISHTIMESTAT + " text not null, " +
+            TaskConstants.STATUS + " text not null, " +
+            TaskConstants.STATUSID + " integer not null, " +
+            TaskConstants.STATUSDESCRIPTION + " text not null);";
 
     private static final String TIMESHEET_DATABASE_CREATE = "create table "+
             TaskConstants.TIMESHEET_DATABASE_TABLE + "("+
@@ -76,8 +88,16 @@ public class OpenDbHelper extends SQLiteOpenHelper {
             TaskConstants.DATELOCAL + " text not null, " +
             TaskConstants.COMPLETELOCAL + " real not null, " +
             TaskConstants.TIMESTAMPLOCAL + " text not null, " +
-            TaskConstants.TASKIDLOCAL + " integer not null);";
+            TaskConstants.TASKIDLOCAL + " integer not null, " +
+            TaskConstants.ACTUALIDLOCAL + " integer not null);";
 
+    private static final String USER_DATABASE_CREATE = "create table "+
+            TaskConstants.USER_DATABASE_TABLE + "("+
+            TaskConstants.USER_KEY_ID +
+            " integer primary key autoincrement, " +
+            TaskConstants.USER + " text not null, " +
+            TaskConstants.PASSWORD + " text not null, " +
+            TaskConstants.BASEURL + " text not null);";
 
     public OpenDbHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -90,6 +110,8 @@ public class OpenDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CONFIG_DATABASE_CREATE);
         sqLiteDatabase.execSQL(BYDAY_DATABASE_CREATE);
         sqLiteDatabase.execSQL(LOCAL_DATABASE_CREATE);
+        sqLiteDatabase.execSQL(TIMESHEET_STATUS_DATABASE_CREATE);
+        sqLiteDatabase.execSQL(USER_DATABASE_CREATE);
     }
 
     @Override
@@ -100,6 +122,8 @@ public class OpenDbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskConstants.TIMESHEET_DATABASE_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskConstants.BYDAY_DATABASE_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskConstants.LOCAL_DATABASE_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskConstants.TIMESHEETSTATUS_DATABASE_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TaskConstants.USER_DATABASE_TABLE);
 
         onCreate(sqLiteDatabase);
     }

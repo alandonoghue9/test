@@ -7,11 +7,15 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import com.CoraSystems.mobile.test.Objects.LocalSave;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 //import com.CoraSystems.mobile.test.Util;
@@ -62,13 +66,18 @@ public class SoapWebService implements Serializable{
             //{
                 //this.BaseURL = "http://46.51.207.151/wmsservice/DataService/"; //Live Site
             //this.BaseURL = "http://192.168.1.4/MobileService/DataService/";
-            this.BaseURL = " http://46.17.93.112/MobileTest/DataService/";
+            this.BaseURL = "http://46.17.93.112/MobileTest/DataService/";
+            //this.BaseURL = " http://10.72.12.80/MobileService/DataService/";
+            //this.BaseURL = "http://corademo.corasystems.com/noellemobile/DataService/";
             //}
         }
         catch (Exception ex)
         {
             //this.BaseURL = "http://192.168.1.4/MobileService/DataService/";
-            this.BaseURL = "http://corademo.corasystems.com/noellemobile/DataService/";
+            //this.BaseURL = " http://10.72.12.80/MobileService/DataService//";
+            //this.BaseURL = "http://192.168.1.4/MobileService/DataService/";
+            this.BaseURL = "http://46.17.93.112/MobileTest/DataService/";
+            //this.BaseURL = "http://corademo.corasystems.com/noellemobile/DataService/";
 
 
         }
@@ -149,12 +158,19 @@ public class SoapWebService implements Serializable{
         {
             responseStr = SendThisData(taskToJson.toString(),  450000, urlEnder);
             responseStr = CleanResponseString(responseStr);
+
             Log.i("webservices", responseStr);
         }
         catch (IOException e)
         {
             Log.e("System out", "Error IO " + e.getMessage());
         }
+
+        if(responseStr.contains("User could not be validated")){
+            return "User could not be validated";}
+        else if(responseStr.equals("")){
+            return "No Data Recieved";}
+
         JSONparser jsoNparser = new JSONparser(responseStr, this.context);
         try {
             jsoNparser.parsedData();
@@ -179,6 +195,12 @@ public class SoapWebService implements Serializable{
         {
             Log.e("System out", "Error IO " + e.getMessage());
         }
+
+        if(responseStr.contains("User could not be validated")){
+            return "User could not be validated";}
+        else if(responseStr.equals("")){
+            return "No Data Recieved";}
+
         JSONparser jsoNparser = new JSONparser(responseStr, this.context);
         try {
             jsoNparser.parsedData();
@@ -195,13 +217,83 @@ public class SoapWebService implements Serializable{
         taskToJson.append("}]}");
         try
         {
-           responseStr = SendThisData(taskToJson.toString(),  450000, "");
-           responseStr = CleanResponseString(responseStr);
+            responseStr = SendThisData(taskToJson.toString(),  450000, "");
+            responseStr = CleanResponseString(responseStr);
         }
         catch (IOException e)
         {
             Log.e("System out", "Error IO " + e.getMessage());
         }
+
+        if(responseStr.contains("User could not be validated")){
+            return "User could not be validated";}
+        else if(responseStr.equals("")){
+            return "No Data Recieved";}
+
+        JSONparser jsoNparser = new JSONparser(responseStr, this.context);
+        try {
+            jsoNparser.parsedData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return responseStr;
+    }
+    public String sendByDayLocalSave(ArrayList<LocalSave> localSaves){
+        String responseStr="";
+        JSONObject object = new JSONObject();
+        JSONObject objectPer = new JSONObject();
+        JSONObject objectUser = new JSONObject();
+        JSONObject objectwhole = new JSONObject();
+        JSONObject obj = null;
+        JSONArray jsonArray = new JSONArray();
+        JSONArray jsonArrayUser = new JSONArray();
+        JSONArray jsonArrayPer = new JSONArray();
+
+
+            for(int i = 0; i < 2; i++){
+                obj = new JSONObject();
+                try{
+                    obj.put("date", "2014-08-23");
+                    obj.put("comment", "this is a comment");
+                    obj.put("hours_worked", ""+Double.valueOf(6.5));
+                    obj.put("timestamp", "2014-03-04 07:00:00");
+                    obj.put("actual_id", ""+Integer.valueOf(1234));
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();}
+
+                jsonArray.put(obj);}
+                obj = new JSONObject();
+        try{
+            objectUser.put("userName", uName);
+            objectUser.put("password", Pwd);
+            jsonArrayUser.put(objectUser);
+            object.put("Users", jsonArrayUser);
+
+            object.put("percentage_complete", ""+Double.valueOf(0.75));
+            object.put("timestamp", "2014-03-04 07:00:00");
+            object.put("task_id", ""+Integer.valueOf(234));
+            object.put("Day_Effort", jsonArray);
+
+            objectwhole.put("SaveTasks", object);}
+        catch (JSONException e){
+            e.printStackTrace();}
+
+        try
+        {
+            responseStr = SendThisData(object.toString(),  450000, "SaveTasks");
+            responseStr = CleanResponseString(responseStr);
+        }
+        catch (IOException e)
+        {
+            Log.e("System out", "Error IO " + e.getMessage());
+        }
+
+        if(responseStr.contains("User could not be validated")){
+            return "User could not be validated";}
+        else if(responseStr.equals("")){
+            return "No Data Recieved";}
+
         JSONparser jsoNparser = new JSONparser(responseStr, this.context);
         try {
             jsoNparser.parsedData();
@@ -219,6 +311,34 @@ public class SoapWebService implements Serializable{
         try
         {
             responseStr = SendThisData(configToJson.toString(),  450000, "ConfigItems");
+            responseStr = CleanResponseString(responseStr);
+        }
+        catch (IOException e)
+        {
+            Log.e("System out", "Error IO " + e.getMessage());
+        }
+
+        if(responseStr.contains("User could not be validated")){
+            return "User could not be validated";}
+        else if(responseStr.equals("")){
+            return "No Data Recieved";}
+
+        JSONparser jsoNparser = new JSONparser(responseStr, this.context);
+        try {
+            jsoNparser.parsedData();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return responseStr;
+    }
+    public String getTimeSheetStatus(){
+        StringBuffer configToJson = new StringBuffer();
+        String responseStr="";
+        configToJson.append("{\"Users\" : [{\"userName\":\"" + uName + "\",\"password\":\"" +Pwd + "\"");
+        configToJson.append("}]}");
+        try
+        {
+            responseStr = SendThisData(configToJson.toString(),  450000, "TimeSheetStatus");
             responseStr = CleanResponseString(responseStr);
         }
         catch (IOException e)
@@ -249,25 +369,4 @@ public class SoapWebService implements Serializable{
             strResponse = strResponse.replace(";", "");
         }
         return strResponse;}
-
-    	public String ConvertHexDataToString(String strData)
-	{
-		String strRetVal = "";
-		int iCount=0;
-
-		try
-		{
-			byte[] bytes = strData .getBytes("US-ASCII");
-			for (iCount=0; iCount < bytes.length; iCount++)
-			{
-				strRetVal = strRetVal + Integer.toHexString(bytes[iCount]);
-			}
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			strData="";
-			e.printStackTrace();}
-
-		return strRetVal;
-	}
 }

@@ -4,8 +4,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -15,6 +17,7 @@ import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,12 +31,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.CoraSystems.mobile.test.Objects.ByDay;
 import com.CoraSystems.mobile.test.Objects.Config;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
+import com.CoraSystems.mobile.test.Objects.LocalSave;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TimesheetGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,57 +167,6 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
               showProgress(true);
               fetchService fetchask = new fetchService();
               fetchask.execute();
-       /*new Thread(new Runnable() {
-            public void run() {
-                try{
-                DatabaseReader databaseReader = new DatabaseReader();
-                databaseReader.DataSource(LoginScreen.this);
-                databaseReader.open();
-
-                    config = databaseReader.getConfig();
-                    if (config == null){
-                        fetchService fetchask = new fetchService();
-                        fetchask.execute();
-                    }
-                    else {
-                        taskGlobal.task = databaseReader.getProjectsTasks();
-                        ConfigConstants.maxHoursConstant = config.getMAXHOURS();
-                        ConfigConstants.minHoursConstant = config.getMINHOURS();
-                        ConfigConstants.maxMonConstant = config.getMAXMON();
-                        ConfigConstants.minMonConstant = 0;
-                        ConfigConstants.maxTueConstant = config.getMAXTUE();
-                        ConfigConstants.minTueConstant = 0;
-                        ConfigConstants.maxWedConstant = config.getMAXWED();
-                        ConfigConstants.minWedConstant = 0;
-                        ConfigConstants.maxThurConstant = config.getMAXTHUR();
-                        ConfigConstants.minThurConstant = 0;
-                        ConfigConstants.maxFriConstant = config.getMAXFRI();
-                        ConfigConstants.minFriConstant = 0;
-                        ConfigConstants.maxSatConstant = config.getMAXSAT();
-                        ConfigConstants.minSatConstant = 0;
-                        ConfigConstants.maxSunConstant = config.getMAXSUN();
-                        ConfigConstants.minSunConstant = 0;
-                        ConfigConstants.submissionConstant = config.getSubmission();
-                    }
-                //  databaseReader.reOpen();
-                //  ByDayGlobal.ByDayConstantsList = databaseReader.getByDay();
-                }
-
-                catch (SQLiteException e){
-                    if (e.getMessage().toString().contains("no such")){
-                        Log.e(TAG," table doesn't exist!");
-                        //SoapWebService soapWebService = new SoapWebService("alan", "password", LoginScreen.this);
-                        //dataService = soapWebService.getConfigFromServer();
-                        //fetchService fetchask = new fetchService();
-                        //fetchask.execute();
-                    }
-                }
-            }
-        }).start();*/
-            //mAuthTask = new UserLoginTask(email, password);
-            //mAuthTask.execute((Void) null);
-            //Intent intent = new Intent(this, MyActivity.class);
-            //startActivity(intent);
         }
     }
     private boolean isEmailValid(String email) {
@@ -373,6 +330,7 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
     }
     public class fetchService extends AsyncTask<Void, Void, Void> {
         String checker="";
+        String check="";
       /*  @Override
         protected void onPreExecute() {
             showProgress(true);
@@ -386,18 +344,26 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
            catch(SQLiteException e){
                Log.e(TAG, e.getMessage());
            }
-
             config = databaseReader.getConfig();
             if (config == null){
+                    //ArrayList<LocalSave> localSaves = null;
+
                     SoapWebService soapWebService = new SoapWebService(ConfigConstants.user, ConfigConstants.password, LoginScreen.this);
-                    checker = soapWebService.getTaskFromServer("2014-09-07", "2014-09-07", "GetWork");
                     checker = soapWebService.getConfigFromServer();
-                    soapWebService.sendSummit("2014-09-07", "False","SubmitTimeSheet");
-                    //checker = soapWebService.getTaskFromServer("2014-09-07", "2014-09-07", "ByDay");
-                 // GetWork Byday GetTImesheet ConfigItems
+                if (checker.contains("User could not be validated") || checker.contains("No Data Recieved")){
+                    return null;
+                }
+                    //checker = soapWebService.sendByDayLocalSave(localSaves);
+                    check = soapWebService.getTimeSheetStatus();
+                    check = soapWebService.getTaskFromServer("2011-03-17", "2014-09-07", "GetWork");
+                    //soapWebService.sendSummit("2014-09-07", "True","SubmitTimeSheet");
+                    check = soapWebService.getTaskFromServer("2011-09-11", "2014-09-07", "ByDay");
+                    //databaseReader.open();
+                    //databaseReader.deleteTask(taskGlobal.task, LoginScreen.this);
+                    //  GetWork  Byday  GetTImesheet  ConfigItems
             }
             else {
-                TaskGlobal.task = databaseReader.getProjectsTasks();
+                taskGlobal.task = databaseReader.getProjectsTasks();
                 ConfigConstants.config = config;
                 //ByDayGlobal.ByDayConstantsList = databaseReader.getByDay();
                 //TimesheetGlobal.timesheetArrayList = databaseReader.getTimeSheet();
@@ -407,8 +373,39 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
         @Override
         protected void onPostExecute(Void result) {
             showProgress(false);
+            if (checker.contains("No Data Recieved"))
+            {new AlertDialog.Builder(LoginScreen.this)
+                    .setTitle("Network error")
+                    .setMessage(checker)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(LoginScreen.this, MyActivity.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(LoginScreen.this, LoginScreen.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();}
+            else if (checker.contains("User could not be validated"))
+            {new AlertDialog.Builder(LoginScreen.this)
+                    .setTitle("User authentication error")
+                    .setMessage(checker)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(LoginScreen.this, LoginScreen.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();}
+            else{
             Intent intent = new Intent(LoginScreen.this, MyActivity.class);
-            startActivity(intent);
+            startActivity(intent);}
         }
     }
 }

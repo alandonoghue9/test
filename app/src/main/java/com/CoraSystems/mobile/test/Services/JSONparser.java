@@ -20,7 +20,7 @@ public class JSONparser {
     private Context Parent;
     public static final String TaskList = "TaskList";
     public static final String ByDay = "ByDay";
-    public static final String Timesheet = "Timesheet";
+    public static final String TimeSheetStatus = "TimeSheetStatus";
     public static final String ConfigItems = "ConfigItems";
 
     public JSONparser(String data, Context Parent) {
@@ -80,12 +80,24 @@ public class JSONparser {
                             databaseReader.hoursArrayList.add("" + jsonobject.getInt("hours"));
                             databaseReader.dateArrayList.add(jsonobject.getString("date"));
                             databaseReader.timestampArrayList.add(jsonobject.getString("timestamp"));
-                            databaseReader.taskIdArraylist1.add("" + jsonobject.getInt("task id"));}
+                            databaseReader.taskIdArraylist1.add("" + jsonobject.getInt("task id"));
+                            databaseReader.actualIdArraylist.add("" + jsonobject.getInt("actual_id"));}
 
                         databaseReader.addByDay(Parent);
                         break;
-                    case Timesheet:
-                            databaseReader.plannedHoursTimeArrayList.add("" + jsonObject.getDouble("planned hours"));
+                    case TimeSheetStatus:
+                        jsonArray = jsonObject.optJSONArray(TimeSheetStatus);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonobject = jsonArray.getJSONObject(i);
+                            databaseReader.timeSheetIdArraylist.add("" + jsonobject.getInt("comment"));
+                            databaseReader.startTimeSheetArraylist.add(jsonobject.getString("planned hours"));
+                            databaseReader.finishTimeSheetArrayList.add(jsonobject.getString("planned hours"));
+                            databaseReader.statusArrayList.add(jsonobject.getString("planned hours"));
+                            databaseReader.statusIDArrayList.add("" + jsonobject.getInt("comment"));
+                            databaseReader.statusDescriptionArraylist.add(jsonobject.getString("planned hours"));
+                        }
+
+                            /*databaseReader.plannedHoursTimeArrayList.add("" + jsonObject.getDouble("planned hours"));
                             databaseReader.noOfTasksArrayList.add("" + jsonObject.getInt("number of tasks"));
                             databaseReader.totalHoursArraylist.add("" + jsonObject.getDouble("total hours"));
                             daysArray = jsonObject.getJSONArray("hours day");
@@ -98,7 +110,7 @@ public class JSONparser {
                             databaseReader.thursdayHoursArraylist.add("" + daysArray.getDouble(3));
                             databaseReader.fridayHoursArrayList.add("" + daysArray.getDouble(4));
                             databaseReader.saturdayHoursArrayList.add("" + daysArray.getDouble(5));
-                            databaseReader.sundayHoursArrayList.add("" + daysArray.getDouble(6));
+                            databaseReader.sundayHoursArrayList.add("" + daysArray.getDouble(6));*/
 
                         databaseReader.addTimesheet(Parent);
                         break;

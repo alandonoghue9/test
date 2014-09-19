@@ -13,8 +13,10 @@ import com.CoraSystems.mobile.test.Objects.LocalSave;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.LocalSaveGlobal;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
 import com.CoraSystems.mobile.test.Objects.TimeSheet;
+import com.CoraSystems.mobile.test.Objects.TimeSheetStatus;
+import com.CoraSystems.mobile.test.Objects.User;
 import com.CoraSystems.mobile.test.database.DatabaseConstants.TaskConstants;
 import com.CoraSystems.mobile.test.Objects.Task;
 
@@ -85,6 +87,8 @@ public class DatabaseReader {
     public ArrayList<String> timestampArrayList = new ArrayList<String>();
     public ArrayList<String> dateArrayList = new ArrayList<String>();
     public ArrayList<String> taskIdArraylist1 = new ArrayList<String>();
+    public ArrayList<String> actualIdArraylist = new ArrayList<String>();
+
 
     public ArrayList<String> commentLocalArraylist = new ArrayList<String>();
     public ArrayList<String> completLocalArrayList = new ArrayList<String>();
@@ -92,6 +96,14 @@ public class DatabaseReader {
     public ArrayList<String> timestampLocalArrayList = new ArrayList<String>();
     public ArrayList<String> dateLocalArrayList = new ArrayList<String>();
     public ArrayList<String> taskIdLocalArraylist = new ArrayList<String>();
+    public ArrayList<String> actualIdLocalArraylist = new ArrayList<String>();
+
+    public ArrayList<String> timeSheetIdArraylist = new ArrayList<String>();
+    public ArrayList<String> startTimeSheetArraylist = new ArrayList<String>();
+    public ArrayList<String> finishTimeSheetArrayList = new ArrayList<String>();
+    public ArrayList<String> statusArrayList = new ArrayList<String>();
+    public ArrayList<String> statusIDArrayList = new ArrayList<String>();
+    public ArrayList<String> statusDescriptionArraylist = new ArrayList<String>();
 
 
     private SQLiteDatabase database;
@@ -136,13 +148,29 @@ public class DatabaseReader {
             TaskConstants.SATHOURS,
             TaskConstants.SUNHOURS};
 
+    private String[] allColumnsUser = {
+            TaskConstants.USER_KEY_ID,
+            TaskConstants.USER,
+            TaskConstants.PASSWORD,
+            TaskConstants.BASEURL};
+
+    private String[] allColumnsTimesheetStatus = {
+            TaskConstants.TIMESHEET_STATUS_KEY_ID,
+            TaskConstants.TIMESHEETID,
+            TaskConstants.STARTTIMESTAT,
+            TaskConstants.FINISHTIMESTAT,
+            TaskConstants.STATUS,
+            TaskConstants.STATUSID,
+            TaskConstants.STATUSDESCRIPTION};
+
     private String[] allColumnsByDay = {
             TaskConstants.BYDAY_TASKID,
             TaskConstants.COMMENT,
             TaskConstants.BYDAY_TASKID,
             TaskConstants.PLANNEDAY,
             TaskConstants.TIMESTAMP,
-            TaskConstants.DATE};
+            TaskConstants.DATE,
+            TaskConstants.ACTUALID};
 
     private String[] allColumnsLocalSave = {
             TaskConstants.LOCAL_DATABASE_TABLE,
@@ -151,7 +179,8 @@ public class DatabaseReader {
             TaskConstants.HOURSBYDAYLOCAL,
             TaskConstants.TASKIDLOCAL,
             TaskConstants.TIMESTAMPLOCAL,
-            TaskConstants.DATELOCAL};
+            TaskConstants.DATELOCAL,
+            TaskConstants.ACTUALIDLOCAL};
 
     public void DataSource(Context context) {
         dbHelper = new OpenDbHelper(context);
@@ -207,7 +236,7 @@ public class DatabaseReader {
                 counter++;
            // }
         }}
-        TaskGlobal.task = getProjectsTasks();
+        taskGlobal.task = getProjectsTasks();
     }
     public void addConfig(Context context) {
         if (MAXHOURS > 0){
@@ -260,6 +289,55 @@ public class DatabaseReader {
         Cursor cursor = database.query(TaskConstants.CONFIG_DATABASE_TABLE,
                 allColumnsConfig, TaskConstants.CONFIG_KEY_ID + " = "
                         + configId, null, null, null, null
+        );
+        cursor.moveToFirst();
+        cursor.close();
+
+        // }
+        //}
+    }
+    public void addTimesheetStatus(Context context) {
+        ContentValues values = new ContentValues();
+        //String[] whereArgs = {task.getTask()};
+        //String where = TaskConstants.TASK + " = ?";
+        values.put(TaskConstants.TIMESHEETID, plannedHours);
+        values.put(TaskConstants.STARTTIMESTAT, noOfTasks);
+        values.put(TaskConstants.FINISHTIMESTAT, mondayHours);
+        values.put(TaskConstants.STATUS, tuesdayHours);
+        values.put(TaskConstants.STATUSID, wednesdayHours);
+        values.put(TaskConstants.STATUSDESCRIPTION, thursdayHours);
+        //int numberRowsUpdated;
+        // numberRowsUpdated = database.update(
+      /*              TaskConstants.DATABASE_TABLE,
+                    values, where, whereArgs);*/
+        //          if (numberRowsUpdated == 0) {
+        long TimeId = database.insert(TaskConstants.TIMESHEETSTATUS_DATABASE_TABLE, null, values);
+        Cursor cursor = database.query(TaskConstants.TIMESHEETSTATUS_DATABASE_TABLE,
+                allColumnsTimesheetStatus, TaskConstants.TIMESHEET_STATUS_KEY_ID + " = "
+                        + TimeId, null, null, null, null
+        );
+        cursor.moveToFirst();
+        cursor.close();
+
+        // }
+        //}
+    }
+    public void addUser(Context context) {
+        ContentValues values = new ContentValues();
+        //String[] whereArgs = {task.getTask()};
+        //String where = TaskConstants.TASK + " = ?";
+        values.put(TaskConstants.USER, plannedHours);
+        values.put(TaskConstants.PASSWORD, noOfTasks);
+        values.put(TaskConstants.BASEURL, mondayHours);
+        //int numberRowsUpdated;
+        // numberRowsUpdated = database.update(
+      /*              TaskConstants.DATABASE_TABLE,
+                    values, where, whereArgs);*/
+        //          if (numberRowsUpdated == 0) {
+        long UserId = database.insert(TaskConstants.USER_DATABASE_TABLE, null, values);
+        Cursor cursor = database.query(TaskConstants.USER_DATABASE_TABLE,
+                allColumnsUser, TaskConstants.USER_KEY_ID + " = "
+                        + UserId, null, null, null, null
         );
         cursor.moveToFirst();
         cursor.close();
@@ -389,7 +467,23 @@ public class DatabaseReader {
     public ArrayList<ByDay> getByDay() {
         ArrayList<ByDay> byDays = new ArrayList<ByDay>();
         Cursor cursor = database.query(
-                TaskConstants.BYDAY_DATABASE_TABLE, allColumns, null, null, null, null, null);
+                TaskConstants.BYDAY_DATABASE_TABLE, allColumnsByDay, null, null, null, null, null);
+        if(cursor==null){
+            return null;
+        }
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            ByDay byDay = cursorToByDay(cursor);
+            byDays.add(byDay);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return byDays;
+    }
+    public ArrayList<ByDay> getByDayByTask(int TaskId) {
+        ArrayList<ByDay> byDays = new ArrayList<ByDay>();
+        Cursor cursor = database.query(
+                TaskConstants.BYDAY_DATABASE_TABLE, allColumnsByDay, "bydaytaskid=?", new String[]{""+TaskId}, null, null, null);
         if(cursor==null){
             return null;
         }
@@ -420,6 +514,7 @@ public class DatabaseReader {
 
         return timeSheets;
     }
+
     public ArrayList<LocalSave> getLocalSave() {
         ArrayList<LocalSave> LocalSaves = new ArrayList<LocalSave>();
         Cursor cursor = database.query(
@@ -436,13 +531,45 @@ public class DatabaseReader {
         cursor.close();
         return LocalSaves;
     }
-    public void deleteTask(ArrayList<Task> delTask){
+    public ArrayList<TimeSheetStatus> getTimeSheetStatus() {
+        ArrayList<TimeSheetStatus> TimeSheetStatuss = new ArrayList<TimeSheetStatus>();
+        Cursor cursor = database.query(
+                TaskConstants.TIMESHEETSTATUS_DATABASE_TABLE, allColumnsTimesheetStatus, null, null, null, null, null);
+        if(cursor==null){
+            return null;
+        }
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            TimeSheetStatus timeSheetStatuss = cursorToTimeSheetStatus(cursor);
+            TimeSheetStatuss.add(timeSheetStatuss);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return TimeSheetStatuss;
+    }
+    public ArrayList<User> getUser() {
+        ArrayList<User> Users = new ArrayList<User>();
+        Cursor cursor = database.query(
+                TaskConstants.USER_DATABASE_TABLE, allColumnsUser, null, null, null, null, null);
+        if(cursor==null){
+            return null;
+        }
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            User user = cursorToUser(cursor);
+            Users.add(user);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return Users;
+    }
+    public void deleteTask(ArrayList<Task> delTask, Context context){
         for (int i = 0; i < delTask.size(); i++){
             int id = delTask.get(i).getID();
             database.delete(TaskConstants.TASK_DATABASE_TABLE, TaskConstants.TASK_KEY_ID
                     + " = " + id, null);
         }
-        TaskGlobal.delTask.clear();
+        taskGlobal.delTask.clear();
     }
     public void deleteByDay(ArrayList<ByDay> delByDay){
         for (int i = 0; i < delByDay.size(); i++){
@@ -523,12 +650,21 @@ public class DatabaseReader {
     }
     private ByDay cursorToByDay(Cursor cursor) {
         ByDay byDay = new ByDay(cursor.getInt(0),cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3), cursor.getString(4),
-                cursor.getString(5), cursor.getInt(6));
+                cursor.getString(5), cursor.getInt(6), cursor.getInt(7));
         return byDay;
+    }
+    private TimeSheetStatus cursorToTimeSheetStatus(Cursor cursor) {
+        TimeSheetStatus timeSheetStatus = new TimeSheetStatus(cursor.getInt(0),cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
+                cursor.getDouble(5), cursor.getDouble(6));
+        return timeSheetStatus;
+    }
+    private User cursorToUser(Cursor cursor) {
+        User user = new User(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getString(3));
+        return user;
     }
     private LocalSave cursorToLocalSave(Cursor cursor) {
         LocalSave localSave = new LocalSave(cursor.getInt(0), cursor.getString(1), cursor.getDouble(1), cursor.getDouble(2),cursor.getString(3), cursor.getString(4),
-                cursor.getInt(5));
+                cursor.getInt(5), cursor.getInt(6));
         return localSave;
     }
 

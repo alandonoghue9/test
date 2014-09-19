@@ -22,7 +22,7 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.view.View;
 
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
 import com.CoraSystems.mobile.test.Objects.Task;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 
@@ -58,7 +58,7 @@ public class MyActivity extends Activity implements
         mDarkHoverView.setAlpha(0);
 
         //filterList();
-        filterTask = TaskGlobal.task;
+        filterTask =taskGlobal.task;
         Fragment baseFragment = new ListGplayCardFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -172,13 +172,11 @@ public class MyActivity extends Activity implements
         if (keyCode == KeyEvent.KEYCODE_BACK)
         {
             if (getFragmentManager().getBackStackEntryCount() == 0)
-            {
-                this.finish();
+            {   this.finish();
                 return false;
             }
             else
-            {
-                getFragmentManager().popBackStack();
+            {   getFragmentManager().popBackStack();
                 switchFragments();
                 return false;
             }
@@ -194,7 +192,7 @@ public class MyActivity extends Activity implements
     /*FILTER LIST STUFF*/
 
     public void filterList(Calendar startFilterDate, Calendar endFilterDate, boolean isToday){
-        //ArrayList<>
+        ArrayList<Task> delTask = new ArrayList<Task>();
 
         todayTime = new Time(Time.getCurrentTimezone());
         todayTime.setToNow();
@@ -205,7 +203,7 @@ public class MyActivity extends Activity implements
             Calendar startChecker = Calendar.getInstance();
             Calendar endChecker = Calendar.getInstance();
 
-            for (int i = 0; i < TaskGlobal.task.size(); i++){
+            for (int i = 0; i < taskGlobal.task.size(); i++){
                 String startchecker = "9-9-2014";//taskGlobal.task.get(i).getStart();
                 String endchecker = "14-9-2014";//taskGlobal.task.get(i).getFinish();
 
@@ -257,8 +255,8 @@ public class MyActivity extends Activity implements
         }
         else if ((dateComparer.format(endChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))<0)&& isToday == true)
         {
-            if(TaskGlobal.task.get(i).getCompletion() > 0.99){
-                TaskGlobal.delTask.add(TaskGlobal.task.get(i));}
+            if(taskGlobal.task.get(i).getCompletion() > 0.99){
+                delTask.add(taskGlobal.task.get(i));}
         }
             //c.add(Calendar.DAY_OF_MONTH, i);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
 /*
@@ -270,13 +268,14 @@ public class MyActivity extends Activity implements
             e.printStackTrace();
         }
 */      }
+        if(!delTask.isEmpty()){
         new Thread(new Runnable() {
             public void run() {
                 DatabaseReader databaseReader = new DatabaseReader();
                 databaseReader.DataSource(MyActivity.this);
-                databaseReader.deleteTask(TaskGlobal.delTask);
+                databaseReader.deleteTask(taskGlobal.delTask, MyActivity.this);
             }
-        }).start();
+        }).start();}
     }
     public void check(View v){
         if (today==Boolean.TRUE) {

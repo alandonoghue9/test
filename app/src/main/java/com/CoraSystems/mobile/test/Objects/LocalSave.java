@@ -11,9 +11,10 @@ public class LocalSave {
     private String timestamp;
     private String  date;
     private int taskId;
+    private  int actualId;
 
 
-    public LocalSave(int dbId, String commentByDay,double completeer, double hoursByDay, String timestampByDay, String dateByDay, int taskIdByDay){
+    public LocalSave(int dbId, String commentByDay,double completeer, double hoursByDay, String timestampByDay, String dateByDay, int taskIdByDay, int actualID){
         id = dbId;
         comment = commentByDay;
         complete = completeer;
@@ -21,11 +22,12 @@ public class LocalSave {
         timestamp = timestampByDay;
         date  = dateByDay;
         taskId = taskIdByDay;
-
+        actualId = actualID;
 
     }
     public int getLocalId(){return id;}
     public int gettaskId(){return taskId;}
+    public int getActualLocalId(){return actualId;}
     public double getCompleteLocal(){return complete;}
     public double getHours(){return hoursWorked  ;}
     public String getTimestamp(){return timestamp;}

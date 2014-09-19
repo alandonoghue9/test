@@ -18,6 +18,8 @@ public class DatabaseConstants {
         public static final String CONFIG_KEY_ID = "config_id";
         public static final String TIMESHEET_KEY_ID = "timesheet_id";
         public static final String LOCAL_KEY_ID = "local_id";
+        public static final String TIMESHEET_STATUS_KEY_ID = "timesheet_status_id";
+        public static final String USER_KEY_ID = "user_id";
 
         public static final String TASK = "task";
         public static final String PROJECT = "project";
@@ -34,6 +36,7 @@ public class DatabaseConstants {
         public static final String PLANNEDAY = "plannedday";
         public static final String TIMESTAMP = "timestamp";
         public static final String DATE = "date";
+        public static final String ACTUALID = "actualid";
 
         public static final String CONFIG_DATABASE_TABLE = "config_table";
         public static final String MAXHOURS = "maxhours";
@@ -75,5 +78,20 @@ public class DatabaseConstants {
         public static final String TASKIDLOCAL = "taskIdLocal";
         public static final String DATELOCAL = "dateLocal";
         public static final String COMMENTLOCAL = "commentLocal";
+        public static final String ACTUALIDLOCAL = "actualidlocal";
+
+        public static final String TIMESHEETSTATUS_DATABASE_TABLE = "timesheet_status_table";
+        public static final String TIMESHEETID = "timesheetid";
+        public static final String STARTTIMESTAT = "startTimeStatus";
+        public static final String FINISHTIMESTAT = "finishTimeStatus";
+        public static final String STATUS = "status";
+        public static final String STATUSID = "statusId";
+        public static final String STATUSDESCRIPTION = "statusDesc";
+
+        public static final String USER_DATABASE_TABLE = "user_table";
+        public static final String USER = "dateLocal";
+        public static final String PASSWORD = "commentLocal";
+        public static final String BASEURL = "actualidlocal";
+
     }
 }

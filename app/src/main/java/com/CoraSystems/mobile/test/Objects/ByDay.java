@@ -11,9 +11,9 @@ public class ByDay {
     private String timestamp;
     private String  date;
     private int taskId;
+    private  int actualId;
 
-
-    public ByDay(int dbId, String commentByDay, double plannedhours, double hoursByDay, String timestampByDay, String dateByDay, int taskIdByDay){
+    public ByDay(int dbId, String commentByDay, double plannedhours, double hoursByDay, String timestampByDay, String dateByDay, int taskIdByDay, int actualID){
         id = dbId;
         comment=commentByDay;
         plannedHours = plannedhours;
@@ -21,9 +21,11 @@ public class ByDay {
         timestamp = timestampByDay;
         date  = dateByDay;
         taskId = taskIdByDay;
+        actualId = actualID;
     }
     public int getId(){return id;}
     public int gettaskId(){return taskId;}
+    public int getActualId(){return actualId;}
     public double getPlannedHours(){return plannedHours;}
     public double getHours(){return hours;}
     public String getTimestamp(){return timestamp;}

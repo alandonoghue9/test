@@ -5,15 +5,20 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,9 +26,14 @@ import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
 import com.CoraSystems.mobile.test.Objects.Task;
+import com.CoraSystems.mobile.test.Services.SoapWebService;
+import com.CoraSystems.mobile.test.database.DatabaseConstants;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 
 import java.text.ParseException;
@@ -90,6 +100,10 @@ public class MyActivity extends Activity implements
                 return true;
             case R.id.dashboard:
                 dash();
+                return true;
+            case R.id.action_refresh:
+                fetchService fetchService = new fetchService();
+                fetchService.execute();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -192,7 +206,7 @@ public class MyActivity extends Activity implements
     /*FILTER LIST STUFF*/
 
     public void filterList(Calendar startFilterDate, Calendar endFilterDate, boolean isToday){
-        ArrayList<Task> delTask = new ArrayList<Task>();
+        final ArrayList<Task> delTask = new ArrayList<Task>();
 
         todayTime = new Time(Time.getCurrentTimezone());
         todayTime.setToNow();
@@ -253,27 +267,19 @@ public class MyActivity extends Activity implements
         else if((dateComparer.format(startChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))>0) && (dateComparer.format(startChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))<0)){
 
         }
-        else if ((dateComparer.format(endChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))<0)&& isToday == true)
+        else if ((dateComparer.format(endChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))<0)&& isToday)
         {
             if(taskGlobal.task.get(i).getCompletion() > 0.99){
                 delTask.add(taskGlobal.task.get(i));}
         }
-            //c.add(Calendar.DAY_OF_MONTH, i);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
-/*
-        String outputDate = sdf.format(startFilterDate.getTime());
-        SimpleDateFormat humanReadableDate = new SimpleDateFormat("MMM dd");
-        try{
-            outputDate = humanReadableDate.format(sdf.parse(outputDate));}
-        catch (ParseException e) {
-            e.printStackTrace();
-        }
-*/      }
+      }
         if(!delTask.isEmpty()){
         new Thread(new Runnable() {
             public void run() {
                 DatabaseReader databaseReader = new DatabaseReader();
                 databaseReader.DataSource(MyActivity.this);
-                databaseReader.deleteTask(taskGlobal.delTask, MyActivity.this);
+                databaseReader.deleteTask(delTask, MyActivity.this);
+                databaseReader.deleteByDayTask(delTask, MyActivity.this);
             }
         }).start();}
     }
@@ -505,6 +511,44 @@ public class MyActivity extends Activity implements
             ImageView tick = (ImageView) v.findViewById(R.id.completetick);
             tick.setVisibility(v.GONE);
             complete=Boolean.FALSE;
+        }
+    }
+    public class fetchService extends AsyncTask<Void, Void, Void> {
+        String checker="";
+        String check="";
+        private ProgressBar progressBar;
+        LinearLayout linlaHeaderProgress = (LinearLayout)findViewById(R.id.linlaHeaderProgress);
+          @Override
+          protected void onPreExecute() {
+              linlaHeaderProgress.setVisibility(View.VISIBLE);
+          }
+        @Override
+        protected Void doInBackground(Void... params) {
+            DatabaseReader databaseReader = new DatabaseReader();
+            databaseReader.DataSource(MyActivity.this);
+            try{
+                databaseReader.open();}
+            catch(SQLiteException e){
+                Log.e("MyActivity", e.getMessage());
+            }
+                SoapWebService soapWebService = new SoapWebService(ConfigConstants.user, ConfigConstants.password, MyActivity.this);
+                String maxDate = databaseReader.getTimeSheetStatusMaxOrMinDate(DatabaseConstants.TaskConstants.STARTTIMESTAT, "MAX");
+            checker = soapWebService.getTimeSheetStatus();
+            if (checker.contains("User could not be validated") || checker.contains("No Data Recieved")){
+                return null;
+            }
+            databaseReader.open();
+            String minDate = databaseReader.getTimeSheetStatusMaxOrMinDate(DatabaseConstants.TaskConstants.STARTTIMESTAT, "MIN");
+                check = soapWebService.getTaskFromServer(minDate, maxDate, "GetWork");
+                check = soapWebService.getTaskFromServer(minDate, maxDate, "ByDay");
+                //  GetWork  Byday  GetTImesheet  ConfigItems
+
+
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            linlaHeaderProgress.setVisibility(View.GONE);
         }
     }
     public static class DatePickerFragment extends DialogFragment

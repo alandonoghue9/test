@@ -60,29 +60,20 @@ public class ListGplayCardFragment extends Fragment {
                 cards.add(card);
             } else {
                 GooglePlaySmallCard card = new GooglePlaySmallCard(getActivity());
-                card.setTitle(taskGlobal.task.get(j).getTask()+" ("+(taskGlobal.task.get(j).getTaskId())+")");
-                card.setSecondaryTitle(taskGlobal.task.get(j).getTask());
+                card.setTitle(taskGlobal.task.get(j).getTask());
+                card.setSecondaryTitle(taskGlobal.task.get(j).getProject()+" ("+(taskGlobal.task.get(j).getProjectId())+")");
                 card.setComplete(Double.toString(taskGlobal.task.get(j).getCompletion()));
                 card.setPlanned(taskGlobal.task.get(j).getPlanned());
 
                 card.count = i - 1;
-
                 card.init();
-
                 cards.add(card);
                 j++;
-
             }
             CardListView listView = (CardListView) getActivity().findViewById(R.id.carddemo_list_gplaycard);
             if (listView != null) {
 
                 listView.setAdapter(mCardArrayAdapter);
-                new Thread(new Runnable() {
-
-                    public void run() {
-
-                    }}).start();
-
             }
         }}
     }
@@ -153,7 +144,7 @@ public class ListGplayCardFragment extends Fragment {
             view.startAnimation(animation);
             lastPosition = count;*/
 
-            Log.v("blah", plannedPer);
+            Log.v("List", plannedPer);
 
             if(complete<100) {
                 c.weight = (float) complete;

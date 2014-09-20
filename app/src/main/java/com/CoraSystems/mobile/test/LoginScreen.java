@@ -37,9 +37,12 @@ import com.CoraSystems.mobile.test.Objects.LocalSave;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.TimesheetGlobal;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
+import com.CoraSystems.mobile.test.database.DatabaseConstants;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
+import com.CoraSystems.mobile.test.database.DatabaseConstants.TaskConstants;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -134,13 +137,13 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
         View focusView = null;
 
 
-        /*if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
             // Check for a valid password, if the user entered one.
             //TODO: remove isempty and make password mandatory
-        } else*/ if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        }  if (TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -355,18 +358,17 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
                 }
                     //checker = soapWebService.sendByDayLocalSave(localSaves);
                     check = soapWebService.getTimeSheetStatus();
-                    check = soapWebService.getTaskFromServer("2011-03-17", "2014-09-07", "GetWork");
+                    databaseReader.open();
+                    String maxDate = databaseReader.getTimeSheetStatusMaxOrMinDate(TaskConstants.STARTTIMESTAT, "MAX");
+                    String minDate = databaseReader.getTimeSheetStatusMaxOrMinDate(TaskConstants.STARTTIMESTAT, "MIN");
+                    check = soapWebService.getTaskFromServer(minDate, maxDate, "GetWork");
                     //soapWebService.sendSummit("2014-09-07", "True","SubmitTimeSheet");
                     check = soapWebService.getTaskFromServer("2011-09-11", "2014-09-07", "ByDay");
-                    //databaseReader.open();
-                    //databaseReader.deleteTask(taskGlobal.task, LoginScreen.this);
                     //  GetWork  Byday  GetTImesheet  ConfigItems
             }
             else {
                 taskGlobal.task = databaseReader.getProjectsTasks();
                 ConfigConstants.config = config;
-                //ByDayGlobal.ByDayConstantsList = databaseReader.getByDay();
-                //TimesheetGlobal.timesheetArrayList = databaseReader.getTimeSheet();
             }
             return null;
         }

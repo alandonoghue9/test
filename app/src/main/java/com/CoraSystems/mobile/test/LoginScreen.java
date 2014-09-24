@@ -357,13 +357,14 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
                     return null;
                 }
                     //checker = soapWebService.sendByDayLocalSave(localSaves);
-                    check = soapWebService.getTimeSheetStatus();
+                    //check = soapWebService.getTimeSheetStatus();
                     databaseReader.open();
                     String maxDate = databaseReader.getTimeSheetStatusMaxOrMinDate(TaskConstants.STARTTIMESTAT, "MAX");
                     String minDate = databaseReader.getTimeSheetStatusMaxOrMinDate(TaskConstants.STARTTIMESTAT, "MIN");
-                    check = soapWebService.getTaskFromServer(minDate, maxDate, "GetWork");
+                    //check = soapWebService.getTaskFromServer(minDate, maxDate, "GetWork");
                     //soapWebService.sendSummit("2014-09-07", "True","SubmitTimeSheet");
                     check = soapWebService.getTaskFromServer("2011-09-11", "2014-10-07", "ByDay");
+                    check = soapWebService.getTimeSheetStatus();
                     //  GetWork  Byday  GetTImesheet  ConfigItems
             }
             else {

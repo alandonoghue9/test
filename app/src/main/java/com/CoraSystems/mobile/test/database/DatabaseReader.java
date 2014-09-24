@@ -359,16 +359,18 @@ public class DatabaseReader {
                 values.put(TaskConstants.TIMESTAMP, timestampArrayList.get(counter));
                 values.put(TaskConstants.DATE, dateArrayList.get(counter));
                 values.put(TaskConstants.BYDAY_TASKID, taskIdArraylist1.get(counter));
-               //int numberRowsUpdated;
+                values.put(TaskConstants.ACTUALID, Integer.parseInt(actualIdArraylist.get(counter)));
+
+                //int numberRowsUpdated;
 /*            numberRowsUpdated = database.update(
                     TaskConstants.DATABASE_TABLE,
                     values, where, whereArgs);*/
                 //        if (numberRowsUpdated == 0) {
-                long taskId = database.insert(TaskConstants.TASK_DATABASE_TABLE, null, values);
+                long byDayId = database.insert(TaskConstants.BYDAY_DATABASE_TABLE, null, values);
 
-                Cursor cursor = database.query(TaskConstants.TASK_DATABASE_TABLE,
-                        allColumnsByDay, TaskConstants.TASK_KEY_ID + " = "
-                                + taskId, null, null, null, null
+                Cursor cursor = database.query(TaskConstants.BYDAY_DATABASE_TABLE,
+                        allColumnsByDay, TaskConstants.BYDAY_KEY_ID + " = "
+                                + byDayId, null, null, null, null
                 );
                 cursor.moveToFirst();
 

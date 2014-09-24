@@ -13,8 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
-
 public class TimesheetHeader extends Fragment {
 
     LinearLayout comp;
@@ -24,7 +22,7 @@ public class TimesheetHeader extends Fragment {
     TextView percentTextView;
     View.OnClickListener clickListener;
     static String percentComp;
-    public Double complete;
+    public double complete;
 
     View view;
 
@@ -48,13 +46,12 @@ public class TimesheetHeader extends Fragment {
         //complete = ((int)(Math.random()*(100)));
         //planned = 100-complete;
 
-        int count = bundle.getInt("count");
-        complete = TaskGlobal.task.get(count).getCompletion();
-        int completeOut=(complete.intValue())*100;
-        planned = TaskGlobal.task.get(count).getCompletion();
-        projectTextView.setText(TaskGlobal.task.get(count).getProject() + " (" + (TaskGlobal.task.get(count).getProjectId()) + ")");
-        taskTextView.setText(TaskGlobal.task.get(count).getTask() + " (" + (TaskGlobal.task.get(count).getTaskId()) + ")");
-        percentComp = (Integer.toString(completeOut) + "%");
+        complete = bundle.getDouble("complete");
+        planned = bundle.getDouble("planned");
+        //projectTextView.setText(taskGlobal.task.get(count).getProject() + " (" + (taskGlobal.task.get(count).getProjectId()) + ")");
+        projectTextView.setText(bundle.getString("project")+ " (" + bundle.getInt("projectID")+")");
+        taskTextView.setText(bundle.getString("task desc"));
+        percentComp = (Double.toString(100 * complete) + "%");
         percentTextView.setText(percentComp);
         //c.weight = (float)complete;
         //p.weight = (float)(100-complete);

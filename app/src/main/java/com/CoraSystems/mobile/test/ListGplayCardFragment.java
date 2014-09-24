@@ -55,7 +55,7 @@ public class ListGplayCardFragment extends Fragment {
           for (int i = 0; i  <  (TaskGlobal.task.size()+1); i++) {
             if (i == 0) {
                 Gap card = new Gap(getActivity());
-                card.setShadow(false);
+               card.setShadow(false);
 
                 cards.add(card);
             } else {
@@ -105,6 +105,7 @@ public class ListGplayCardFragment extends Fragment {
                     Intent i = new Intent(getActivity(), Timesheet.class);
 
                     i.putExtra("project", TaskGlobal.task.get(count).getProject());
+                    i.putExtra("projectID", TaskGlobal.task.get(count).getProjectId());
                     i.putExtra("task desc", TaskGlobal.task.get(count).getTask());
                     i.putExtra("task", TaskGlobal.task.get(count).getID());
                     i.putExtra("complete", TaskGlobal.task.get(count).getCompletion());

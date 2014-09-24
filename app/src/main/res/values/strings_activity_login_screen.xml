@@ -3,12 +3,13 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">email</string>
-    <string name="prompt_password">password (optional)</string>
+    <string name="prompt_password">password</string>
+    <string name="prompt_baseUrl">base url</string>
     <string name="action_sign_in">SIGN IN OR REGISTER</string>
     <string name="action_sign_in_short">sign in</string>
     <string name="prompt_url">base URL</string>
 
-    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_email">This username is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>

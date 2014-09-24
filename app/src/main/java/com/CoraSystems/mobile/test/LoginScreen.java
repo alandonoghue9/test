@@ -17,7 +17,6 @@ import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
@@ -31,20 +30,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.CoraSystems.mobile.test.Objects.ByDay;
 import com.CoraSystems.mobile.test.Objects.Config;
-import com.CoraSystems.mobile.test.Objects.LocalSave;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.TimesheetGlobal;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
-import com.CoraSystems.mobile.test.database.DatabaseConstants;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
 import com.CoraSystems.mobile.test.database.DatabaseConstants.TaskConstants;
 
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -186,8 +179,6 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
-        //fetchService fetchService = new fetchService();
-        //fetchService.execute();
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
@@ -291,12 +282,6 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");

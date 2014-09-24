@@ -84,7 +84,35 @@
                     android:singleLine="true"
                     android:background="@null"
                     android:padding="10dp"/>
+
             </LinearLayout>
+<!--                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="vertical"
+                    android:background="#cc83c441"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="vertical"
+                    android:background="#83c441"/>
+
+                <EditText
+                    android:id="@+id/base_url"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_baseUrl"
+                    android:imeActionId="@+id/login"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:textColor="@color/white"
+                    android:imeOptions="actionUnspecified"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:inputType="textUri"
+                    android:background="@null"
+                    android:padding="10dp"/>-->
+
 
             <LinearLayout
                 android:layout_width="match_parent"

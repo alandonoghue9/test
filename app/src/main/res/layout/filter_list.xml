@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.CoraSystems.mobile.test.FractionalLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.CoraSystems.mobile.test.FractionalLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="51dp"/>
@@ -40,17 +39,27 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:id="@+id/div"
+        android:background="@color/text_grey"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:fontFamily="sans-serif-light"
         android:gravity="center_vertical"
-        android:weightSum="30"
-        android:paddingLeft="15dp"
-        android:onClick="projects">
+        android:weightSum="30">
 
-        <TextView
+        <ExpandableListView
+            android:id="@+id/lvExp"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+
+<!--        <TextView
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,7 +73,7 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_weight="3"
-            android:src="@drawable/arrows"/>
+            android:src="@drawable/arrows"/>-->
 
     </LinearLayout>
 

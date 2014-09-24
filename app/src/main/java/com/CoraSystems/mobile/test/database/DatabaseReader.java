@@ -97,6 +97,7 @@ public class DatabaseReader {
     public ArrayList<String> dateLocalArrayList = new ArrayList<String>();
     public ArrayList<String> taskIdLocalArraylist = new ArrayList<String>();
     public ArrayList<String> actualIdLocalArraylist = new ArrayList<String>();
+    public ArrayList<String> hoursPlannedByDayArrayList = new ArrayList<String>();
 
     public ArrayList<String> timeSheetIdArraylist = new ArrayList<String>();
     public ArrayList<String> startTimeSheetArraylist = new ArrayList<String>();
@@ -355,7 +356,6 @@ public class DatabaseReader {
                 //String where = TaskConstants.TASK + " = ?";
                 values.put(TaskConstants.COMMENT, commentArraylist.get(counter));
                 values.put(TaskConstants.PLANNEDHOURS,Double.parseDouble(plannedHoursByDayArrayList.get(counter)));
-                values.put(TaskConstants.TOTALHOURS, Double.parseDouble(hoursArrayList.get(counter)));
                 values.put(TaskConstants.TIMESTAMP, timestampArrayList.get(counter));
                 values.put(TaskConstants.DATE, dateArrayList.get(counter));
                 values.put(TaskConstants.BYDAY_TASKID, taskIdArraylist1.get(counter));

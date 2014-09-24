@@ -65,7 +65,7 @@ public class SoapWebService implements Serializable{
             //{
                 //this.BaseURL = "http://46.51.207.151/wmsservice/DataService/"; //Live Site
             //this.BaseURL = "http://192.168.1.4/MobileService/DataService/";
-            this.BaseURL = "http://46.17.93.112/MobileTest/dataservice";
+            this.BaseURL = "http://46.17.93.112/MobileTest/dataservice/";
             //this.BaseURL = "http://ukdemo.corasystems.com/LA2/menu.aspx/";
             //http://46.17.93.112/MobileTest/dataservice
             //this.BaseURL = " http://10.72.12.80/MobileService/DataService/";
@@ -77,7 +77,6 @@ public class SoapWebService implements Serializable{
             //this.BaseURL = "http://192.168.1.4/MobileService/DataService/";
             //this.BaseURL = " http://10.72.12.80/MobileService/DataService//";
             //this.BaseURL = "http://192.168.1.4/MobileService/DataService/";
-            Log.i("not working","no");
             this.BaseURL = "http://46.17.93.112/MobileTest/DataService/";
             //this.BaseURL = "http://corademo.corasystems.com/noellemobile/DataService/";
 

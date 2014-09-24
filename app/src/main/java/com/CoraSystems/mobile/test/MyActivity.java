@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.DatePicker;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -40,6 +41,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 public class MyActivity extends Activity implements
         OnTextFragmentAnimationEndListener, FragmentManager.OnBackStackChangedListener {
@@ -61,6 +64,11 @@ public class MyActivity extends Activity implements
 
     Boolean selector;
 
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +86,17 @@ public class MyActivity extends Activity implements
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.fragment_main, baseFragment, "Frag_Main_tag");
         transaction.commit();
+
+        /*// get the listview
+        expListView = (ExpandableListView) findViewById(R.id.lvExp);
+
+        // preparing list data
+        prepareListData();
+
+        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+
+        // setting list adapter
+        expListView.setAdapter(listAdapter);*/
 
         filterFragment = (FilterFragment) getFragmentManager().findFragmentById(R.id.move_fragment);
 
@@ -371,7 +390,7 @@ public class MyActivity extends Activity implements
     }
 
     public void projects(View v){
-        if (projects==Boolean.FALSE) {
+       /* if (projects==Boolean.FALSE) {
             ImageView tick = (ImageView) v.findViewById(R.id.projecttick);
             tick.setImageResource(R.drawable.arrow_in);
             projects=Boolean.TRUE;
@@ -380,7 +399,7 @@ public class MyActivity extends Activity implements
             ImageView tick = (ImageView) v.findViewById(R.id.projecttick);
             tick.setImageResource(R.drawable.arrows);
             projects=Boolean.FALSE;
-        }
+        }*/
 
     }
 

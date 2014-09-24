@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 public class FractionalLinearLayout extends LinearLayout {
 

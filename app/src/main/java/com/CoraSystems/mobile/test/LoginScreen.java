@@ -349,6 +349,7 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
                     //check = soapWebService.getTaskFromServer(minDate, maxDate, "GetWork");
                     //soapWebService.sendSummit("2014-09-07", "True","SubmitTimeSheet");
                     check = soapWebService.getTaskFromServer("2011-09-11", "2014-10-07", "ByDay");
+                Log.i("byday data",check);
                     check = soapWebService.getTimeSheetStatus();
                     //  GetWork  Byday  GetTImesheet  ConfigItems
             }

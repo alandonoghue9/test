@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by Alan on 9/4/2014.
  */
-public class taskGlobal {
+public class TaskGlobal {
     public static ArrayList<Task> task = null;
     public static ArrayList<Task> filterTask = null;
     public static ArrayList<Task> delTask = null;

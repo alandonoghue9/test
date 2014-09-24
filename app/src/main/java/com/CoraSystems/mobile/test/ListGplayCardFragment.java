@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.Objects.Task;
 
 import java.util.ArrayList;
@@ -51,8 +51,8 @@ public class ListGplayCardFragment extends Fragment {
         ArrayList<Card> cards = new ArrayList<>();
         CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(), cards);
         int j=0;
-        if(taskGlobal.task != null){
-          for (int i = 0; i  <  (taskGlobal.task.size()+1); i++) {
+        if(TaskGlobal.task != null){
+          for (int i = 0; i  <  (TaskGlobal.task.size()+1); i++) {
             if (i == 0) {
                 Gap card = new Gap(getActivity());
                 card.setShadow(false);
@@ -60,10 +60,10 @@ public class ListGplayCardFragment extends Fragment {
                 cards.add(card);
             } else {
                 GooglePlaySmallCard card = new GooglePlaySmallCard(getActivity());
-                card.setTitle(taskGlobal.task.get(j).getTask());
-                card.setSecondaryTitle(taskGlobal.task.get(j).getProject()+" ("+(taskGlobal.task.get(j).getProjectId())+")");
-                card.setComplete(Double.toString(taskGlobal.task.get(j).getCompletion()));
-                card.setPlanned(taskGlobal.task.get(j).getPlanned());
+                card.setTitle(TaskGlobal.task.get(j).getTask());
+                card.setSecondaryTitle(TaskGlobal.task.get(j).getProject()+" ("+(TaskGlobal.task.get(j).getProjectId())+")");
+                card.setComplete(Double.toString(TaskGlobal.task.get(j).getCompletion()));
+                card.setPlanned(TaskGlobal.task.get(j).getPlanned());
 
                 card.count = i - 1;
                 card.init();
@@ -104,11 +104,11 @@ public class ListGplayCardFragment extends Fragment {
 
                     Intent i = new Intent(getActivity(), Timesheet.class);
 
-                    i.putExtra("project", taskGlobal.task.get(count).getProject());
-                    i.putExtra("task desc", taskGlobal.task.get(count).getTask());
-                    i.putExtra("task", taskGlobal.task.get(count).getID());
-                    i.putExtra("complete", taskGlobal.task.get(count).getCompletion());
-                    i.putExtra("planned", taskGlobal.task.get(count).getPlanned());
+                    i.putExtra("project", TaskGlobal.task.get(count).getProject());
+                    i.putExtra("task desc", TaskGlobal.task.get(count).getTask());
+                    i.putExtra("task", TaskGlobal.task.get(count).getID());
+                    i.putExtra("complete", TaskGlobal.task.get(count).getCompletion());
+                    i.putExtra("planned", TaskGlobal.task.get(count).getPlanned());
                     startActivity(i);
                     }
             });

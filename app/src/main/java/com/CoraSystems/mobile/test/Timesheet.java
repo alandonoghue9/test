@@ -9,12 +9,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.CoraSystems.mobile.test.Objects.ByDay;
 import com.CoraSystems.mobile.test.Objects.ByDayInArray;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -26,8 +28,6 @@ public class Timesheet extends Activity {
 
     static timesheetDays fragment;
     int taskID;
-
-    public GlobalSelectTimesheet g;
 
     ArrayList<timesheetDays> swipe_windows;
     public ArrayList<ByDay> Days;
@@ -58,6 +58,11 @@ public class Timesheet extends Activity {
         Days = new ArrayList<>();
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Log.i("array check", Double.toString(ByDayGlobal.ByDayConstantsList.size()));
+        Log.i("task check", TaskGlobal.task.get(5).getProject());
+        Log.i("task check", ConfigConstants.user);
+        Log.i("task check", ConfigConstants.password);
 
         /*for(int t=0;t<ByDayGlobal.ByDayConstantsList.size();t++){
             if(ByDayGlobal.ByDayConstantsList.get(t).gettaskId()==taskID){

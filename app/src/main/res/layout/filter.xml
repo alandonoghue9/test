@@ -6,8 +6,10 @@
     android:layout_height="51dp"
     android:gravity="center_vertical"
     android:paddingLeft="15dp"
+    android:id="@+id/filter"
     android:layout_weight="4"
-    android:background="@drawable/container_dropshadow">
+    android:background="@drawable/container_dropshadow"
+    android:clickable="true">
 
     <TextView
         android:text="@string/filter"

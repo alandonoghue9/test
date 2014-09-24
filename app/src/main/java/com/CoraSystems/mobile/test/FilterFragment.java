@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,11 +26,32 @@ import java.util.ArrayList;
 public class FilterFragment extends Fragment {
 
     View.OnClickListener clickListener;
+    View view;
+
+    Boolean selector;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.filter, container, false);
+        //selector = Boolean.FALSE;
+
+        view = inflater.inflate(R.layout.filter, container, false);
         view.setOnClickListener(clickListener);
+
+        /*view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selector == Boolean.FALSE) {
+                    ImageView tick = (ImageView) v.findViewById(R.id.image);
+                    tick.setImageResource(R.drawable.arrow_up);
+                    selector = Boolean.TRUE;
+                } else if (selector == Boolean.TRUE) {
+                    ImageView tick = (ImageView) v.findViewById(R.id.image);
+                    tick.setImageResource(R.drawable.arrow);
+                    selector = Boolean.FALSE;
+                }
+            }
+        });*/
+
         return view;
     }
 

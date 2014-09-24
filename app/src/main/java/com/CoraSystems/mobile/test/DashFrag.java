@@ -49,7 +49,7 @@ public class DashFrag extends Fragment {
     int hours;
     int days;
     int tasks;
-    double complete;
+    Double complete;
 
     View view;
 
@@ -178,15 +178,16 @@ public class DashFrag extends Fragment {
         pg.removeSlices();
         PieSlice slice = new PieSlice();
         slice.setColor(Color.parseColor("#ffffff"));
-        slice.setValue(100-(int)complete);
+        slice.setValue(100-complete.intValue());
         pg.addSlice(slice);
         slice = new PieSlice();
         slice.setColor(Color.parseColor("#1da9e1"));
-        slice.setValue((int)complete);
+        slice.setValue(complete.intValue());
         pg.addSlice(slice);
 
         TextView percentView = (TextView) view.findViewById(R.id.percent);
-        String percentComp = (Double.toString(complete)+"%");
+        int percentageComplete=(complete.intValue());
+        String percentComp = (Integer.toString(percentageComplete)+"%");
         percentView.setText(percentComp);
     }
 

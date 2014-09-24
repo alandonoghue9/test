@@ -6,6 +6,7 @@
     <string name="prompt_password">password (optional)</string>
     <string name="action_sign_in">SIGN IN OR REGISTER</string>
     <string name="action_sign_in_short">sign in</string>
+    <string name="prompt_url">base URL</string>
 
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>

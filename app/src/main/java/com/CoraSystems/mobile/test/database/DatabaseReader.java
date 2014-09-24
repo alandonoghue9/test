@@ -13,7 +13,7 @@ import com.CoraSystems.mobile.test.Objects.LocalSave;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.LocalSaveGlobal;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.Objects.TimeSheet;
 import com.CoraSystems.mobile.test.Objects.TimeSheetStatus;
 import com.CoraSystems.mobile.test.Objects.User;
@@ -236,7 +236,7 @@ public class DatabaseReader {
                 counter++;
            // }
         }}
-        taskGlobal.task = getProjectsTasks();
+        TaskGlobal.task = getProjectsTasks();
     }
     public void addConfig(Context context) {
         if (MAXHOURS > 0){
@@ -597,7 +597,7 @@ public class DatabaseReader {
             database.delete(TaskConstants.TASK_DATABASE_TABLE, TaskConstants.TASK_KEY_ID
                     + " = " + id, null);
         }
-        taskGlobal.delTask.clear();
+        TaskGlobal.delTask.clear();
     }
     public void deleteByDayTask(ArrayList<Task> delByDay, Context context){
         for (int i = 0; i < delByDay.size(); i++){

@@ -30,7 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.Objects.Task;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
 import com.CoraSystems.mobile.test.database.DatabaseConstants;
@@ -59,16 +59,20 @@ public class MyActivity extends Activity implements
     ArrayList<Task> filterTask;
     Time todayTime = new Time(Time.getCurrentTimezone());
 
+    Boolean selector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        selector=Boolean.FALSE;
 
         setContentView(R.layout.activity_my);
         mDarkHoverView = findViewById(R.id.dark_hover_view);
         mDarkHoverView.setAlpha(0);
 
         //filterList();
-        filterTask =taskGlobal.task;
+        filterTask =TaskGlobal.task;
         Fragment baseFragment = new ListGplayCardFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -112,8 +116,17 @@ public class MyActivity extends Activity implements
 
     View.OnClickListener mClickListener = new View.OnClickListener () {
         @Override
-        public void onClick(View view) {
+        public void onClick(View v) {
             switchFragments();
+            if (selector == Boolean.FALSE) {
+                ImageView tick = (ImageView) filterFragment.view.findViewById(R.id.image);
+                tick.setImageResource(R.drawable.arrow_up);
+                selector = Boolean.TRUE;
+            } else if (selector == Boolean.TRUE) {
+                ImageView tick = (ImageView) filterFragment.view.findViewById(R.id.image);
+                tick.setImageResource(R.drawable.arrow);
+                selector = Boolean.FALSE;
+            }
         }
     };
 
@@ -217,7 +230,7 @@ public class MyActivity extends Activity implements
             Calendar startChecker = Calendar.getInstance();
             Calendar endChecker = Calendar.getInstance();
 
-            for (int i = 0; i < taskGlobal.task.size(); i++){
+            for (int i = 0; i < TaskGlobal.task.size(); i++){
                 String startchecker = "9-9-2014";//taskGlobal.task.get(i).getStart();
                 String endchecker = "14-9-2014";//taskGlobal.task.get(i).getFinish();
 
@@ -269,8 +282,8 @@ public class MyActivity extends Activity implements
         }
         else if ((dateComparer.format(endChecker.getTime()).compareTo(dateComparer.format(startFilterDate.getTime()))<0)&& isToday)
         {
-            if(taskGlobal.task.get(i).getCompletion() > 0.99){
-                delTask.add(taskGlobal.task.get(i));}
+            if(TaskGlobal.task.get(i).getCompletion() > 0.99){
+                delTask.add(TaskGlobal.task.get(i));}
         }
       }
         if(!delTask.isEmpty()){
@@ -358,6 +371,16 @@ public class MyActivity extends Activity implements
     }
 
     public void projects(View v){
+        if (projects==Boolean.FALSE) {
+            ImageView tick = (ImageView) v.findViewById(R.id.projecttick);
+            tick.setImageResource(R.drawable.arrow_in);
+            projects=Boolean.TRUE;
+        }
+        else {
+            ImageView tick = (ImageView) v.findViewById(R.id.projecttick);
+            tick.setImageResource(R.drawable.arrows);
+            projects=Boolean.FALSE;
+        }
 
     }
 
@@ -454,6 +477,8 @@ public class MyActivity extends Activity implements
             ImageView tick = (ImageView) v.findViewById(R.id.pickweektick);
             tick.setVisibility(v.VISIBLE);
             pickweek=Boolean.TRUE;
+            DialogFragment newFragment = new DatePickerFragment();
+            newFragment.show(getFragmentManager(), "datePicker");
         }
         else {
             ImageView tick = (ImageView) v.findViewById(R.id.pickweektick);
@@ -465,12 +490,14 @@ public class MyActivity extends Activity implements
     public void pickmonth(View v){
         if (pickmonth==Boolean.FALSE) {
             ImageView tick = (ImageView) v.findViewById(R.id.pickmonthtick);
-            tick.setVisibility(v.VISIBLE);
+            //tick.setVisibility(v.VISIBLE);
             pickmonth=Boolean.TRUE;
+            //DialogFragment newFragment = new DatePickerFragment();
+            //newFragment.show(getFragmentManager(), "datePicker");
         }
         else {
             ImageView tick = (ImageView) v.findViewById(R.id.pickmonthtick);
-            tick.setVisibility(v.GONE);
+            //tick.setVisibility(v.GONE);
             pickmonth=Boolean.FALSE;
         }
     }
@@ -491,12 +518,12 @@ public class MyActivity extends Activity implements
     public void incomplete(View v){
         if (incomplete==Boolean.FALSE) {
             ImageView tick = (ImageView) v.findViewById(R.id.incompletetick);
-            tick.setVisibility(v.VISIBLE);
+            //tick.setVisibility(v.VISIBLE);
             incomplete=Boolean.TRUE;
         }
         else {
             ImageView tick = (ImageView) v.findViewById(R.id.incompletetick);
-            tick.setVisibility(v.GONE);
+            //tick.setVisibility(v.GONE);
             incomplete=Boolean.FALSE;
         }
     }
@@ -504,15 +531,16 @@ public class MyActivity extends Activity implements
     public void complete(View v){
         if (complete==Boolean.FALSE) {
             ImageView tick = (ImageView) v.findViewById(R.id.completetick);
-            tick.setVisibility(v.VISIBLE);
+            //tick.setVisibility(v.VISIBLE);
             complete=Boolean.TRUE;
         }
         else {
             ImageView tick = (ImageView) v.findViewById(R.id.completetick);
-            tick.setVisibility(v.GONE);
+            //tick.setVisibility(v.GONE);
             complete=Boolean.FALSE;
         }
     }
+
     public class fetchService extends AsyncTask<Void, Void, Void> {
         String checker="";
         String check="";

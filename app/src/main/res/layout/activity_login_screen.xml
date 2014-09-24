@@ -86,16 +86,41 @@
                     android:padding="10dp"/>
             </LinearLayout>
 
-                <Button
-                    android:id="@+id/email_sign_in_button"
-                    style="?android:textAppearanceSmall"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="15dp"
+                android:background="#CC83c441">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="vertical"
+                    android:background="#83c441"/>
+
+                <EditText
+                    android:id="@+id/baseurl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/action_sign_in"
-                    android:textStyle="bold"
+                    android:hint="@string/prompt_url"
                     android:textColor="@color/white"
-                    android:background="@color/cora_blue"/>
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:background="@null"
+                    android:padding="10dp"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/email_sign_in_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/action_sign_in"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@color/cora_blue"/>
 
             </LinearLayout>
     </ScrollView>

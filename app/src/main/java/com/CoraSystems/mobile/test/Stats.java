@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.CoraSystems.mobile.test.Graph.PieGraph;
 import com.CoraSystems.mobile.test.Graph.PieSlice;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.Objects.Task;
 
 public class Stats extends Activity {
@@ -37,10 +37,10 @@ public class Stats extends Activity {
         Bundle bundle = getIntent().getExtras();
         taskID = bundle.getInt("task");
 
-        for(int i=0;i< taskGlobal.task.size();i++){
-            if(taskID==taskGlobal.task.get(i).getID()){
-                task=taskGlobal.task.get(i);
-                i=taskGlobal.task.size()-1;
+        for(int i=0;i< TaskGlobal.task.size();i++){
+            if(taskID==TaskGlobal.task.get(i).getID()){
+                task=TaskGlobal.task.get(i);
+                i=TaskGlobal.task.size()-1;
             }
         }
 
@@ -50,10 +50,11 @@ public class Stats extends Activity {
         String finish = task.getFinish();
         Double hoursComplete;
         Double thisWeek;
-        Double percent=task.getCompletion()*100;
+        Double percent=task.getCompletion();
+        complete=(percent.intValue())*100;
 
         TextView percentTextView = (TextView) this.findViewById(R.id.percent);
-        percentTextView.setText(Double.toString(percent)+"%");
+        percentTextView.setText((Integer.toString(complete))+"%");
         TextView projectTextView = (TextView) this.findViewById(R.id.project_name);
         projectTextView.setText(projectDesc);
         TextView taskTextView = (TextView) this.findViewById(R.id.task_name);
@@ -62,8 +63,6 @@ public class Stats extends Activity {
         startTextView.setText(start);
         TextView finishTextView = (TextView) this.findViewById(R.id.finish);
         finishTextView.setText(finish.substring(0,10));
-
-        complete=(percent.intValue())*100;
 
         PieGraph pg = (PieGraph)this.findViewById(R.id.graph);
         PieSlice slice = new PieSlice();

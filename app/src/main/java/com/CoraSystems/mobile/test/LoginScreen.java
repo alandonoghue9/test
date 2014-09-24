@@ -35,7 +35,7 @@ import com.CoraSystems.mobile.test.Objects.ByDay;
 import com.CoraSystems.mobile.test.Objects.Config;
 import com.CoraSystems.mobile.test.Objects.LocalSave;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.TimesheetGlobal;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.taskGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
 import com.CoraSystems.mobile.test.database.DatabaseConstants;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
@@ -363,11 +363,11 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
                     String minDate = databaseReader.getTimeSheetStatusMaxOrMinDate(TaskConstants.STARTTIMESTAT, "MIN");
                     check = soapWebService.getTaskFromServer(minDate, maxDate, "GetWork");
                     //soapWebService.sendSummit("2014-09-07", "True","SubmitTimeSheet");
-                    check = soapWebService.getTaskFromServer("2011-09-11", "2014-09-07", "ByDay");
+                    check = soapWebService.getTaskFromServer("2011-09-11", "2014-10-07", "ByDay");
                     //  GetWork  Byday  GetTImesheet  ConfigItems
             }
             else {
-                taskGlobal.task = databaseReader.getProjectsTasks();
+                TaskGlobal.task = databaseReader.getProjectsTasks();
                 ConfigConstants.config = config;
             }
             return null;

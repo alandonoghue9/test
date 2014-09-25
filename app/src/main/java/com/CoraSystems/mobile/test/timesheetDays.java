@@ -1,13 +1,18 @@
 package com.CoraSystems.mobile.test;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.NumberPicker;
+
 import com.CoraSystems.mobile.test.Objects.ByDay;
 import java.util.ArrayList;
 
@@ -59,11 +64,44 @@ public class timesheetDays extends Fragment implements GridViewCustomAdapter_Tim
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                onArticleSelected(i);
-                grisViewCustomeAdapter.notifyDataSetChanged();
+                //onArticleSelected(i);
+                if(i!=6) {
+                    show(i);
+                }
+                //grisViewCustomeAdapter.notifyDataSetChanged();
             }
         });
         return rootView;
+    }
+
+    public void show(int i){
+
+        final Dialog d = new Dialog(getActivity());
+        d.setTitle("Thurs, 20 Sep 2014");
+        d.setContentView(R.layout.data_in);
+        Button b1 = (Button) d.findViewById(R.id.button1);
+        Button b2 = (Button) d.findViewById(R.id.button2);
+        final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
+        np.setMaxValue(8);
+        np.setMinValue(0);
+        np.setWrapSelectorWheel(false);
+        b1.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                //Log.v("test", (String.valueOf(np.getValue())));
+                grisViewCustomeAdapter.notifyDataSetChanged();
+                d.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                d.dismiss();
+            }
+        });
+        d.show();
     }
 
     public int isItemSelected(int position){

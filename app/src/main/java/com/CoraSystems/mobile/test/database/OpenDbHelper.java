@@ -8,10 +8,28 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.CoraSystems.mobile.test.database.DatabaseConstants.TaskConstants;
+
 public class OpenDbHelper extends SQLiteOpenHelper {
 
     private  static final String DB_NAME = "task_database_db.db";
     public static final int DB_VERSION = 1;
+
+    private static OpenDbHelper mInstance = null;
+
+    public static OpenDbHelper getInstance(Context ctx) {
+
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (mInstance == null) {
+            mInstance = new OpenDbHelper(ctx.getApplicationContext());
+        }
+        return mInstance;
+    }
+
+    private OpenDbHelper(Context ctx) {
+        super(ctx, DB_NAME, null, DB_VERSION);
+    }
 
     private static final String TASK_DATABASE_CREATE = "create table "+
             TaskConstants.TASK_DATABASE_TABLE + "("+
@@ -21,7 +39,7 @@ public class OpenDbHelper extends SQLiteOpenHelper {
             TaskConstants.PROJECT + " text not null, " +
             TaskConstants.START_DATE + " text not null, " +
             TaskConstants.FINISH_DATE + " text not null, " +
-            TaskConstants.PLANNED + " text not null, " +
+            TaskConstants.PLANNED + " real not null, " +
             TaskConstants.COMPLETE + " real not null, " +
             TaskConstants.PROJECTID + " integer not null, " +
             TaskConstants.TASKID + " integer not null);";
@@ -31,10 +49,11 @@ public class OpenDbHelper extends SQLiteOpenHelper {
             TaskConstants.BYDAY_KEY_ID +
             " integer primary key autoincrement, " +
             TaskConstants.COMMENT + " text not null, " +
-            TaskConstants.PLANNEDAY + " text not null, " +
-            TaskConstants.DATE + " text not null, " +
-            TaskConstants.COMPLETE + " real not null, " +
+            TaskConstants.PLANNEDAY + " real not null, " +
+            TaskConstants.BYDAY_HOURSDAY + " real not null, " +
             TaskConstants.TIMESTAMP + " text not null, " +
+            TaskConstants.DATE + " text not null, " +
+            //TaskConstants.COMPLETE + " real not null, " +
             TaskConstants.BYDAY_TASKID + " integer not null, " +
             TaskConstants.ACTUALID + " integer not null);";
 
@@ -98,10 +117,6 @@ public class OpenDbHelper extends SQLiteOpenHelper {
             TaskConstants.USER + " text not null, " +
             TaskConstants.PASSWORD + " text not null, " +
             TaskConstants.BASEURL + " text not null);";
-
-    public OpenDbHelper(Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
-    }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {

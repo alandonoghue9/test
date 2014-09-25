@@ -11,11 +11,11 @@ public class Task {
     private double completion;
     private String start;
     private String finish;
-    private String planned;
+    private double planned;
     private int projectId;
     private int taskId;
 
-    public Task(int dbId,int taskprojectid, String taskProject,int taskID , String taskName, String taskstart, String taskfinish, String taskplanned,double taskcompletion){
+    public Task(int dbId,int taskprojectid, String taskProject,int taskID , String taskName, String taskstart, String taskfinish, double taskplanned,double taskcompletion){
         id=dbId;
         taskId = taskID;
         task=taskName;
@@ -35,7 +35,7 @@ public class Task {
     public double getCompletion(){return completion;}
     public String getStart(){return start;}
     public String getFinish(){return finish;}
-    public String getPlanned(){return planned;}
+    public double getPlanned(){return planned;}
     public int getProjectId(){return projectId;}
     public int getTaskId(){return taskId;}
 }

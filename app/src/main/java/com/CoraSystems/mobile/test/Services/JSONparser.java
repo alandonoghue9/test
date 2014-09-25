@@ -67,8 +67,8 @@ public class JSONparser {
                             JSONObject jsonobject = jsonArray.getJSONObject(i);
 
                             databaseReader.commentArraylist.add(jsonobject.getString("comment"));
-                            databaseReader.plannedHoursByDayArrayList.add(jsonobject.getString("planned hours"));
-                            databaseReader.hoursArrayList.add("" + jsonobject.getInt("hours"));
+                            databaseReader.plannedHoursByDayArrayList.add("" + jsonobject.getDouble("planned hours"));
+                            databaseReader.hoursArrayList.add("" + jsonobject.getDouble("hours"));
                             databaseReader.dateArrayList.add(jsonobject.getString("date"));
                             databaseReader.timestampArrayList.add(jsonobject.getString("timestamp"));
                             databaseReader.taskIdArraylist1.add("" + jsonobject.getInt("task id"));

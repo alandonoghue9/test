@@ -34,6 +34,7 @@ public class DatabaseConstants {
         public static final String COMMENT = "comment";
         public static final String BYDAY_TASKID = "bydaytaskid";
         public static final String PLANNEDAY = "plannedday";
+        public static final String BYDAY_HOURSDAY = "hoursday";
         public static final String TIMESTAMP = "timestamp";
         public static final String DATE = "date";
         public static final String ACTUALID = "actualid";

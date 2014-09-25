@@ -165,12 +165,13 @@ public class DatabaseReader {
             TaskConstants.STATUSDESCRIPTION};
 
     private String[] allColumnsByDay = {
-            TaskConstants.BYDAY_TASKID,
+            TaskConstants.BYDAY_KEY_ID,
             TaskConstants.COMMENT,
-            TaskConstants.BYDAY_TASKID,
             TaskConstants.PLANNEDAY,
+            TaskConstants.BYDAY_HOURSDAY,
             TaskConstants.TIMESTAMP,
             TaskConstants.DATE,
+            TaskConstants.BYDAY_TASKID,
             TaskConstants.ACTUALID};
 
     private String[] allColumnsLocalSave = {
@@ -184,7 +185,7 @@ public class DatabaseReader {
             TaskConstants.ACTUALIDLOCAL};
 
     public void DataSource(Context context) {
-        dbHelper = new OpenDbHelper(context);
+        dbHelper = OpenDbHelper.getInstance(context);
     }
 
     public void open() throws SQLException {
@@ -203,30 +204,33 @@ public class DatabaseReader {
         int counter=0;
         Task task;
         if (taskIdArraylist.size() > 0 ){
-            while(counter < taskIdArraylist.size()){
-            ContentValues values = new ContentValues();
-            //String[] whereArgs = {task.getTask()};
-            //String where = TaskConstants.TASK + " = ?";
-            values.put(TaskConstants.PROJECTID, Integer.parseInt(projectIdArrayList.get(counter)));
-            values.put(TaskConstants.PROJECT, projectDescArrayList.get(counter));
-            values.put(TaskConstants.TASKID, Integer.parseInt(taskIdArraylist.get(counter)));
-            values.put(TaskConstants.TASK, taskDescArrayList.get(counter));
-            values.put(TaskConstants.PLANNED, plannedHoursArrayList.get(counter));
-            values.put(TaskConstants.START_DATE, startDateArrayList.get(counter));
-            values.put(TaskConstants.FINISH_DATE, finishDateArrayList.get(counter));
-            values.put(TaskConstants.COMPLETE, Double.parseDouble(completeArrayList.get(counter)));
-            //int numberRowsUpdated;
+            while(counter < taskIdArraylist.size()) {
+                ContentValues values = new ContentValues();
+                //String[] whereArgs = {task.getTask()};
+                //String where = TaskConstants.TASK + " = ?";
+                values.put(TaskConstants.PROJECTID, Integer.parseInt(projectIdArrayList.get(counter)));
+                values.put(TaskConstants.PROJECT, projectDescArrayList.get(counter));
+                values.put(TaskConstants.TASKID, Integer.parseInt(taskIdArraylist.get(counter)));
+                values.put(TaskConstants.TASK, taskDescArrayList.get(counter));
+                values.put(TaskConstants.PLANNED, Double.parseDouble(plannedHoursArrayList.get(counter)));
+                values.put(TaskConstants.START_DATE, startDateArrayList.get(counter));
+                values.put(TaskConstants.FINISH_DATE, finishDateArrayList.get(counter));
+                values.put(TaskConstants.COMPLETE, Double.parseDouble(completeArrayList.get(counter)));
+                //int numberRowsUpdated;
 /*            numberRowsUpdated = database.update(
                     TaskConstants.DATABASE_TABLE,
                     values, where, whereArgs);*/
-  //          if (numberRowsUpdated == 0) {
-                long taskId=0;
+                //          if (numberRowsUpdated == 0) {
+                /*long byDayId = database.insert(TaskConstants.BYDAY_DATABASE_TABLE, null, values);
+
+                Cursor cursor = database.query(TaskConstants.BYDAY_DATABASE_TABLE,
+                        allColumnsByDay, TaskConstants.BYDAY_KEY_ID + " = "
+                                + byDayId, null, null, null, null
+                );*/
+
+                //long taskId=0;
                 //database = dbHelper.getWritableDatabase();
-                try{
-                taskId = database.insertOrThrow(TaskConstants.TASK_DATABASE_TABLE, null, values);}
-                catch(SQLException e){
-                    Log.e(TAG, e.getMessage());
-                }
+                long taskId = database.insert(TaskConstants.TASK_DATABASE_TABLE, null, values);
                 Cursor cursor = database.query(TaskConstants.TASK_DATABASE_TABLE,
                         allColumns, TaskConstants.TASK_KEY_ID + " = "
                                 + taskId, null, null, null, null);
@@ -235,36 +239,37 @@ public class DatabaseReader {
                 cursor.moveToFirst();
                 cursor.close();
                 counter++;
+            }
            // }
-        }}
+        }
         TaskGlobal.task = getProjectsTasks();
     }
     public void addConfig(Context context) {
-        if (MAXHOURS > 0){
-             ContentValues values = new ContentValues();
-                values.put(TaskConstants.MAXHOURS, MAXHOURS);
-                values.put(TaskConstants.MINHOURS, MINHOURS);
-                values.put(TaskConstants.MAXMON, MAXMON);
-                values.put(TaskConstants.MAXTUE, MAXTUE);
-                values.put(TaskConstants.MAXWED, MAXWED);
-                values.put(TaskConstants.MAXTHUR, MAXTHUR);
-                values.put(TaskConstants.MAXFRI, MAXFRI);
-                values.put(TaskConstants.MAXSAT, MAXSAT);
-                values.put(TaskConstants.MAXSUN, MAXSUN);
+        if (MAXHOURS > 0) {
+            ContentValues values = new ContentValues();
+            values.put(TaskConstants.MAXHOURS, MAXHOURS);
+            values.put(TaskConstants.MINHOURS, MINHOURS);
+            values.put(TaskConstants.MAXMON, MAXMON);
+            values.put(TaskConstants.MAXTUE, MAXTUE);
+            values.put(TaskConstants.MAXWED, MAXWED);
+            values.put(TaskConstants.MAXTHUR, MAXTHUR);
+            values.put(TaskConstants.MAXFRI, MAXFRI);
+            values.put(TaskConstants.MAXSAT, MAXSAT);
+            values.put(TaskConstants.MAXSUN, MAXSUN);
 
-                if(ConfigConstants.config == null) {
-                    long configId = database.insert(TaskConstants.CONFIG_DATABASE_TABLE, null, values);
-                    Cursor cursor = database.query(TaskConstants.CONFIG_DATABASE_TABLE,
-                            allColumnsConfig, TaskConstants.CONFIG_KEY_ID + " = "
-                                    + configId, null, null, null, null);
-                    cursor.moveToFirst();
-                    cursor.close();}
-                else{
-                    database.update(TaskConstants.CONFIG_DATABASE_TABLE, values,
-                            "_id=" + ConfigConstants.config.getConfigId(), null);
-                }
+            if (ConfigConstants.config == null) {
+                long configId = database.insert(TaskConstants.CONFIG_DATABASE_TABLE, null, values);
+                Cursor cursor = database.query(TaskConstants.CONFIG_DATABASE_TABLE,
+                        allColumnsConfig, TaskConstants.CONFIG_KEY_ID + " = "
+                                + configId, null, null, null, null);
+                cursor.moveToFirst();
+                cursor.close();
+            } else {
+                database.update(TaskConstants.CONFIG_DATABASE_TABLE, values,
+                        "_id=" + ConfigConstants.config.getConfigId(), null);
+            }
+            ConfigConstants.config = getConfig();
         }
-        ConfigConstants.config = getConfig();
     }
     public void addTimesheet(Context context) {
         ContentValues values = new ContentValues();
@@ -323,7 +328,8 @@ public class DatabaseReader {
 
             // }
             //}
-        }}
+        }
+    }
     public void addUser(Context context) {
         ContentValues values = new ContentValues();
         //String[] whereArgs = {task.getTask()};
@@ -350,13 +356,14 @@ public class DatabaseReader {
     public void addByDay(Context context) {
         int counter=0;
         if (taskIdArraylist1.size() > 0 ){
-            while(counter < timestampArrayList.size()){
+            while(counter < taskIdArraylist1.size()){
                 ContentValues values = new ContentValues();
                 //String[] whereArgs = {task.getTask()};
                 //String where = TaskConstants.TASK + " = ?";
                 values.put(TaskConstants.COMMENT, commentArraylist.get(counter));
-                values.put(TaskConstants.PLANNEDHOURS,Double.parseDouble(plannedHoursByDayArrayList.get(counter)));
+                values.put(TaskConstants.PLANNEDAY,Double.parseDouble(plannedHoursByDayArrayList.get(counter)));
                 values.put(TaskConstants.TIMESTAMP, timestampArrayList.get(counter));
+                values.put(TaskConstants.BYDAY_HOURSDAY,Double.parseDouble(hoursArrayList.get(counter)));
                 values.put(TaskConstants.DATE, dateArrayList.get(counter));
                 values.put(TaskConstants.BYDAY_TASKID, taskIdArraylist1.get(counter));
                 values.put(TaskConstants.ACTUALID, Integer.parseInt(actualIdArraylist.get(counter)));
@@ -379,7 +386,6 @@ public class DatabaseReader {
                 counter++;
                 // }
             }
-
             ByDayGlobal.ByDayConstantsList=getByDay();
         }
     }
@@ -435,6 +441,20 @@ public class DatabaseReader {
 
 
     public ArrayList<Task> getProjectsTasks() {
+        /*ArrayList<ByDay> byDays = new ArrayList<ByDay>();
+        Cursor cursor = database.query(
+                TaskConstants.BYDAY_DATABASE_TABLE, allColumnsByDay, null, null, null, null, null);
+        if(cursor==null){
+            return null;
+        }
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()){
+            ByDay byDay = cursorToByDay(cursor);
+            byDays.add(byDay);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return byDays;*/
         ArrayList<Task> tasks = new ArrayList<Task>();
         database = dbHelper.getReadableDatabase();
         Cursor cursor = database.query(
@@ -676,7 +696,7 @@ public class DatabaseReader {
     private Task cursorToTask(Cursor cursor) {
         Task task = new Task(cursor.getInt(0),cursor.getInt(1), cursor.getString(2),
                 cursor.getInt(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
-                cursor.getString(7), cursor.getDouble(8));
+                cursor.getDouble(7), cursor.getDouble(8));
         return task;
 
     }

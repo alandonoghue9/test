@@ -9,6 +9,7 @@
     <string name="dashboard">dashboard</string>
     <string name="tasks">tasks</string>
     <string name="stats"></string>
+    <string name="comment">Comment</string>
 
     <!--filter-->
     <string name="filter">Filter</string>

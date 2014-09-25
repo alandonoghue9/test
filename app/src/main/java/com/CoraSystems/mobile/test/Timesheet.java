@@ -59,11 +59,6 @@ public class Timesheet extends Activity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Log.i("array check", Double.toString(ByDayGlobal.ByDayConstantsList.size()));
-        Log.i("task check", TaskGlobal.task.get(5).getProject());
-        Log.i("task check", ConfigConstants.user);
-        Log.i("task check", ConfigConstants.password);
-
         /*for(int t=0;t<ByDayGlobal.ByDayConstantsList.size();t++){
             if(ByDayGlobal.ByDayConstantsList.get(t).gettaskId()==taskID){
                 Days.add(ByDayGlobal.ByDayConstantsList.get(t));

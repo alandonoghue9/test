@@ -235,8 +235,8 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
                 hoursWorked.setText("");
                 hrs.setText("");
             }
-/*
-            double hoursInFromArray=0;
+
+            /*double hoursInFromArray=0;
             double hoursInFromGlobal=0;
 
             for (int n = 0; n < ByDayInArray.ByDayIn.size(); n++) {
@@ -246,7 +246,7 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
                 }
             }
 
-            if(hoursInFromArray==0.00){
+            if(hoursInFromArray==0){
                 for(int n=0;n< ByDayGlobal.ByDayConstantsList.size();n++)
                     if(ByDayGlobal.ByDayConstantsList.get(n).getId()==ByDayID) {
                         hoursInFromGlobal = ByDayGlobal.ByDayConstantsList.get(n).getHours();
@@ -258,7 +258,7 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
                 hoursWorked.setText(h);
                 hrs.setText("hrs");
             }
-            else if(hoursInFromArray>0){
+            else if(hoursInFromGlobal>0){
                 h=Double.toString(hoursInFromGlobal);
                 hoursWorked.setText(h);
                 hrs.setText("hrs");

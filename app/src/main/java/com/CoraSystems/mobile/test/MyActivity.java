@@ -30,6 +30,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.Objects.Task;
@@ -106,6 +107,12 @@ public class MyActivity extends Activity implements
         filterFragment.setClickListener(mClickListener);
         listFragment.setOnTextFragmentAnimationEnd(this);
         mDarkHoverView.setOnClickListener(mClickListener);
+
+        Log.i("array check day", Integer.toString(ByDayGlobal.ByDayConstantsList.size()));
+        Log.i("array task size", Integer.toString(TaskGlobal.task.size()));
+        Log.i("task check", ConfigConstants.user);
+        Log.i("task check", ConfigConstants.password);
+        Log.i("task check", Double.toString(ConfigConstants.config.getMAXFRI()));
     }
 
     @Override

@@ -63,7 +63,7 @@ public class ListGplayCardFragment extends Fragment {
                 card.setTitle(TaskGlobal.task.get(j).getTask());
                 card.setSecondaryTitle(TaskGlobal.task.get(j).getProject()+" ("+(TaskGlobal.task.get(j).getProjectId())+")");
                 card.setComplete(Double.toString(TaskGlobal.task.get(j).getCompletion()));
-                card.setPlanned(TaskGlobal.task.get(j).getPlanned());
+                card.setPlanned(Double.toString(TaskGlobal.task.get(j).getPlanned()));
 
                 card.count = i - 1;
                 card.init();

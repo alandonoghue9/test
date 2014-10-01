@@ -9,12 +9,10 @@ import android.util.Log;
 
 import com.CoraSystems.mobile.test.Objects.ByDay;
 import com.CoraSystems.mobile.test.Objects.Config;
-import com.CoraSystems.mobile.test.Objects.LocalSave;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.LocalSaveGlobal;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
-import com.CoraSystems.mobile.test.Objects.TimeSheet;
 import com.CoraSystems.mobile.test.Objects.TimeSheetStatus;
 import com.CoraSystems.mobile.test.Objects.User;
 import com.CoraSystems.mobile.test.database.DatabaseConstants.TaskConstants;
@@ -68,19 +66,6 @@ public class DatabaseReader {
     public double saturdayHours;
     public double sundayHours;
 
-    public ArrayList<String> plannedHoursTimeArrayList = new ArrayList<String>();
-    public ArrayList<String> noOfTasksArrayList = new ArrayList<String>();
-    public ArrayList<String> totalHoursArraylist = new ArrayList<String>();
-    public ArrayList<String> pdfUrlArrayList = new ArrayList<String>();
-    public ArrayList<String> submittedArrayList = new ArrayList<String>();
-    public ArrayList<String> mondayHoursArrayList = new ArrayList<String>();
-    public ArrayList<String> tuesdayHoursArrayList = new ArrayList<String>();
-    public ArrayList<String> wednesdayHoursArrayList = new ArrayList<String>();
-    public ArrayList<String> thursdayHoursArraylist = new ArrayList<String>();
-    public ArrayList<String> fridayHoursArrayList = new ArrayList<String>();
-    public ArrayList<String> saturdayHoursArrayList = new ArrayList<String>();
-    public ArrayList<String> sundayHoursArrayList = new ArrayList<String>();
-
     public ArrayList<String> commentArraylist = new ArrayList<String>();
     public ArrayList<String> plannedHoursByDayArrayList = new ArrayList<String>();
     public ArrayList<String> hoursArrayList = new ArrayList<String>();
@@ -109,7 +94,6 @@ public class DatabaseReader {
 
     private SQLiteDatabase database;
     private OpenDbHelper  dbHelper;
-    private static final String TAG = "Drawer ";
 
     private String[] allColumns = {
             TaskConstants.TASK_KEY_ID,
@@ -185,7 +169,7 @@ public class DatabaseReader {
             TaskConstants.ACTUALIDLOCAL};
 
     public void DataSource(Context context) {
-        dbHelper = /*new OpenDbHelper(context);*/OpenDbHelper.getInstance(context);
+        dbHelper = OpenDbHelper.getInstance(context);
     }
 
     public void open() throws SQLException {
@@ -381,7 +365,6 @@ public class DatabaseReader {
                 );
                 cursor.moveToFirst();
 
-                //Task newTask = cursorToTask(cursor);
                 cursor.close();
                 counter++;
                 // }
@@ -420,41 +403,26 @@ public class DatabaseReader {
                 // }
             }
             LocalSaveGlobal.LocalSaveArrayList = getLocalSave();
-        }}
-    public void updateLocalSave(Context context, LocalSave localSave) {
+        }
+    }
+
+    public void updateLocalSave(Context context, ByDay localSave, int percent) {
                 ContentValues values = new ContentValues();
 
                 values.put(TaskConstants.COMMENTLOCAL, localSave.getComment());
-                values.put(TaskConstants.COMPLETELOCAL, localSave.getCompleteLocal());
+                values.put(TaskConstants.COMPLETELOCAL, percent);
                 values.put(TaskConstants.HOURSBYDAYLOCAL, localSave.getHours());
                 values.put(TaskConstants.TIMESTAMPLOCAL, localSave.getTimestamp());
                 values.put(TaskConstants.DATELOCAL, localSave.getDate());
                 values.put(TaskConstants.TASKIDLOCAL, localSave.gettaskId());
 
                 database.update(TaskConstants.LOCAL_DATABASE_TABLE, values,
-                        "_id=" + localSave.getLocalId(), null);
-
+                        "_id=" + localSave.getId(), null);
 
         LocalSaveGlobal.LocalSaveArrayList = getLocalSave();
     }
 
-
-
     public ArrayList<Task> getProjectsTasks() {
-        /*ArrayList<ByDay> byDays = new ArrayList<ByDay>();
-        Cursor cursor = database.query(
-                TaskConstants.BYDAY_DATABASE_TABLE, allColumnsByDay, null, null, null, null, null);
-        if(cursor==null){
-            return null;
-        }
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()){
-            ByDay byDay = cursorToByDay(cursor);
-            byDays.add(byDay);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        return byDays;*/
         ArrayList<Task> tasks = new ArrayList<Task>();
         database = dbHelper.getReadableDatabase();
         Cursor cursor = database.query(
@@ -536,8 +504,8 @@ public class DatabaseReader {
     //
     // Get Local Database ByDay
     //
-    public ArrayList<LocalSave> getLocalSave() {
-        ArrayList<LocalSave> LocalSaves = new ArrayList<LocalSave>();
+    public ArrayList<ByDay> getLocalSave() {
+        ArrayList<ByDay> LocalSaves = new ArrayList<ByDay>();
         Cursor cursor = database.query(
                 TaskConstants.LOCAL_DATABASE_TABLE, allColumnsLocalSave, null, null, null, null, null);
         if(cursor==null){
@@ -545,7 +513,7 @@ public class DatabaseReader {
         }
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
-            LocalSave localSave = cursorToLocalSave(cursor);
+            ByDay localSave = cursorToLocalSave(cursor);
             LocalSaves.add(localSave);
             cursor.moveToNext();
         }
@@ -586,6 +554,7 @@ public class DatabaseReader {
         cursor.close();
         return maxDate;
     }
+
     public String getTimeSheetStatusMinDate() {
         String maxDate="";
         Cursor cursor = database.query(
@@ -601,6 +570,7 @@ public class DatabaseReader {
         cursor.close();
         return maxDate;
     }
+
     public ArrayList<User> getUser() {
         ArrayList<User> Users = new ArrayList<User>();
         Cursor cursor = database.query(
@@ -617,6 +587,7 @@ public class DatabaseReader {
         cursor.close();
         return Users;
     }
+
     public void deleteTask(ArrayList<Task> delTask, Context context){
         for (int i = 0; i < delTask.size(); i++){
             int id = delTask.get(i).getID();
@@ -625,6 +596,7 @@ public class DatabaseReader {
         }
         TaskGlobal.delTask.clear();
     }
+
     public void deleteByDayTask(ArrayList<Task> delByDay, Context context){
         for (int i = 0; i < delByDay.size(); i++){
             int id = delByDay.get(i).getTaskId();
@@ -632,6 +604,7 @@ public class DatabaseReader {
                     + " = " + id, null);
         }
     }
+
     public void deleteByDay(ArrayList<ByDay> delByDay, Context context){
         for (int i = 0; i < delByDay.size(); i++){
             int id = delByDay.get(i).getId();
@@ -639,16 +612,10 @@ public class DatabaseReader {
                     + " = " + id, null);
         }
     }
-    public void deleteTimeSheet(ArrayList<TimeSheet> delTimeSheet,  Context context){
-        for (int i = 0; i < delTimeSheet.size(); i++){
-            int id = delTimeSheet.get(i).getID();
-            database.delete(TaskConstants.TIMESHEET_DATABASE_TABLE, TaskConstants.TIMESHEET_KEY_ID
-                    + " = " + id, null);
-        }
-    }
-    public void deleteLocalSave(ArrayList<LocalSave> delLocalsave, Context context){
+
+    public void deleteLocalSave(ArrayList<ByDay> delLocalsave, Context context){
         for (int i = 0; i < delLocalsave.size(); i++){
-            int id = delLocalsave.get(i).getLocalId();
+            int id = delLocalsave.get(i).getId();
             database.delete(TaskConstants.LOCAL_DATABASE_TABLE, TaskConstants.LOCAL_KEY_ID
                     + " = " + id, null);
         }
@@ -662,86 +629,43 @@ public class DatabaseReader {
         }
     }
 
-   /* public String[] getDrawerTasks() {
-        ArrayList<Task> tasks = new ArrayList<Task>();
-        int projectCounter = 0,j=0;
-        Task task;
-        Cursor cursor = database.query(
-                DatabaseConstants.MyConstants.DATABASE_TABLE, allColumns, null, null, null, null, null);
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()){
-            task = cursorToTask(cursor);
-            task.setId(1);
-            for(int i =0; i < tasks.size(); i++){
-                if(task.getProject().equals(tasks.get(i).getProject())){
-
-                    projectCounter++;
-                }}
-
-            if(projectCounter != 0){
-
-            }
-            else{tasks.add(task);
-                projectCounter=0;}
-            cursor.moveToNext();
-        }
-
-        String[] taskString = new String[tasks.size()*2];
-        for (int i = 0; i < tasks.size()*2; i=i+2){
-            taskString[i] =  tasks.get(j).getProject();
-            taskString[i+1] = Integer.toString(tasks.get(j).getID());
-            j++;
-            Log.i(TAG, taskString[i] + " " + taskString[i+1]);}
-        cursor.close();
-
-        return taskString;
-    }*/
-
     private Task cursorToTask(Cursor cursor) {
         Task task = new Task(cursor.getInt(0),cursor.getInt(1), cursor.getString(2),
                 cursor.getInt(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
                 cursor.getDouble(7), cursor.getDouble(8));
         return task;
+    }
 
-    }
-    private TimeSheet cursorToTimesheet(Cursor cursor) {
-        TimeSheet timesheet = new TimeSheet(cursor.getInt(0), cursor.getDouble(1), cursor.getInt(2), cursor.getDouble(3),
-                cursor.getDouble(4), cursor.getDouble(5), cursor.getDouble(6),
-                cursor.getDouble(7), cursor.getDouble(8), cursor.getDouble(9), cursor.getString(10),
-                cursor.getInt(11));
-        return timesheet;
-    }
     private Config cursorToConfig(Cursor cursor) {
                 Config config = new Config(cursor.getInt(0),cursor.getDouble(1), cursor.getDouble(2), cursor.getDouble(3),
                         cursor.getDouble(4), cursor.getDouble(5), cursor.getDouble(6),
                         cursor.getDouble(7), cursor.getDouble(8), cursor.getDouble(9));
         return config;
     }
+
     private ByDay cursorToByDay(Cursor cursor) {
         ByDay byDay = new ByDay(cursor.getInt(0),cursor.getString(1), cursor.getDouble(2), cursor.getDouble(3), cursor.getString(4),
                 cursor.getString(5), cursor.getInt(6), cursor.getInt(7));
         return byDay;
     }
+
     private TimeSheetStatus cursorToTimeSheetStatus(Cursor cursor) {
         TimeSheetStatus timeSheetStatus = new TimeSheetStatus(cursor.getInt(0),cursor.getInt(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
                 cursor.getDouble(5), cursor.getDouble(6));
         return timeSheetStatus;
     }
+
     private User cursorToUser(Cursor cursor) {
         User user = new User(cursor.getInt(0),cursor.getString(1), cursor.getString(2), cursor.getString(3));
         return user;
     }
-    private LocalSave cursorToLocalSave(Cursor cursor) {
-        LocalSave localSave = new LocalSave(cursor.getInt(0), cursor.getString(1), cursor.getDouble(1), cursor.getDouble(2),cursor.getString(3), cursor.getString(4),
+
+    private ByDay cursorToLocalSave(Cursor cursor) {
+        ByDay localSave = new ByDay(cursor.getInt(0), cursor.getString(1), cursor.getDouble(1), cursor.getDouble(2),cursor.getString(3), cursor.getString(4),
                 cursor.getInt(5), cursor.getInt(6));
         return localSave;
     }
 
-    /*private Task cursorToTask(Cursor cursor) {
-        Task task = new Task(cursor.getInt(0),cursor.getInt(1), cursor.getString(2),
-                cursor.getInt(3), cursor.getString(4), cursor.getString(5), cursor.getString(6),
-                cursor.getString(7), cursor.getDouble(8));
-        return task;*/
    /* public Task getTask(int id)
     {
         Cursor cursor = database.query(TaskConstants.TASK_DATABASE_TABLE,

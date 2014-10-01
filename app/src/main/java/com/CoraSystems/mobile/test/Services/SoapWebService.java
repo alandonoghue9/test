@@ -4,7 +4,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,13 +12,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import com.CoraSystems.mobile.test.Objects.LocalSave;
+import com.CoraSystems.mobile.test.Objects.ByDay;
+import com.CoraSystems.mobile.test.Objects.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-//import com.CoraSystems.mobile.test.Util;
-//import com.CoraSystems.mobile.test.Utility;
 
 
 /**
@@ -55,30 +53,11 @@ public class SoapWebService implements Serializable{
     {
         try
         {
-            //String strAppState = Util.GetSetting("APPSTATE", context);
-            //String strAppState = "http://pat-pc/ProjectVision/services/projectapi.asmx?op=GetTaskRequestJSON";
-            //if (strAppState.equalsIgnoreCase("TRAINING"))
-            //{
-                //this.BaseURL = "http://46.51.207.151/wmsservice_training/DataService/"; //Live Site
-            //}
-            //else
-            //{
-                //this.BaseURL = "http://46.51.207.151/wmsservice/DataService/"; //Live Site
-            //this.BaseURL = "http://192.168.1.4/MobileService/DataService/";
-            this.BaseURL = "http://46.17.93.112/MobileTest/dataservice/";
-            //this.BaseURL = "http://ukdemo.corasystems.com/LA2/menu.aspx/";
-            //http://46.17.93.112/MobileTest/dataservice
-            //this.BaseURL = " http://10.72.12.80/MobileService/DataService/";
-            //this.BaseURL = "http://corademo.corasystems.com/noellemobile/DataService/";
-            //}
+            this.BaseURL = User.getBaseURL();//"http://46.17.93.112/MobileTest/dataservice/";
         }
         catch (Exception ex)
         {
-            //this.BaseURL = "http://192.168.1.4/MobileService/DataService/";
-            //this.BaseURL = " http://10.72.12.80/MobileService/DataService//";
-            //this.BaseURL = "http://192.168.1.4/MobileService/DataService/";
             this.BaseURL = "http://46.17.93.112/MobileTest/DataService/";
-            //this.BaseURL = "http://corademo.corasystems.com/noellemobile/DataService/";
 
 
         }
@@ -88,8 +67,6 @@ public class SoapWebService implements Serializable{
     {
         String strRetVal = "";
         String bytessend;
-        //String bytessend =  "GetTaskRequestJSON"/*?SecurityKey=cora&RequestString={\"userName\":\"" + uName + "\",\"password\":\"" +Pwd + "\"}"*/ ;
-        //String bytessend = "{\"userName\":\"\" + uName + \"\",\"password\":\"\" +Pwd + \"\"}";
         try
         {
             StringBuilder sb = new StringBuilder();
@@ -123,12 +100,8 @@ public class SoapWebService implements Serializable{
                 sb.append(inputLine);
             }
             ISReader.close();
-            ISReader = null;
             in.close();
-            in = null;
             con.disconnect();
-            con = null;
-            url = null;
 
             strRetVal = sb.toString();
             Log.i(TAG, strRetVal);
@@ -239,16 +212,14 @@ public class SoapWebService implements Serializable{
         }
         return responseStr;
     }
-    public String sendByDayLocalSave(ArrayList<LocalSave> localSaves){
+    public String sendByDayLocalSave(ArrayList<ByDay> localSaves){
         String responseStr="";
         JSONObject object = new JSONObject();
-        JSONObject objectPer = new JSONObject();
         JSONObject objectUser = new JSONObject();
         JSONObject objectwhole = new JSONObject();
         JSONObject obj = null;
         JSONArray jsonArray = new JSONArray();
         JSONArray jsonArrayUser = new JSONArray();
-        JSONArray jsonArrayPer = new JSONArray();
 
 
             for(int i = 0; i < 2; i++){

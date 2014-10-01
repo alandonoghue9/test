@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.CoraSystems.mobile.test.Objects.ByDay;
-import com.CoraSystems.mobile.test.Objects.ByDayInArray;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.LocalSaveGlobal;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.R;
 
@@ -100,7 +100,7 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
     {
 
         try {
-            calendar.setTime(formatter.parse(today.year + "-" + today.month + "-" + today.monthDay + (section*7)));
+            calendar.setTime(formatter.parse(today.year + "-" + (today.month+1) + "-" + (today.monthDay + (section*7))));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -249,15 +249,16 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
             double hoursInFromArray=0;
             double hoursInFromGlobal=0;
 
-            if(ByDayInArray.ByDayIn.size()>0) {
-                for (int n = 0; n < ByDayInArray.ByDayIn.size(); n++) {
-                    if (ByDayInArray.ByDayIn.get(n).gettaskId() == ByDayID) {
-                        hoursInFromArray = ByDayInArray.ByDayIn.get(n).getHours();
-                        n = ByDayInArray.ByDayIn.size() - 1;
+        //Check temporary array with entered data
+            if(LocalSaveGlobal.LocalSaveArrayList.size()>0) {
+                for (int n = 0; n < LocalSaveGlobal.LocalSaveArrayList.size(); n++) {
+                    if (LocalSaveGlobal.LocalSaveArrayList.get(n).gettaskId() == ByDayID) {
+                        hoursInFromArray = LocalSaveGlobal.LocalSaveArrayList.get(n).getHours();
+                        n = LocalSaveGlobal.LocalSaveArrayList.size() - 1;
                     }
                 }
             }
-
+        //Check global ByDay array
             if((hoursInFromArray==0)&&(ByDayGlobal.ByDayConstantsList.size()>0)){
                 for(int n=0;n< ByDayGlobal.ByDayConstantsList.size();n++)
                     if(ByDayGlobal.ByDayConstantsList.get(n).gettaskId()==ByDayID) {
@@ -302,7 +303,7 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
             dayLetter.setText(dayLabel[i]);
             dateGrid.setText(dayDate);
 
-//Using random to demonstrate colours, randomHour will be hoursInFromGlobal, hoursInFromArray or '0'
+        //Using random to demonstrate colours, randomHour will be hoursInFromGlobal, hoursInFromArray or '0'
             if (randomHour>5) {
                 grid.setBackgroundColor(context.getResources().getColor(R.color.cora_green));
             }
@@ -322,7 +323,7 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
 
 
     /** INTERFACE FOR SELECTION **/
-/*    clickListener mCallback;
+    /*  clickListener mCallback;
 
     public interface clickListener {
         public int isItemSelected(int position);

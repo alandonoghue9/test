@@ -38,7 +38,7 @@ public class FilterFragment extends Fragment {
         view.setOnClickListener(clickListener);
 
         /** ARROWS ON 'PROJECTS' SELECTED **/
-        /*view.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (selector == Boolean.FALSE) {
@@ -51,7 +51,7 @@ public class FilterFragment extends Fragment {
                     selector = Boolean.FALSE;
                 }
             }
-        });*/
+        });
 
         return view;
     }

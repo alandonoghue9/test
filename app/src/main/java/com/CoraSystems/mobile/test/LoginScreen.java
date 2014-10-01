@@ -29,10 +29,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.CoraSystems.mobile.test.Objects.Config;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
+import com.CoraSystems.mobile.test.Objects.User;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
 import com.CoraSystems.mobile.test.TaskList.TaskList;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
@@ -45,20 +47,26 @@ import java.util.List;
 
 public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
     public static final String TAG = "Login ";
+
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
+
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "f@gmail.com:h", "bar@example.com:world"
     };
-    /**
+
+    /*
      * Keep track of the login task to ensure we can cancel it if requested.
      */
+
     private UserLoginTask mAuthTask = null;
     Config config;
+
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText baseURL;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -83,6 +91,11 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
             }
         });
 
+        baseURL = (EditText) findViewById(R.id.baseurl);
+        //Not implemented - if user has already entered baseURL, fill in EditText, if not, the URL must be entered
+        User.setBaseURL("http://46.17.93.112/MobileTest/dataservice/");
+        baseURL.setText("46.17.93.112/MobileTest/dataservice/");
+
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -93,7 +106,6 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-
     }
 
     private void populateAutoComplete() {
@@ -249,7 +261,7 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(LoginScreen.this,
+                new ArrayAdapter<>(LoginScreen.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);

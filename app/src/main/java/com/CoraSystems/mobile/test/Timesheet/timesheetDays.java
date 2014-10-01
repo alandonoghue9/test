@@ -36,24 +36,26 @@ public class timesheetDays extends Fragment /*implements GridViewCustomAdapter_T
 
     public static timesheetDays newInstance(int sectionNumber, ArrayList<ByDay> Days, String startDate) {
         fragment = new timesheetDays();
+
         Bundle args = new Bundle();
         args.putParcelableArrayList("Days", Days);
         args.putInt("Sect", sectionNumber);
         args.putString("start", startDate);
         fragment.setArguments(args);
+
         return fragment;
     }
     String start;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ByDayList=new ArrayList<>();
+        //taking data in from activity
         Bundle bundle = this.getArguments();
         section=bundle.getInt("Sect");
-        ByDayList=new ArrayList<>();
         start=bundle.getString("start");
         ByDayList=bundle.getParcelableArrayList("Days");
-
-        Log.i("Test for Array", Integer.toString(ByDayList.size()));
 
         //For selection layout
         //selected = -1;
@@ -86,7 +88,7 @@ public class timesheetDays extends Fragment /*implements GridViewCustomAdapter_T
     }
 
     public void show(int i){
-        //depending on 'i' can set initial values to correspond to day selected
+        //depending on 'i' can set initial values in dialog to correspond to day selected (not implemented)
         final Dialog d = new Dialog(getActivity());
         d.setTitle("Thurs, 20 Sep 2014");
         d.setContentView(R.layout.timesheet_data_in);
@@ -114,7 +116,9 @@ public class timesheetDays extends Fragment /*implements GridViewCustomAdapter_T
         d.show();
     }
 
+    //
     /**  SELECTOR FOR SELECTION VIEW  **/
+    //
 
  /*   public int isItemSelected(int position){
         if(position!=selected){

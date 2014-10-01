@@ -104,6 +104,7 @@ public class FilterListFrag extends Fragment {
     }
 
     private void prepareListData() {
+
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
 

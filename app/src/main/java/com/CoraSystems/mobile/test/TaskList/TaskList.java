@@ -350,8 +350,8 @@ public class TaskList extends Activity implements
             Calendar startFilterDate = Calendar.getInstance();
             Calendar endFilterDate = Calendar.getInstance();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-            String startTime = todayTime.monthDay+"-"+(todayTime.month+1)+"-"+todayTime.year;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String startTime = todayTime.year+"-"+(todayTime.month+1)+"-"+todayTime.monthDay;
             try {
                 startFilterDate.setTime(sdf.parse(startTime));
             } catch (ParseException e) {
@@ -399,8 +399,8 @@ public class TaskList extends Activity implements
             Calendar startFilterDate = Calendar.getInstance();
             Calendar endFilterDate = Calendar.getInstance();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-            String startTime = todayTime.monthDay+"-"+(todayTime.month+1)+"-"+todayTime.year;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String startTime = todayTime.year+"-"+(todayTime.month+1)+"-"+todayTime.monthDay;
             try {
                 startFilterDate.setTime(sdf.parse(startTime));
             } catch (ParseException e) {
@@ -438,8 +438,8 @@ public class TaskList extends Activity implements
             Calendar startFilterDate = Calendar.getInstance();
             Calendar endFilterDate = Calendar.getInstance();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-            String startTime = todayTime.monthDay+"-"+(todayTime.month+1)+"-"+todayTime.year;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String startTime = todayTime.year+"-"+(todayTime.month+1)+"-"+todayTime.monthDay;
             try {
                 startFilterDate.setTime(sdf.parse(startTime));
             } catch (ParseException e) {
@@ -548,9 +548,10 @@ public class TaskList extends Activity implements
         String checker="";
         String check="";
         private ProgressBar progressBar;
+
         LinearLayout linlaHeaderProgress = (LinearLayout)findViewById(R.id.linlaHeaderProgress);
-          @Override
-          protected void onPreExecute() {
+        @Override
+        protected void onPreExecute() {
               linlaHeaderProgress.setVisibility(View.VISIBLE);
           }
         @Override
@@ -582,6 +583,7 @@ public class TaskList extends Activity implements
             linlaHeaderProgress.setVisibility(View.GONE);
         }
     }
+
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 

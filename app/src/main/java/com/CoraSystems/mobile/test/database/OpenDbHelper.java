@@ -79,23 +79,6 @@ public class OpenDbHelper extends SQLiteOpenHelper {
             TaskConstants.STATUSID + " integer not null, " +
             TaskConstants.STATUSDESCRIPTION + " text not null);";
 
-    private static final String TIMESHEET_DATABASE_CREATE = "create table "+
-            TaskConstants.TIMESHEET_DATABASE_TABLE + "("+
-            TaskConstants.TIMESHEET_KEY_ID +
-            " integer primary key autoincrement, " +
-            TaskConstants.PDFURL + " text not null, " +
-            TaskConstants.PLANNEDHOURS + " real not null, " +
-            TaskConstants.NOOFTASKS + " integer not null, " +
-            TaskConstants.TOTALHOURS + " real not null, " +
-            TaskConstants.MONHOURS + " real not null, " +
-            TaskConstants.TUEHOURS + " real not null, " +
-            TaskConstants.WEDHOURS + " real not null, " +
-            TaskConstants.THURHOURS + " real not null, " +
-            TaskConstants.FRIHOURS + " real not null, " +
-            TaskConstants.SATHOURS + " real not null, " +
-            TaskConstants.SUNHOURS + " real not null, " +
-            TaskConstants.SUBMITTED + " integer not null);";
-
     private static final String LOCAL_DATABASE_CREATE = "create table "+
             TaskConstants.LOCAL_DATABASE_TABLE + "("+
             TaskConstants.LOCAL_KEY_ID +
@@ -118,7 +101,6 @@ public class OpenDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(TASK_DATABASE_CREATE);
-        sqLiteDatabase.execSQL(TIMESHEET_DATABASE_CREATE);
         sqLiteDatabase.execSQL(CONFIG_DATABASE_CREATE);
         sqLiteDatabase.execSQL(BYDAY_DATABASE_CREATE);
         sqLiteDatabase.execSQL(LOCAL_DATABASE_CREATE);

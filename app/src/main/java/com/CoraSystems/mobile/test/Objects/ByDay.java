@@ -35,7 +35,7 @@ public class ByDay implements Parcelable {
     public String getDate(){return date;}
     public String getComment(){return comment;}
 
-    /** NEEDS TO BE MADE PARCELABLE TO PASS BETWEEN ACTIVITY AND FRAGMENT **/
+    /** NEEDS TO BE MADE PARCELABLE TO PASS BETWEEN ACTIVITY AND FRAGMENT (this is used to pass data from the Timesheet activity to the TimesheetDays fragment) **/
     public ByDay(Parcel in) {
         super();
         readFromParcel(in);

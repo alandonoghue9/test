@@ -28,8 +28,7 @@ public class JSONparser {
         this.Parent = Parent;
     }
     public int parsedData() throws JSONException {
-            //String Tdata;
-            //Tdata ="{\"ByDay\" : [{\"comment\" :\"this is a comment\",\"planned hours\" : \"8.5\",\"hours\" : \"8.0\",\"date\" : \"2014-03-04\", \"task id\" : \"13618\",\"timestamp\" : \"2014-03-04 07:00:00\", \"actual_id\" : \"1234\"}]}";
+
         int parsedReturn = 0;
 
         Iterator<String> iter;

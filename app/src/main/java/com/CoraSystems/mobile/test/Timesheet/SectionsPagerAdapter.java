@@ -20,7 +20,7 @@ public class SectionsPagerAdapter extends android.support.v13.app.FragmentStateP
 
     @Override
     public int getCount() {
-        // Show 3 weeks
+        // Show 3 weeks (i set to 21 days in getFragments function in Timesheet activity)
         return fragments.size();
     }
 }

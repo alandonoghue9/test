@@ -67,7 +67,7 @@ public class Stats extends Activity {
 
         //if no hours clocked bar displays red
         if(hoursComplete < 1){
-            comp.setBackgroundColor(this.getResources().getColor(R.color.cora_red));
+            plan.setBackgroundColor(this.getResources().getColor(R.color.cora_red));
             c.weight = 100;
             p.weight = 0;
         }

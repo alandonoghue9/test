@@ -37,13 +37,13 @@ public class TimesheetHeader extends Fragment {
 
         Bundle bundle = this.getArguments();
 
-        comp = (LinearLayout) view.findViewById(R.id.complete);
-        plan = (LinearLayout) view.findViewById(R.id.planned);
-
         taskTextView = (TextView) view.findViewById(R.id.teask_timesheet);
         projectTextView = (TextView) view.findViewById(R.id.project_timesheet);
         percentTextView = (TextView) view.findViewById(R.id.percent);
 
+        //linear layouts that make up the percentage bar
+        comp = (LinearLayout) view.findViewById(R.id.complete);
+        plan = (LinearLayout) view.findViewById(R.id.planned);
         LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
@@ -52,6 +52,7 @@ public class TimesheetHeader extends Fragment {
 
         complete = bundle.getDouble("complete");
         completeInt=(complete.intValue());
+        //values passed accross from previous activity
         projectTextView.setText(bundle.getString("project")+ " (" + bundle.getInt("projectID")+")");
         taskTextView.setText(bundle.getString("task desc"));
 
@@ -59,6 +60,7 @@ public class TimesheetHeader extends Fragment {
         percentTextView.setText(percentComp);
 
         complete = complete + 0.2; //testing
+        //bar colour depending on the amount completed
         if (complete < 0.30) {
             p.weight = (float) (100 * complete);
             comp.setBackgroundColor(getActivity().getResources().getColor(R.color.cora_red));
@@ -88,7 +90,7 @@ public class TimesheetHeader extends Fragment {
     }
 
     public void show(){
-
+        //Display dialog to enter percentage complete
         final Dialog d = new Dialog(getActivity());
         d.setTitle("Percentage Complete");
         d.setContentView(R.layout.dialog);

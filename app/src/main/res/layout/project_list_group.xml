@@ -24,10 +24,10 @@
 
         <ImageView
             android:id="@+id/todaytick"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_weight="3"
-            android:src="@drawable/tick"
+            android:src="@drawable/arrows"
             android:visibility="gone"/>
 
     </LinearLayout>

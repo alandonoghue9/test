@@ -13,10 +13,8 @@ import android.widget.GridView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.CoraSystems.mobile.test.Dashboard.CustomOnItemSelectedListener;
 import com.CoraSystems.mobile.test.Graph.PieGraph;
 import com.CoraSystems.mobile.test.Graph.PieSlice;
-import com.CoraSystems.mobile.test.Objects.ByDay;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.DashboardVariables;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.NotSubmitted;
 import com.CoraSystems.mobile.test.R;
@@ -45,9 +43,6 @@ public class DashFrag extends Fragment {
     String firstDay;
     int pos;
 
-    ArrayList<ByDay> tasksList;
-    ArrayList<ByDay> daysList;
-
     int hours;
     int days;
     int tasks;
@@ -63,6 +58,7 @@ public class DashFrag extends Fragment {
         pos=0;
 
         spinner1 = (Spinner) view.findViewById(R.id.weeks_spinner);
+
         //list from global NotSubmitted list
         List<String> list = NotSubmitted.NotSubmitted;
 
@@ -70,7 +66,9 @@ public class DashFrag extends Fragment {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         for(int i=0;i<list.size();i++) {
+
             date = list.get(i);
+
             try {
                 Thedate = formatter.parse(date);
             } catch (ParseException e) {
@@ -128,15 +126,6 @@ public class DashFrag extends Fragment {
 
         spinner1.setAdapter(dataAdapter);
 
-        firstDay = spinner1.getSelectedItem().toString();
-        for(int i=0;i<displayList.size();i++){
-            if(firstDay==displayList.get(i)){
-                pos = i;
-                NotSubmitted.i=pos;
-            }
-        }
-        firstDay = date.substring(0, 6);
-
         gridView=(GridView)view.findViewById(R.id.gridview);
         gridViewAdapterDash = new GridViewCustomAdapter_Dash(this.getActivity());
         gridView.setAdapter(gridViewAdapterDash);
@@ -148,20 +137,11 @@ public class DashFrag extends Fragment {
 
     public void loadStats(){
 
-        //LIST OF DAYS WITHIN WEEK
-        /*tasksList = new ArrayList<>();
-        daysList = new ArrayList<>();
-        for(int i = 0; i< ByDayGlobal.ByDayConstantsList.size();i++){
-            if(ByDayGlobal.ByDayConstantsList.get(i).getDate()==date){
-                tasksList.add(ByDayGlobal.ByDayConstantsList.get(i));
-                //check taskID with tasksList and add if not in there
-            }
-        }*/
         for(int y=0; y<DashboardVariables.hoursDay.size(); y++) {
             DashboardVariables.hoursWeek = DashboardVariables.hoursWeek + DashboardVariables.hoursDay.get(y);
         }
 
-        hours = ((int)(Math.random()*(40)));
+        hours = (int)DashboardVariables.hoursWeek;
         TextView hoursView = (TextView) view.findViewById(R.id.hours);
         String hoursComp = Integer.toString((int)DashboardVariables.hoursWeek);
         hoursView.setText(hoursComp);
@@ -182,45 +162,65 @@ public class DashFrag extends Fragment {
         PieGraph pg = (PieGraph)view.findViewById(R.id.graph);
         pg.removeSlices();
 
-        PieSlice slice = new PieSlice();
-        slice.setColor(Color.parseColor("#ffffff"));
-        slice.setValue(100-complete.intValue());
-        pg.addSlice(slice);
+        if(complete<60) {
+            PieSlice slice = new PieSlice();
+            slice.setColor(Color.parseColor("#ffffff"));
+            slice.setValue(100 - complete.intValue());
+            pg.addSlice(slice);
 
-        slice = new PieSlice();
-        slice.setColor(Color.parseColor("#1da9e1"));
-        slice.setValue(complete.intValue());
-        pg.addSlice(slice);
+            slice = new PieSlice();
+            slice.setColor(this.getResources().getColor(R.color.cora_blue));
+            slice.setValue(complete.intValue());
+            pg.addSlice(slice);
+        }
+        else if((complete>=60)&&(complete<=115)){
+            PieSlice slice = new PieSlice();
+            slice.setColor(Color.parseColor("#ffffff"));
+            slice.setValue(0);
+            pg.addSlice(slice);
+
+            slice = new PieSlice();
+            slice.setColor(this.getResources().getColor(R.color.cora_green));
+            slice.setValue(100);
+            pg.addSlice(slice);
+        }
+        else if(complete>115){
+            PieSlice slice = new PieSlice();
+            slice.setColor(Color.parseColor("#ffffff"));
+            slice.setValue(0);
+            pg.addSlice(slice);
+
+            slice = new PieSlice();
+            slice.setColor(this.getResources().getColor(R.color.cora_red));
+            slice.setValue(100);
+            pg.addSlice(slice);
+        }
 
         TextView percentView = (TextView) view.findViewById(R.id.percent);
         int percentageComplete=(complete.intValue());
         String percentComp = (Integer.toString(percentageComplete)+"%");
         percentView.setText(percentComp);
+
+        for(int n=0; n<DashboardVariables.hoursDay.size(); n++) {
+            DashboardVariables.hoursDay.set(n, 0);
+        }
+        DashboardVariables.hoursWeek = 0;
+        DashboardVariables.tasks = 0;
+        DashboardVariables.days = 0;
+        DashboardVariables.taskIDs = new ArrayList<>();
     }
 
     public void addListenerOnSpinnerItemSelection(){
         spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener(){
         @Override
         public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-            firstDay = spinner1.getSelectedItem().toString();
-            for(int i=0;i<displayList.size();i++){
-                if(firstDay==displayList.get(i)){
-                    pos = i;
-                    NotSubmitted.i=pos;
-                }
-            }
+            pos = arg2;
+            NotSubmitted.i=pos;
+
+            gridViewAdapterDash.notifyDataSetChanged();
 
             loadStats();
 
-            for(int n=0; n<DashboardVariables.hoursDay.size(); n++) {
-                DashboardVariables.hoursDay.set(n, 0);
-            }
-            DashboardVariables.hoursWeek = 0;
-            DashboardVariables.tasks = 0;
-            DashboardVariables.days = 0;
-            DashboardVariables.taskIDs = new ArrayList<>();
-
-            gridViewAdapterDash.notifyDataSetChanged();
         }});
 
     }

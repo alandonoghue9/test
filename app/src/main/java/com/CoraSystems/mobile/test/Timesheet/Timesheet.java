@@ -13,8 +13,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.CoraSystems.mobile.test.Objects.ByDay;
-import com.CoraSystems.mobile.test.Objects.ByDayInArray;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.LocalSaveGlobal;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.R;
 import com.CoraSystems.mobile.test.Stats;
@@ -23,12 +23,11 @@ import java.util.ArrayList;
 
 public class Timesheet extends Activity {
 
-    /*ACTIVITY FOR OVERALL TIMESHEET WINDOW (swiping section of window set up using SectionsPagerAdapter)*/
+    /* ACTIVITY FOR OVERALL TIMESHEET WINDOW (swiping section of window set up using SectionsPagerAdapter) */
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     static ViewPager mViewPager;
 
-    static timesheetDays fragment;
     int taskID;
 
     ArrayList<timesheetDays> swipe_windows;
@@ -39,7 +38,7 @@ public class Timesheet extends Activity {
     String project_des;
     public String startDate;
 
-    int selected;
+    //int selected;
 
     public Fragment headerFragment;
 
@@ -55,7 +54,7 @@ public class Timesheet extends Activity {
         completion = bundle.getDouble("complete");
         planned = bundle.getDouble("planned");
 
-        selected = 20;
+        //selected = 20;
         startDate = "2014-09-11";
 
         Days = new ArrayList<>();
@@ -64,11 +63,10 @@ public class Timesheet extends Activity {
 
         for(int t=0;t<ByDayGlobal.ByDayConstantsList.size();t++){
             if(ByDayGlobal.ByDayConstantsList.get(t).gettaskId()==taskID){
-                //Log.i("ByDayInternalList", "IN!");
                 Days.add(ByDayGlobal.ByDayConstantsList.get(t));
             }
         }
-        Log.i("ByDayInternalList", Integer.toString(Days.size()));
+
         for(int t=0;t<TaskGlobal.task.size();t++){
             if(taskID==TaskGlobal.task.get(t).getTaskId()){
                 startDate=TaskGlobal.task.get(t).getStart();
@@ -102,12 +100,13 @@ public class Timesheet extends Activity {
     private ArrayList<timesheetDays> getFragments() {
         ArrayList<timesheetDays> fList = new ArrayList<>();
 
-        int i = 21;//Days.size(); Length of the task in days
+        int i = 21; //Days.size(); //Length of the task in days
         //Finding how many swipe windows are required
         if(i==0){
             fList.add(timesheetDays.newInstance(0, Days, "0"));
             return fList;
         }
+
         int extra = i%7;
         int week = i/7;
         if(extra>0)week=week++;
@@ -137,13 +136,16 @@ public class Timesheet extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     Intent stat;
+
     public void stats(){
         stat = new Intent(this, Stats.class);
 
         stat.putExtra("task", taskID);
 
-        if(ByDayInArray.ByDayIn.size()>0) {
+        //if data has been changed in the timesheet, a dialog will appear to save
+        if(LocalSaveGlobal.LocalSaveArrayList.size()>0) {
             new AlertDialog.Builder(this)
                     .setTitle("Save Changes")
                     .setMessage("Would you like to save changes?")
@@ -169,7 +171,9 @@ public class Timesheet extends Activity {
 
     @Override
     public void onBackPressed() {
-        if(ByDayInArray.ByDayIn.size()>0) {
+
+        //if data has been changed in the timesheet, a dialog will appear to save
+        if(LocalSaveGlobal.LocalSaveArrayList.size()>0) {
             new AlertDialog.Builder(this)
                     .setTitle("Save Changes")
                     .setMessage("Would you like to save changes?")

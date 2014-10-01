@@ -1,4 +1,4 @@
-package com.CoraSystems.mobile.test;
+package com.CoraSystems.mobile.test.TaskList;
 
 /**
  * Created by eoghanmartin on 08/08/2014.
@@ -8,7 +8,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
-import com.CoraSystems.mobile.test.Objects.Task;
+import com.CoraSystems.mobile.test.R;
+import com.CoraSystems.mobile.test.Timesheet.Timesheet;
 
 import java.util.ArrayList;
 
@@ -24,18 +24,14 @@ import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
 
-public class ListGplayCardFragment extends Fragment {
+public class CardFragment extends Fragment {
 
-    String strtext;
-    public String ok;
     LinearLayout comp;
     LinearLayout plan;
-    ArrayList<Task> task;
-    int lastPosition =-1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.demo_fragment_list_gplaycard, container, false);
+        View view = inflater.inflate(R.layout.cards_list, container, false);
 
         return view;
     }
@@ -72,25 +68,25 @@ public class ListGplayCardFragment extends Fragment {
             }
             CardListView listView = (CardListView) getActivity().findViewById(R.id.carddemo_list_gplaycard);
             if (listView != null) {
-
                 listView.setAdapter(mCardArrayAdapter);
             }
-        }}
+          }
+        }
     }
 
     public class GooglePlaySmallCard extends Card {
 
-        protected TextView mTitle;
-        protected TextView mSecondaryTitle;
         protected int count;
 
+        protected TextView mTitle;
+        protected TextView mSecondaryTitle;
         protected String title;
         protected String secondaryTitle;
         protected String completePer;
         protected String plannedPer;
 
         public GooglePlaySmallCard(Context context) {
-            this(context, R.layout.carddemo_mycard_inner_content);
+            this(context, R.layout.card);
         }
 
         public GooglePlaySmallCard(Context context, int innerLayout) {
@@ -101,13 +97,13 @@ public class ListGplayCardFragment extends Fragment {
             setOnClickListener(new OnCardClickListener() {
                 @Override
                 public void onClick(Card card, View view) {
-
+                    //start timesheet activity and bundle required variables
                     Intent i = new Intent(getActivity(), Timesheet.class);
 
                     i.putExtra("project", TaskGlobal.task.get(count).getProject());
                     i.putExtra("projectID", TaskGlobal.task.get(count).getProjectId());
                     i.putExtra("task desc", TaskGlobal.task.get(count).getTask());
-                    i.putExtra("task", TaskGlobal.task.get(count).getID());
+                    i.putExtra("task", TaskGlobal.task.get(count).getTaskId());
                     i.putExtra("complete", TaskGlobal.task.get(count).getCompletion());
                     i.putExtra("planned", TaskGlobal.task.get(count).getPlanned());
                     startActivity(i);
@@ -134,18 +130,12 @@ public class ListGplayCardFragment extends Fragment {
             comp = (LinearLayout)parent.findViewById(R.id.complete);
             plan = (LinearLayout)parent.findViewById(R.id.planned);
 
-            LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            LinearLayout.LayoutParams c = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
             planned = Double.parseDouble(plannedPer);
             complete = Double.parseDouble(completePer);
             complete = (complete/planned)*100;
-
-           /* Animation animation = AnimationUtils.loadAnimation(getContext(), (count > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
-            view.startAnimation(animation);
-            lastPosition = count;*/
-
-            Log.v("List", plannedPer);
 
             if(complete<100) {
                 c.weight = (float) complete;
@@ -156,7 +146,6 @@ public class ListGplayCardFragment extends Fragment {
                 c.weight = 100;
                 p.weight = 0;
             }
-
             comp.setLayoutParams(c);
             plan.setLayoutParams(p);
         }
@@ -167,10 +156,6 @@ public class ListGplayCardFragment extends Fragment {
 
         public void setTitle(String title) {
             this.title = title;
-        }
-
-        public String getSecondaryTitle() {
-            return secondaryTitle;
         }
 
         public void setSecondaryTitle(String secondaryTitle) {
@@ -184,16 +169,14 @@ public class ListGplayCardFragment extends Fragment {
         }
     }
 
-
     public class Gap extends Card {
 
         public Gap(Context context) {
-            this(context, R.layout.gap);
+            this(context, R.layout.gap_tasklist);
         }
 
         public Gap(Context context, int innerLayout) {
             super(context, innerLayout);
         }
     }
-
 }

@@ -1,9 +1,8 @@
-package com.CoraSystems.mobile.test;
+package com.CoraSystems.mobile.test.Dashboard;
 
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.Toast;
 
 public class CustomOnItemSelectedListener implements OnItemSelectedListener {
 

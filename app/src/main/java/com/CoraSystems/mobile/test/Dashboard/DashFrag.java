@@ -1,10 +1,9 @@
-package com.CoraSystems.mobile.test;
+package com.CoraSystems.mobile.test.Dashboard;
 
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.Time;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,14 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.CoraSystems.mobile.test.Dashboard.CustomOnItemSelectedListener;
 import com.CoraSystems.mobile.test.Graph.PieGraph;
 import com.CoraSystems.mobile.test.Graph.PieSlice;
 import com.CoraSystems.mobile.test.Objects.ByDay;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.DashboardVariables;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.NotSubmitted;
-import com.CoraSystems.mobile.test.Objects.Task;
+import com.CoraSystems.mobile.test.R;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -34,11 +33,14 @@ public class DashFrag extends Fragment {
 
     GridView gridView;
     GridViewCustomAdapter_Dash gridViewAdapterDash;
+
     private Spinner spinner1;
+
     String date;
     Time today;
     Calendar calendar;
     String dateNot;
+
     public ArrayList<String> displayList;
     String firstDay;
     int pos;
@@ -61,10 +63,11 @@ public class DashFrag extends Fragment {
         pos=0;
 
         spinner1 = (Spinner) view.findViewById(R.id.weeks_spinner);
+        //list from global NotSubmitted list
         List<String> list = NotSubmitted.NotSubmitted;
 
         Date Thedate=new Date();
-        DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         for(int i=0;i<list.size();i++) {
             date = list.get(i);
@@ -83,10 +86,10 @@ public class DashFrag extends Fragment {
             String dayDate1;
             String dayDate7;
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
             try {
-                calendar.setTime(sdf.parse(today.monthDay + "-" + today.month + "-" + today.year));
+                calendar.setTime(sdf.parse(today.year + "-" + (today.month + 1) + "-" + today.monthDay));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -96,12 +99,11 @@ public class DashFrag extends Fragment {
             SimpleDateFormat humanReadableDate = new SimpleDateFormat("MMM dd");
             try {
                 dayDate1 = humanReadableDate.format(sdf.parse(dayDate1));
-                Log.v("blah", dayDate1);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             try {
-                calendar.setTime(sdf.parse(today.monthDay + 5 + "-" + today.month + "-" + today.year));
+                calendar.setTime(sdf.parse(today.year + "-" + (today.month+1) + "-" + (today.monthDay + 5)));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -109,7 +111,6 @@ public class DashFrag extends Fragment {
             dayDate7 = sdf.format(calendar.getTime());
             try {
                 dayDate7 = humanReadableDate.format(sdf.parse(dayDate7));
-                Log.v("blah", dayDate7);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -145,7 +146,7 @@ public class DashFrag extends Fragment {
         return view;
     }
 
-    public void loadGraph(){
+    public void loadStats(){
 
         //LIST OF DAYS WITHIN WEEK
         /*tasksList = new ArrayList<>();
@@ -156,30 +157,36 @@ public class DashFrag extends Fragment {
                 //check taskID with tasksList and add if not in there
             }
         }*/
+        for(int y=0; y<DashboardVariables.hoursDay.size(); y++) {
+            DashboardVariables.hoursWeek = DashboardVariables.hoursWeek + DashboardVariables.hoursDay.get(y);
+        }
 
         hours = ((int)(Math.random()*(40)));
         TextView hoursView = (TextView) view.findViewById(R.id.hours);
-        String hoursComp = Integer.toString(hours);
+        String hoursComp = Integer.toString((int)DashboardVariables.hoursWeek);
         hoursView.setText(hoursComp);
 
         days = ((int)((Math.random()*(4)+3)));
         TextView daysView = (TextView) view.findViewById(R.id.days);
-        String daysComp = Integer.toString(days);
+        String daysComp = Integer.toString(DashboardVariables.days);
         daysView.setText(daysComp);
 
         tasks = ((int)(Math.random()*(12)));
         TextView tasksView = (TextView) view.findViewById(R.id.tasks);
-        String tasksComp = Integer.toString(tasks);
+        String tasksComp = Integer.toString(DashboardVariables.taskIDs.size());
         tasksView.setText(tasksComp);
 
-        complete = (hours/40.00);//((int)(Math.random()*(100)));
+        complete = (hours/40.00);
         complete = complete*100;
+
         PieGraph pg = (PieGraph)view.findViewById(R.id.graph);
         pg.removeSlices();
+
         PieSlice slice = new PieSlice();
         slice.setColor(Color.parseColor("#ffffff"));
         slice.setValue(100-complete.intValue());
         pg.addSlice(slice);
+
         slice = new PieSlice();
         slice.setColor(Color.parseColor("#1da9e1"));
         slice.setValue(complete.intValue());
@@ -202,7 +209,16 @@ public class DashFrag extends Fragment {
                     NotSubmitted.i=pos;
                 }
             }
-            loadGraph();
+
+            loadStats();
+
+            for(int n=0; n<DashboardVariables.hoursDay.size(); n++) {
+                DashboardVariables.hoursDay.set(n, 0);
+            }
+            DashboardVariables.hoursWeek = 0;
+            DashboardVariables.tasks = 0;
+            DashboardVariables.days = 0;
+            DashboardVariables.taskIDs = new ArrayList<>();
 
             gridViewAdapterDash.notifyDataSetChanged();
         }});

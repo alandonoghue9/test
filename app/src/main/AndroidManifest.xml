@@ -11,28 +11,28 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MyActivity"
+            android:name=".TaskList.TaskList"
             android:screenOrientation="portrait"
             android:label="@string/tasks" >
         </activity>
         <activity
-            android:name=".Timesheet"
+            android:name=".Timesheet.Timesheet"
             android:screenOrientation="portrait"
             android:label="@string/timesheet"
             android:launchMode="singleTop"
-            android:parentActivityName=".MyActivity" >
+            android:parentActivityName=".TaskList.TaskList" >
         </activity>
         <activity
-            android:name=".Dashboard"
+            android:name=".Dashboard.Dashboard"
             android:screenOrientation="portrait"
             android:label="@string/dashboard"
-            android:parentActivityName=".MyActivity" >
+            android:parentActivityName=".TaskList.TaskList" >
         </activity>
         <activity
             android:name=".Stats"
             android:screenOrientation="portrait"
             android:label="@string/stats"
-            android:parentActivityName=".Timesheet" >
+            android:parentActivityName=".Timesheet.Timesheet" >
         </activity>
         <activity
             android:name=".LoginScreen"

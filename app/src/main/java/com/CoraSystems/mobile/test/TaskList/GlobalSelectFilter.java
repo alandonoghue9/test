@@ -1,4 +1,4 @@
-package com.CoraSystems.mobile.test;
+package com.CoraSystems.mobile.test.TaskList;
 
 /**
  * Created by eoghanmartin on 23/09/2014.

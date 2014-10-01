@@ -31,8 +31,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.CoraSystems.mobile.test.Objects.Config;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
+import com.CoraSystems.mobile.test.TaskList.TaskList;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
 import com.CoraSystems.mobile.test.database.DatabaseConstants.TaskConstants;
@@ -41,11 +43,6 @@ import com.CoraSystems.mobile.test.database.DatabaseConstants.TaskConstants;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * A login screen that offers login via email/password.
-
- */
 public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
     public static final String TAG = "Login ";
     /**
@@ -60,7 +57,6 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
      */
     private UserLoginTask mAuthTask = null;
     Config config;
-    // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -69,7 +65,7 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_screen);
+        setContentView(R.layout.login_screen);
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -104,7 +100,6 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
         getLoaderManager().initLoader(0, null, this);
     }
 
-
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
@@ -125,10 +120,8 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
         ConfigConstants.user = email;
         ConfigConstants.password = password;
 
-
         boolean cancel = false;
         View focusView = null;
-
 
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
@@ -179,9 +172,7 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
@@ -280,8 +271,8 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
+            // TODO: attempt authentication against a network service.
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
@@ -319,10 +310,7 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
     public class fetchService extends AsyncTask<Void, Void, Void> {
         String checker="";
         String check="";
-      /*  @Override
-        protected void onPreExecute() {
-            showProgress(true);
-        }*/
+
         @Override
         protected Void doInBackground(Void... params) {
             DatabaseReader databaseReader = new DatabaseReader();
@@ -334,28 +322,35 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
            }
             config = databaseReader.getConfig();
             if (config == null){
-                    //ArrayList<LocalSave> localSaves = null;
 
                     SoapWebService soapWebService = new SoapWebService(ConfigConstants.user, ConfigConstants.password, LoginScreen.this);
                     checker = soapWebService.getConfigFromServer();
                 if (checker.contains("User could not be validated") || checker.contains("No Data Recieved")){
                     return null;
                 }
+
+                /** LOCALSAVE AND TIMESHEET STATUS MUST BE IMPLEMENTED HERE (Currently not used) **/
+
                     //checker = soapWebService.sendByDayLocalSave(localSaves);
                     //check = soapWebService.getTimeSheetStatus();
                     databaseReader.open();
                     String maxDate = databaseReader.getTimeSheetStatusMaxOrMinDate(TaskConstants.STARTTIMESTAT, "MAX");
                     String minDate = databaseReader.getTimeSheetStatusMaxOrMinDate(TaskConstants.STARTTIMESTAT, "MIN");
                     check = soapWebService.getTaskFromServer("2011-09-11", "2014-10-07", "GetWork");
-                Log.i("getwork data",check);
+                //Log.i("getwork data",check);
+
+                    /** SUBMIT SERVICE **/
                     //soapWebService.sendSummit("2014-09-07", "True","SubmitTimeSheet");
+
                     check = soapWebService.getTaskFromServer("2011-09-11", "2014-10-07", "ByDay");
-                Log.i("byday data23",check);
+                //Log.i("byday data23",check);
                     check = soapWebService.getTimeSheetStatus();
                     //  GetWork  Byday  GetTImesheet  ConfigItems
             }
             else {
+                /** IF DATABASE NOT SET UP **/
                 TaskGlobal.task = databaseReader.getProjectsTasks();
+                ByDayGlobal.ByDayConstantsList = databaseReader.getByDay();
                 ConfigConstants.config = config;
             }
             return null;
@@ -369,7 +364,7 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
                     .setMessage(checker)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(LoginScreen.this, MyActivity.class);
+                            Intent intent = new Intent(LoginScreen.this, TaskList.class);
                             startActivity(intent);
                         }
                     })
@@ -394,7 +389,7 @@ public class LoginScreen extends Activity implements LoaderCallbacks<Cursor>{
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();}
             else{
-            Intent intent = new Intent(LoginScreen.this, MyActivity.class);
+            Intent intent = new Intent(LoginScreen.this, TaskList.class);
             startActivity(intent);}
         }
     }

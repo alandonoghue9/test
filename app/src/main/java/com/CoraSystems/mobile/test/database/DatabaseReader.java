@@ -185,7 +185,7 @@ public class DatabaseReader {
             TaskConstants.ACTUALIDLOCAL};
 
     public void DataSource(Context context) {
-        dbHelper = OpenDbHelper.getInstance(context);
+        dbHelper = /*new OpenDbHelper(context);*/OpenDbHelper.getInstance(context);
     }
 
     public void open() throws SQLException {
@@ -386,8 +386,8 @@ public class DatabaseReader {
                 counter++;
                 // }
             }
-            ByDayGlobal.ByDayConstantsList=getByDay();
         }
+        ByDayGlobal.ByDayConstantsList=getByDay();
     }
 
     public void addLocalSave(Context context) {
@@ -495,7 +495,8 @@ public class DatabaseReader {
     // Get all of ByDay
     //
     public ArrayList<ByDay> getByDay() {
-        ArrayList<ByDay> byDays = new ArrayList<ByDay>();
+        ArrayList<ByDay> byDays = new ArrayList<>();
+        ByDay byDay = null;
         Cursor cursor = database.query(
                 TaskConstants.BYDAY_DATABASE_TABLE, allColumnsByDay, null, null, null, null, null);
         if(cursor==null){
@@ -503,11 +504,14 @@ public class DatabaseReader {
         }
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
-            ByDay byDay = cursorToByDay(cursor);
+            byDay = cursorToByDay(cursor);
             byDays.add(byDay);
             cursor.moveToNext();
         }
         cursor.close();
+
+        dbHelper.close();
+
         return byDays;
     }
     //

@@ -77,7 +77,7 @@
             android:weightSum="100">
 
             <LinearLayout
-                android:id="@+id/complete"
+                android:id="@+id/planned"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
@@ -90,7 +90,7 @@
                 android:background="@color/white"/>
 
             <LinearLayout
-                android:id="@+id/planned"
+                android:id="@+id/complete"
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:layout_height="10dp"

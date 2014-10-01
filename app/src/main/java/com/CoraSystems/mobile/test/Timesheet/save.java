@@ -1,4 +1,4 @@
-package com.CoraSystems.mobile.test;
+package com.CoraSystems.mobile.test.Timesheet;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.CoraSystems.mobile.test.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,12 @@
 package com.CoraSystems.mobile.test.Objects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Alan on 8/24/2014.
  */
-public class ByDay {
+public class ByDay implements Parcelable {
     private int id;
     private String comment;
     private double plannedHours;
@@ -32,4 +35,46 @@ public class ByDay {
     public String getDate(){return date;}
     public String getComment(){return comment;}
 
+    /** NEEDS TO BE MADE PARCELABLE TO PASS BETWEEN ACTIVITY AND FRAGMENT **/
+    public ByDay(Parcel in) {
+        super();
+        readFromParcel(in);
+    }
+
+    public static final Parcelable.Creator<ByDay> CREATOR = new Parcelable.Creator<ByDay>() {
+        public ByDay createFromParcel(Parcel in) {
+            return new ByDay(in);
+        }
+
+        public ByDay[] newArray(int size) {
+
+            return new ByDay[size];
+        }
+
+    };
+
+    public void readFromParcel(Parcel in) {
+        id = in.readInt();
+        comment=in.readString();
+        plannedHours = in.readDouble();
+        hours = in.readDouble();
+        timestamp = in.readString();
+        date  = in.readString();
+        taskId = in.readInt();
+        actualId = in.readInt();
+    }
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(comment);
+        dest.writeDouble(plannedHours);
+        dest.writeDouble(hours);
+        dest.writeString(timestamp);
+        dest.writeString(date);
+        dest.writeInt(taskId);
+        dest.writeInt(actualId);
+    }
 }

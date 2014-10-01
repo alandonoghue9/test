@@ -1,4 +1,4 @@
-package com.CoraSystems.mobile.test;
+package com.CoraSystems.mobile.test.TaskList;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -16,14 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.CoraSystems.mobile.test.R;
+
 import java.util.ArrayList;
 
-/**
- * List of Google Play cards Example
- *
- * @author Gabriele Mariotti (gabri.mariotti@gmail.com)
- */
 public class FilterFragment extends Fragment {
+
+    /** FILTER FRAGMENT DISPLAYED ON TOP OF TASKLIST **/
 
     View.OnClickListener clickListener;
     View view;
@@ -32,11 +31,13 @@ public class FilterFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         //selector = Boolean.FALSE;
 
         view = inflater.inflate(R.layout.filter, container, false);
         view.setOnClickListener(clickListener);
 
+        /** ARROWS ON 'PROJECTS' SELECTED **/
         /*view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,4 +1,4 @@
-package com.CoraSystems.mobile.test;
+package com.CoraSystems.mobile.test.Timesheet;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,13 +15,15 @@ import android.view.MenuItem;
 import com.CoraSystems.mobile.test.Objects.ByDay;
 import com.CoraSystems.mobile.test.Objects.ByDayInArray;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
+import com.CoraSystems.mobile.test.R;
+import com.CoraSystems.mobile.test.Stats;
 
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
 public class Timesheet extends Activity {
+
+    /*ACTIVITY FOR OVERALL TIMESHEET WINDOW (swiping section of window set up using SectionsPagerAdapter)*/
 
     SectionsPagerAdapter mSectionsPagerAdapter;
     static ViewPager mViewPager;
@@ -32,8 +34,8 @@ public class Timesheet extends Activity {
     ArrayList<timesheetDays> swipe_windows;
     public ArrayList<ByDay> Days;
 
-    int planned;
-    int completion;
+    double planned;
+    double completion;
     String project_des;
     public String startDate;
 
@@ -50,27 +52,30 @@ public class Timesheet extends Activity {
         Bundle bundle = getIntent().getExtras();
         taskID = bundle.getInt("task");
         project_des = bundle.getString("project");
-        completion = bundle.getInt("complete");
-        planned = bundle.getInt("planned");
+        completion = bundle.getDouble("complete");
+        planned = bundle.getDouble("planned");
 
         selected = 20;
+        startDate = "2014-09-11";
 
         Days = new ArrayList<>();
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        /*for(int t=0;t<ByDayGlobal.ByDayConstantsList.size();t++){
+        for(int t=0;t<ByDayGlobal.ByDayConstantsList.size();t++){
             if(ByDayGlobal.ByDayConstantsList.get(t).gettaskId()==taskID){
+                //Log.i("ByDayInternalList", "IN!");
                 Days.add(ByDayGlobal.ByDayConstantsList.get(t));
             }
         }
-        for(int t=0;t<taskGlobal.task.size();t++){
-            if(taskID==taskGlobal.task.get(t).getTaskId()){
-                startDate=taskGlobal.task.get(t).getStart();
-                t=taskGlobal.task.size();
+        Log.i("ByDayInternalList", Integer.toString(Days.size()));
+        for(int t=0;t<TaskGlobal.task.size();t++){
+            if(taskID==TaskGlobal.task.get(t).getTaskId()){
+                startDate=TaskGlobal.task.get(t).getStart();
+                startDate = startDate.substring(0,10);
+                t=TaskGlobal.task.size();
             }
-        }*/
-        startDate = "2014-09-11";
+        }
 
         swipe_windows = getFragments();
 
@@ -97,7 +102,8 @@ public class Timesheet extends Activity {
     private ArrayList<timesheetDays> getFragments() {
         ArrayList<timesheetDays> fList = new ArrayList<>();
 
-        int i = 21;//Days.size();
+        int i = 21;//Days.size(); Length of the task in days
+        //Finding how many swipe windows are required
         if(i==0){
             fList.add(timesheetDays.newInstance(0, Days, "0"));
             return fList;
@@ -106,10 +112,10 @@ public class Timesheet extends Activity {
         int week = i/7;
         if(extra>0)week=week++;
 
-
         for(int swipes=0;swipes<week;swipes++){
             fList.add(timesheetDays.newInstance(swipes, Days, startDate));
         }
+
         return fList;
     }
 
@@ -153,7 +159,6 @@ public class Timesheet extends Activity {
                         public void onClick(DialogInterface dialog, int which) {
                             startActivity(stat);
                         }
-
                     })
                     .show();
         }

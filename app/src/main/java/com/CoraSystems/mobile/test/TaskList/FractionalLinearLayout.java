@@ -1,4 +1,4 @@
-package com.CoraSystems.mobile.test;
+package com.CoraSystems.mobile.test.TaskList;
 
 import android.content.Context;
 import android.util.AttributeSet;

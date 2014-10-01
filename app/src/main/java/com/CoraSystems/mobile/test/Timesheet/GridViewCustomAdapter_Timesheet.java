@@ -1,75 +1,78 @@
-package com.CoraSystems.mobile.test;
+package com.CoraSystems.mobile.test.Timesheet;
 
-import android.app.Activity;
 import android.content.Context;
 import android.text.format.Time;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import com.CoraSystems.mobile.test.Objects.ByDay;
 import com.CoraSystems.mobile.test.Objects.ByDayInArray;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
+import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
+import com.CoraSystems.mobile.test.R;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 
 public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
 {
-    Context context;
-    String dayLabel[]=new String[] {"M","T","W","T","F","S","S"};
-
-    int selected;
-    double hoursIn;
+    //int selected;
 
     View grid;
 
+    Context context;
+    String dayLabel[]=new String[] {"M","T","W","T","F","S","S"};
     timesheetDays parentFrag;
     int section;
-
-    int ByDayID;
-
-    Time today;
-    Calendar calendar;
 
     String hoursWork;
     String h;
 
-    public GridViewCustomAdapter_Timesheet(Context context, timesheetDays Frag, String start, clickListener buttonListener)
+    Time today;
+    Calendar calendar;
+
+    ArrayList<ByDay> Days;
+    int ByDayID;
+    String startDate;
+    DateFormat formatter;
+
+    public GridViewCustomAdapter_Timesheet(Context context, timesheetDays Frag, String start/*, clickListener buttonListener*/)
     {
         super(context, 0);
 
-        this.mCallback = buttonListener;
+        //this.mCallback = buttonListener;
 
         this.context=context;
         this.parentFrag = Frag;
 
-        selected = 20;
+        this.startDate = start;
+        this.Days = Frag.ByDayList;
+
+        //selected = 20;
 
         Date date=new Date();
 
+        Log.i("start test", start);
+
         h="0";
 
-        DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         int randomHour = ((int)(Math.random()*(8)));
         hoursWork = Integer.toString(randomHour);
 
         try {
-            date = formatter.parse("09-20-2014");
+            date = formatter.parse(start);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -82,13 +85,6 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
         today = new Time();
         today.set(calendar.getTimeInMillis());
 
-        TimeZone tz = TimeZone.getDefault();
-        int offsetInMillis = tz.getOffset(calendar.getTimeInMillis());
-        long millis = calendar.getTimeInMillis();
-        //millis -= offsetInMillis;
-        String test = Long.toString(millis);
-        Log.v("timeTest", test);
-
         section = Frag.section;
     }
 
@@ -98,33 +94,48 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
     }
 
     public int item;
-    double plannedHours;
-    SimpleDateFormat sdf;
-    String ByDayDate;
-    int ByDayTaskID;
 
     @Override
     public View getView(int i, View convertView, ViewGroup parent)
     {
-        /*int ByDayIDpos = i*section;
-        ByDayID = parentFrag.Days.get(ByDayIDpos).getId();
-        plannedHours = parentFrag.Days.get(ByDayIDpos).getPlannedHours();
-        ByDayDate = parentFrag.Days.get(ByDayIDpos).getDate();
-        ByDayTaskID = parentFrag.Days.get(ByDayIDpos).gettaskId();*/
-
-        sdf = new SimpleDateFormat("dd-MM-yyyy");
 
         try {
-            calendar.setTime(sdf.parse(today.monthDay + (section*7) + "-" + today.month + 1 + "-" + today.year));
+            calendar.setTime(formatter.parse(today.year + "-" + today.month + "-" + today.monthDay + (section*7)));
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         calendar.add(Calendar.DAY_OF_WEEK, i);
 
-        String dayDate = sdf.format(calendar.getTime());
+        String dayDate = formatter.format(calendar.getTime());
+
+        try{
+            dayDate = formatter.format(formatter.parse(dayDate));
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        ByDayID=0;
+
+        if(Days.size()>0) {
+            for (int c = 0; c < Days.size(); c++) {
+                String ByDayDate = Days.get(c).getDate();
+                ByDayDate = ByDayDate.substring(0,10);
+                Log.i("parent Layout ByDayDate", ByDayDate);
+                Log.i("parent Layout DateByDay_current", dayDate);
+                if (ByDayDate == dayDate) {
+                    ByDayID = ByDayGlobal.ByDayConstantsList.get(c).getId();
+                    Log.i("parent Layout", "GOT IT!");
+                    c = TaskGlobal.task.size() - 1;
+                }
+            }
+        }
+        else Log.i("no days", "no days");
+
         SimpleDateFormat humanReadableDate = new SimpleDateFormat("MMM dd");
         try{
-            dayDate = humanReadableDate.format(sdf.parse(dayDate));
+            dayDate = humanReadableDate.format(formatter.parse(dayDate));
         }
         catch (ParseException e) {
             e.printStackTrace();
@@ -143,7 +154,7 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
         imageView.setImageResource(R.drawable.ic_action_overflow);
         TextView dateGrid = (TextView) grid.findViewById(R.id.date_GridView);
 
-        if((mCallback.isItemSelected(i)==i)&&(mCallback.returnClicks(i)==Boolean.FALSE)){
+       /* if((mCallback.isItemSelected(i)==i)&&(mCallback.returnClicks(i)==Boolean.FALSE)){
 
             if(mCallback.returnClicked(i)==Boolean.FALSE) {
                 ViewSwitcher switcher = (ViewSwitcher) grid.findViewById(R.id.my_switcher);
@@ -191,37 +202,37 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
                     if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                         h = v.getText().toString();
                         //hoursIn = Double.parseDouble(h);
-                        /*SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+                        SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
                         String timestamp = s.format(new Date());
 
                         ByDay day = new ByDay(ByDayID, "", plannedHours, hoursIn, timestamp, ByDayDate, ByDayTaskID);
 
-                        ByDayInArray.ByDayIn.add(day);*/
+                        ByDayInArray.ByDayIn.add(day);
 
-                        /*SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+                        SimpleDateFormat s = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
                         String timestamp = s.format(new Date());
 
                         ByDay day = new ByDay(1234, "", 8, hoursIn, timestamp, timestamp, 12345);
 
-                        ByDayInArray.ByDayIn.add(day);*/
+                        ByDayInArray.ByDayIn.add(day);
 
                         mCallback.onArticleSelected(-1);
                     }
                     return false;
                 }
             });
-        }
+        }*/
 
-        else if(((mCallback.isItemSelected(i)==i)&&(mCallback.returnClicks(i)==Boolean.TRUE))||(mCallback.returnClicks(i)/*parentFrag.clicks[i]*/==Boolean.FALSE)) {
+        //else if(((mCallback.isItemSelected(i)==i)&&(mCallback.returnClicks(i)==Boolean.TRUE))||(mCallback.returnClicks(i)/*parentFrag.clicks[i]*/==Boolean.FALSE)) {
 
-            if(mCallback.returnClicked(i)==Boolean.TRUE) {
+            /*if(mCallback.returnClicked(i)==Boolean.TRUE) {
                 ViewSwitcher switcher = (ViewSwitcher) grid.findViewById(R.id.my_switcher);
                 switcher.showPrevious();
             }
             mCallback.changeClicked(i, Boolean.FALSE);
             for(int x=0;x<7;x++) {
                 mCallback.changeClicks(x, Boolean.FALSE);
-            }
+            }*/
 
             TextView hrsTop = (TextView) grid.findViewById(R.id.new_hrs);
             TextView dayLetter = (TextView) grid.findViewById(R.id.day_letter);
@@ -229,26 +240,27 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
             TextView hrs = (TextView) grid.findViewById(R.id.hour_label);
 
             int randomHour = ((int)(Math.random()*(8)));
-            String workHours = Integer.toString(randomHour);
 
             if(i==6){
                 hoursWorked.setText("");
                 hrs.setText("");
             }
 
-            /*double hoursInFromArray=0;
+            double hoursInFromArray=0;
             double hoursInFromGlobal=0;
 
-            for (int n = 0; n < ByDayInArray.ByDayIn.size(); n++) {
-                if (ByDayInArray.ByDayIn.get(n).getId() == ByDayID) {
-                    hoursInFromArray = ByDayInArray.ByDayIn.get(n).getHours();
-                    n = ByDayInArray.ByDayIn.size() - 1;
+            if(ByDayInArray.ByDayIn.size()>0) {
+                for (int n = 0; n < ByDayInArray.ByDayIn.size(); n++) {
+                    if (ByDayInArray.ByDayIn.get(n).gettaskId() == ByDayID) {
+                        hoursInFromArray = ByDayInArray.ByDayIn.get(n).getHours();
+                        n = ByDayInArray.ByDayIn.size() - 1;
+                    }
                 }
             }
 
-            if(hoursInFromArray==0){
+            if((hoursInFromArray==0)&&(ByDayGlobal.ByDayConstantsList.size()>0)){
                 for(int n=0;n< ByDayGlobal.ByDayConstantsList.size();n++)
-                    if(ByDayGlobal.ByDayConstantsList.get(n).getId()==ByDayID) {
+                    if(ByDayGlobal.ByDayConstantsList.get(n).gettaskId()==ByDayID) {
                         hoursInFromGlobal = ByDayGlobal.ByDayConstantsList.get(n).getHours();
                     }
             }
@@ -266,14 +278,14 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
             else{
                 hoursWorked.setText("");
                 hrs.setText("");
-            }*/
+            }
 
             //comment this out
             /*else if(hoursIn>0){
                 hoursWorked.setText(h);
                 hrs.setText("hrs");
             }*/
-
+/*
             else if (randomHour==0){
                 hoursWorked.setText("");
                 hrs.setText("");
@@ -281,13 +293,16 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
             else {
                 hoursWorked.setText(workHours);
                 hrs.setText("hrs");
-            }
+            }*/
 
+        //These variables used for selection view
             imageView.setVisibility(View.INVISIBLE);
-            dayLetter.setText(dayLabel[i]);
             hrsTop.setVisibility(View.INVISIBLE);
+
+            dayLetter.setText(dayLabel[i]);
             dateGrid.setText(dayDate);
 
+//Using random to demonstrate colours, randomHour will be hoursInFromGlobal, hoursInFromArray or '0'
             if (randomHour>5) {
                 grid.setBackgroundColor(context.getResources().getColor(R.color.cora_green));
             }
@@ -297,14 +312,17 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
             else if (randomHour <3) {
                 grid.setBackgroundColor(context.getResources().getColor(R.color.cora_blue));
             }
+        //for Sunday
             if (i==6){
                 grid.setBackgroundColor(context.getResources().getColor(R.color.background_grey));
             }
-        }
+        //}
         return grid;
     }
 
-    clickListener mCallback;
+
+    /** INTERFACE FOR SELECTION **/
+/*    clickListener mCallback;
 
     public interface clickListener {
         public int isItemSelected(int position);
@@ -315,5 +333,5 @@ public class GridViewCustomAdapter_Timesheet extends ArrayAdapter
         public void onArticleSelected(int position);
         public Boolean returnView();
         public void changeView(Boolean bool);
-    }
+    }*/
 }

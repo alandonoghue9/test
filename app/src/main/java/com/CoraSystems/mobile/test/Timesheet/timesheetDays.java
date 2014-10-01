@@ -1,6 +1,5 @@
-package com.CoraSystems.mobile.test;
+package com.CoraSystems.mobile.test.Timesheet;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -14,26 +13,31 @@ import android.widget.GridView;
 import android.widget.NumberPicker;
 
 import com.CoraSystems.mobile.test.Objects.ByDay;
+import com.CoraSystems.mobile.test.R;
+
 import java.util.ArrayList;
 
-public class timesheetDays extends Fragment implements GridViewCustomAdapter_Timesheet.clickListener {
+public class timesheetDays extends Fragment /*implements GridViewCustomAdapter_Timesheet.clickListener*/ {
+
+    /*FRAGMENT FOR EACH INDIVIDUAL DAY OF TASK (set up using GrudViewCustomAdapter_Timesheet)*/
 
     public static int section;
 
     GridView gridView;
     GridViewCustomAdapter_Timesheet grisViewCustomeAdapter;
     static timesheetDays fragment;
-    ArrayList<ByDay> Days;
-    int selected;
+    public static ArrayList<ByDay> ByDayList;
+
+    /*int selected;
     public Boolean viewBool;
 
     public Boolean clicks[];
-    public Boolean clicked[];
+    public Boolean clicked[];*/
 
     public static timesheetDays newInstance(int sectionNumber, ArrayList<ByDay> Days, String startDate) {
         fragment = new timesheetDays();
         Bundle args = new Bundle();
-        fragment.Days = Days;
+        args.putParcelableArrayList("Days", Days);
         args.putInt("Sect", sectionNumber);
         args.putString("start", startDate);
         fragment.setArguments(args);
@@ -43,12 +47,19 @@ public class timesheetDays extends Fragment implements GridViewCustomAdapter_Tim
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        section = getArguments() != null ? getArguments().getInt("Sect") : 1;
-        start = getArguments() != null ? getArguments().getString("start") : "1";
-        selected = -1;
-        clicks = new Boolean[] {Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE};
-        clicked =new Boolean[] {Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE};
-        viewBool = Boolean.FALSE;
+        Bundle bundle = this.getArguments();
+        section=bundle.getInt("Sect");
+        ByDayList=new ArrayList<>();
+        start=bundle.getString("start");
+        ByDayList=bundle.getParcelableArrayList("Days");
+
+        Log.i("Test for Array", Integer.toString(ByDayList.size()));
+
+        //For selection layout
+        //selected = -1;
+        //clicks = new Boolean[] {Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE, Boolean.FALSE};
+        //clicked =new Boolean[] {Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE,Boolean.FALSE};
+        //viewBool = Boolean.FALSE;
     }
 
     @Override
@@ -57,7 +68,7 @@ public class timesheetDays extends Fragment implements GridViewCustomAdapter_Tim
 
         View rootView = inflater.inflate(R.layout.gridview_layout, container, false);
         gridView=(GridView)rootView.findViewById(R.id.gridview);
-        grisViewCustomeAdapter = new GridViewCustomAdapter_Timesheet(this.getActivity(), fragment, start, this);
+        grisViewCustomeAdapter = new GridViewCustomAdapter_Timesheet(this.getActivity(), fragment, start/*, this*/);
         gridView.setAdapter(grisViewCustomeAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -75,10 +86,10 @@ public class timesheetDays extends Fragment implements GridViewCustomAdapter_Tim
     }
 
     public void show(int i){
-
+        //depending on 'i' can set initial values to correspond to day selected
         final Dialog d = new Dialog(getActivity());
         d.setTitle("Thurs, 20 Sep 2014");
-        d.setContentView(R.layout.data_in);
+        d.setContentView(R.layout.timesheet_data_in);
         Button b1 = (Button) d.findViewById(R.id.button1);
         Button b2 = (Button) d.findViewById(R.id.button2);
         final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
@@ -89,7 +100,6 @@ public class timesheetDays extends Fragment implements GridViewCustomAdapter_Tim
         {
             @Override
             public void onClick(View v) {
-                //Log.v("test", (String.valueOf(np.getValue())));
                 grisViewCustomeAdapter.notifyDataSetChanged();
                 d.dismiss();
             }
@@ -104,7 +114,9 @@ public class timesheetDays extends Fragment implements GridViewCustomAdapter_Tim
         d.show();
     }
 
-    public int isItemSelected(int position){
+    /**  SELECTOR FOR SELECTION VIEW  **/
+
+ /*   public int isItemSelected(int position){
         if(position!=selected){
             return -1;
         }
@@ -133,5 +145,5 @@ public class timesheetDays extends Fragment implements GridViewCustomAdapter_Tim
     }
     public void changeView(Boolean bool) {
         viewBool = bool;
-    }
+    }*/
 }

@@ -1,4 +1,4 @@
-package com.CoraSystems.mobile.test;
+package com.CoraSystems.mobile.test.Timesheet;
 
 import android.app.Dialog;
 import android.app.Fragment;
@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.CoraSystems.mobile.test.R;
+
 public class TimesheetHeader extends Fragment {
 
     LinearLayout comp;
@@ -20,18 +22,20 @@ public class TimesheetHeader extends Fragment {
     TextView projectTextView;
     TextView taskTextView;
     TextView percentTextView;
-    View.OnClickListener clickListener;
     static String percentComp;
-    public double complete;
+    public Double complete;
+    int completeInt;
 
     View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        /*FRAGMENT FOR HEADER OF TIMESHEET WINDOW*/
+
         view = inflater.inflate(R.layout.timesheet_header, container, false);
 
         Bundle bundle = this.getArguments();
-        double planned;
 
         comp = (LinearLayout) view.findViewById(R.id.complete);
         plan = (LinearLayout) view.findViewById(R.id.planned);
@@ -47,16 +51,14 @@ public class TimesheetHeader extends Fragment {
         //planned = 100-complete;
 
         complete = bundle.getDouble("complete");
-        planned = bundle.getDouble("planned");
-        //projectTextView.setText(taskGlobal.task.get(count).getProject() + " (" + (taskGlobal.task.get(count).getProjectId()) + ")");
+        completeInt=(complete.intValue());
         projectTextView.setText(bundle.getString("project")+ " (" + bundle.getInt("projectID")+")");
         taskTextView.setText(bundle.getString("task desc"));
-        percentComp = (Double.toString(100 * complete) + "%");
-        percentTextView.setText(percentComp);
-        //c.weight = (float)complete;
-        //p.weight = (float)(100-complete);
 
-        complete = complete + 0.3; //testing
+        percentComp = (Integer.toString(100 * completeInt) + "%");
+        percentTextView.setText(percentComp);
+
+        complete = complete + 0.2; //testing
         if (complete < 0.30) {
             p.weight = (float) (100 * complete);
             comp.setBackgroundColor(getActivity().getResources().getColor(R.color.cora_red));
@@ -100,7 +102,7 @@ public class TimesheetHeader extends Fragment {
         {
             @Override
             public void onClick(View v) {
-                Log.v("test",(String.valueOf(np.getValue())));
+                Log.v("test event on entry",(String.valueOf(np.getValue())));
                 d.dismiss();
             }
         });

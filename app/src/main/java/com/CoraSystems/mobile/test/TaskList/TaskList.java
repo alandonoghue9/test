@@ -1,18 +1,16 @@
-package com.CoraSystems.mobile.test;
+package com.CoraSystems.mobile.test.TaskList;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
@@ -24,16 +22,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.DatePicker;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.CoraSystems.mobile.test.Objects.ObjectConstants.ByDayGlobal;
+import com.CoraSystems.mobile.test.Dashboard.Dashboard;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.ConfigConstants;
 import com.CoraSystems.mobile.test.Objects.ObjectConstants.TaskGlobal;
 import com.CoraSystems.mobile.test.Objects.Task;
+import com.CoraSystems.mobile.test.R;
 import com.CoraSystems.mobile.test.Services.SoapWebService;
 import com.CoraSystems.mobile.test.database.DatabaseConstants;
 import com.CoraSystems.mobile.test.database.DatabaseReader;
@@ -42,11 +40,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
 
-public class MyActivity extends Activity implements
-        OnTextFragmentAnimationEndListener, FragmentManager.OnBackStackChangedListener {
+public class TaskList extends Activity implements
+
+    /** ACTIVITY FOR TASKLIST WINDOW **/
+
+        FilterFragmentAnimationEndListener, FragmentManager.OnBackStackChangedListener {
 
     Boolean today=Boolean.FALSE, tomorrow=Boolean.FALSE, thisweek=Boolean.FALSE, projects=Boolean.FALSE,
             pickday=Boolean.FALSE, pickweek=Boolean.FALSE, pickmonth=Boolean.FALSE, all=Boolean.FALSE,
@@ -54,8 +53,8 @@ public class MyActivity extends Activity implements
 
 
     View mDarkHoverView;
-    FilterListFrag listFragment; //text
-    FilterFragment filterFragment; //image
+    FilterListFrag listFragment;
+    FilterFragment filterFragment;
 
     boolean mDidSlideOut = false;
     boolean mIsAnimating = false;
@@ -65,39 +64,23 @@ public class MyActivity extends Activity implements
 
     Boolean selector;
 
-    ExpandableListAdapter listAdapter;
-    ExpandableListView expListView;
-    List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         selector=Boolean.FALSE;
 
-        setContentView(R.layout.activity_my);
+        setContentView(R.layout.tasklist);
         mDarkHoverView = findViewById(R.id.dark_hover_view);
         mDarkHoverView.setAlpha(0);
 
-        //filterList();
         filterTask =TaskGlobal.task;
-        Fragment baseFragment = new ListGplayCardFragment();
+        Fragment baseFragment = new CardFragment();
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.fragment_main, baseFragment, "Frag_Main_tag");
         transaction.commit();
-
-        /*// get the listview
-        expListView = (ExpandableListView) findViewById(R.id.lvExp);
-
-        // preparing list data
-        prepareListData();
-
-        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
-
-        // setting list adapter
-        expListView.setAdapter(listAdapter);*/
 
         filterFragment = (FilterFragment) getFragmentManager().findFragmentById(R.id.move_fragment);
 
@@ -107,12 +90,6 @@ public class MyActivity extends Activity implements
         filterFragment.setClickListener(mClickListener);
         listFragment.setOnTextFragmentAnimationEnd(this);
         mDarkHoverView.setOnClickListener(mClickListener);
-
-        Log.i("array check day", Integer.toString(ByDayGlobal.ByDayConstantsList.size()));
-        Log.i("array task size", Integer.toString(TaskGlobal.task.size()));
-        Log.i("task check", ConfigConstants.user);
-        Log.i("task check", ConfigConstants.password);
-        Log.i("task check", Double.toString(ConfigConstants.config.getMAXFRI()));
     }
 
     @Override
@@ -316,9 +293,9 @@ public class MyActivity extends Activity implements
         new Thread(new Runnable() {
             public void run() {
                 DatabaseReader databaseReader = new DatabaseReader();
-                databaseReader.DataSource(MyActivity.this);
-                databaseReader.deleteTask(delTask, MyActivity.this);
-                databaseReader.deleteByDayTask(delTask, MyActivity.this);
+                databaseReader.DataSource(TaskList.this);
+                databaseReader.deleteTask(delTask, TaskList.this);
+                databaseReader.deleteByDayTask(delTask, TaskList.this);
             }
         }).start();}
     }
@@ -579,13 +556,13 @@ public class MyActivity extends Activity implements
         @Override
         protected Void doInBackground(Void... params) {
             DatabaseReader databaseReader = new DatabaseReader();
-            databaseReader.DataSource(MyActivity.this);
+            databaseReader.DataSource(TaskList.this);
             try{
                 databaseReader.open();}
             catch(SQLiteException e){
                 Log.e("MyActivity", e.getMessage());
             }
-                SoapWebService soapWebService = new SoapWebService(ConfigConstants.user, ConfigConstants.password, MyActivity.this);
+                SoapWebService soapWebService = new SoapWebService(ConfigConstants.user, ConfigConstants.password, TaskList.this);
                 String maxDate = databaseReader.getTimeSheetStatusMaxOrMinDate(DatabaseConstants.TaskConstants.STARTTIMESTAT, "MAX");
             checker = soapWebService.getTimeSheetStatus();
             if (checker.contains("User could not be validated") || checker.contains("No Data Recieved")){
@@ -595,7 +572,7 @@ public class MyActivity extends Activity implements
             String minDate = databaseReader.getTimeSheetStatusMaxOrMinDate(DatabaseConstants.TaskConstants.STARTTIMESTAT, "MIN");
                 check = soapWebService.getTaskFromServer(minDate, maxDate, "GetWork");
                 check = soapWebService.getTaskFromServer(minDate, maxDate, "ByDay");
-                //  GetWork  Byday  GetTImesheet  ConfigItems
+                //  GetWork  Byday  GetTimesheet  ConfigItems
 
 
             return null;
